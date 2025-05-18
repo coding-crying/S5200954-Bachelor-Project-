@@ -1,0 +1,93 @@
+/**
+ * Client-side vocabulary tool that fetches data from the API
+ */
+
+/**
+ * Fetches a random vocabulary word from the API
+ * @returns A promise that resolves to a random vocabulary word
+ */
+export async function fetchRandomWord() {
+  try {
+    const response = await fetch('/api/vocabulary?action=random');
+    const result = await response.json();
+
+    if (!result.success) {
+      console.error('Error fetching random word:', result.error);
+      return null;
+    }
+
+    return result.data;
+  } catch (error) {
+    console.error('Error fetching random word:', error);
+    return null;
+  }
+}
+
+/**
+ * Fetches multiple random vocabulary words from the API
+ * @param count The number of random words to retrieve
+ * @returns A promise that resolves to an array of random vocabulary words
+ */
+export async function fetchRandomWords(count: number) {
+  try {
+    const response = await fetch(`/api/vocabulary?action=multiple&count=${count}`);
+    const result = await response.json();
+
+    if (!result.success) {
+      console.error('Error fetching random words:', result.error);
+      return [];
+    }
+
+    return result.data;
+  } catch (error) {
+    console.error('Error fetching random words:', error);
+    return [];
+  }
+}
+
+/**
+ * Searches for vocabulary words matching a term
+ * @param searchTerm The term to search for
+ * @returns A promise that resolves to an array of matching vocabulary words
+ */
+export async function searchVocabularyWords(searchTerm: string) {
+  try {
+    const response = await fetch(`/api/vocabulary?action=search&term=${encodeURIComponent(searchTerm)}`);
+    const result = await response.json();
+
+    if (!result.success) {
+      console.error('Error searching vocabulary words:', result.error);
+      return { words: [], count: 0 };
+    }
+
+    return {
+      words: result.data,
+      count: result.count
+    };
+  } catch (error) {
+    console.error('Error searching vocabulary words:', error);
+    return { words: [], count: 0 };
+  }
+}
+
+/**
+ * Resets the tracking of recently presented words
+ * @returns A promise that resolves to a success message
+ */
+export async function resetPresentedWordsTracking() {
+  try {
+    const response = await fetch('/api/vocabulary?action=reset-tracking');
+    const result = await response.json();
+
+    if (!result.success) {
+      console.error('Error resetting presented words tracking:', result.error);
+      return { success: false, message: 'Failed to reset tracking' };
+    }
+
+    console.log('Reset presented words tracking:', result.message);
+    return result;
+  } catch (error) {
+    console.error('Error resetting presented words tracking:', error);
+    return { success: false, message: 'Failed to reset tracking due to an error' };
+  }
+}
