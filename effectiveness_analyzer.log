@@ -1,0 +1,164 @@
+2025-05-22 00:25:33,519 - background_processor - INFO - Background processor started
+2025-05-22 00:25:33,520 - background_processor - INFO - Added text to processing queue: 
+    Let me use some vocabulary words in this text...
+2025-05-22 00:25:34,019 - background_processor - INFO - Processing text: 
+    Let me use some vocabulary words in this text...
+2025-05-22 00:25:34,019 - effectiveness_analyzer - INFO - Sending request to OpenAI API with model: gpt-4o-mini
+2025-05-22 00:25:34,019 - effectiveness_analyzer - INFO - Vocabulary words in text: ['obfuscate', 'disparage', 'perfunctory', 'precocious', 'quandary']
+2025-05-22 00:25:34,020 - effectiveness_analyzer - INFO - API URL: http://localhost:3000/api/chat/completions
+2025-05-22 00:25:34,023 - background_processor - WARNING - Failed to process text: Error: HTTPConnectionPool(host='localhost', port=3000): Max retries exceeded with url: /api/chat/completions (Caused by NewConnectionError('<urllib3.connection.HTTPConnection object at 0x7f12012d5790>: Failed to establish a new connection: [Errno 111] Connection refused'))
+2025-05-22 00:25:38,625 - background_processor - INFO - Background processor stopped
+2025-05-22 00:28:13,569 - background_processor - INFO - Background processor started
+2025-05-22 00:28:13,569 - background_processor - INFO - Added text to processing queue: 
+    Let me use some vocabulary words in this text...
+2025-05-22 00:28:14,069 - background_processor - INFO - Processing text: 
+    Let me use some vocabulary words in this text...
+2025-05-22 00:28:14,069 - effectiveness_analyzer - INFO - Sending request to OpenAI API with model: gpt-4o-mini
+2025-05-22 00:28:14,069 - effectiveness_analyzer - INFO - Vocabulary words in text: ['obfuscate', 'disparage', 'perfunctory', 'precocious', 'quandary']
+2025-05-22 00:28:14,069 - effectiveness_analyzer - INFO - API URL: http://localhost:3000/api/chat/completions
+2025-05-22 00:28:14,074 - effectiveness_analyzer - ERROR - API request failed: HTTPConnectionPool(host='localhost', port=3000): Max retries exceeded with url: /api/chat/completions (Caused by NewConnectionError('<urllib3.connection.HTTPConnection object at 0x7f86aa1d2660>: Failed to establish a new connection: [Errno 111] Connection refused'))
+2025-05-22 00:28:14,074 - effectiveness_analyzer - INFO - Using fallback approach for word analysis
+2025-05-22 00:28:14,074 - effectiveness_analyzer - INFO - Fallback analysis created for 5 words
+2025-05-22 00:28:14,074 - effectiveness_analyzer - INFO - Processing word with fallback: obfuscate, review score: 3
+2025-05-22 00:28:14,076 - effectiveness_analyzer - INFO - Successfully updated word in vocabulary store using fallback: obfuscate
+2025-05-22 00:28:14,077 - effectiveness_analyzer - INFO - Processing word with fallback: disparage, review score: 3
+2025-05-22 00:28:14,079 - effectiveness_analyzer - INFO - Successfully updated word in vocabulary store using fallback: disparage
+2025-05-22 00:28:14,079 - effectiveness_analyzer - INFO - Processing word with fallback: perfunctory, review score: 3
+2025-05-22 00:28:14,080 - effectiveness_analyzer - INFO - Successfully updated word in vocabulary store using fallback: perfunctory
+2025-05-22 00:28:14,081 - effectiveness_analyzer - INFO - Processing word with fallback: precocious, review score: 3
+2025-05-22 00:28:14,082 - effectiveness_analyzer - INFO - Successfully updated word in vocabulary store using fallback: precocious
+2025-05-22 00:28:14,082 - effectiveness_analyzer - INFO - Processing word with fallback: quandary, review score: 3
+2025-05-22 00:28:14,084 - effectiveness_analyzer - INFO - Successfully updated word in vocabulary store using fallback: quandary
+2025-05-22 00:28:14,084 - background_processor - INFO - Processed text successfully. Words analyzed: 5
+2025-05-22 00:28:14,084 - background_processor - INFO - Word: obfuscate, Review Score: 3
+2025-05-22 00:28:14,084 - background_processor - INFO - Word: disparage, Review Score: 3
+2025-05-22 00:28:14,084 - background_processor - INFO - Word: perfunctory, Review Score: 3
+2025-05-22 00:28:14,085 - background_processor - INFO - Word: precocious, Review Score: 3
+2025-05-22 00:28:14,085 - background_processor - INFO - Word: quandary, Review Score: 3
+2025-05-22 00:28:18,686 - background_processor - INFO - Background processor stopped
+2025-05-22 00:30:53,572 - background_processor - INFO - Background processor started
+2025-05-22 00:30:53,573 - run_background_processor - INFO - Log file location: /home/whywillwizardry/Documents/REALTIME PROject Test/github repository/S5200954-Bachelor-Project-/background_processor.log
+2025-05-22 00:30:53,573 - run_background_processor - INFO - Starting run_background_processor.py
+2025-05-22 00:30:53,573 - run_background_processor - INFO - Current working directory: /home/whywillwizardry/Documents/REALTIME PROject Test/github repository/S5200954-Bachelor-Project-
+2025-05-22 00:30:53,573 - run_background_processor - INFO - Python path: ['/home/whywillwizardry/Documents/REALTIME PROject Test/github repository/S5200954-Bachelor-Project-/agents/vocab_instructor', '/usr/lib64/python312.zip', '/usr/lib64/python3.12', '/usr/lib64/python3.12/lib-dynload', '/home/whywillwizardry/.local/lib/python3.12/site-packages', '/usr/lib64/python3.12/site-packages', '/usr/lib/python3.12/site-packages', '/home/whywillwizardry/Documents/REALTIME PROject Test/github repository/S5200954-Bachelor-Project-/agents/vocab_instructor']
+2025-05-22 00:30:53,574 - run_background_processor - INFO - Received arguments: text=Take a little hiatus to the st..., include_history=True
+2025-05-22 00:30:53,575 - run_background_processor - INFO - Background processor object: <background_processor.BackgroundProcessor object at 0x7fb1971a7050>
+2025-05-22 00:30:53,575 - run_background_processor - INFO - Adding text to background processor...
+2025-05-22 00:30:53,575 - background_processor - INFO - Added text to processing queue: Take a little hiatus to the store to have an ephem...
+2025-05-22 00:30:53,575 - run_background_processor - INFO - Successfully added text to background processor: Take a little hiatus to the store to have an ephem...
+2025-05-22 00:31:48,844 - background_processor - INFO - Background processor started
+2025-05-22 00:31:48,845 - run_background_processor - INFO - Log file location: /home/whywillwizardry/Documents/REALTIME PROject Test/github repository/S5200954-Bachelor-Project-/background_processor.log
+2025-05-22 00:31:48,845 - run_background_processor - INFO - Starting run_background_processor.py
+2025-05-22 00:31:48,845 - run_background_processor - INFO - Current working directory: /home/whywillwizardry/Documents/REALTIME PROject Test/github repository/S5200954-Bachelor-Project-
+2025-05-22 00:31:48,845 - run_background_processor - INFO - Python path: ['/home/whywillwizardry/Documents/REALTIME PROject Test/github repository/S5200954-Bachelor-Project-/agents/vocab_instructor', '/usr/lib64/python312.zip', '/usr/lib64/python3.12', '/usr/lib64/python3.12/lib-dynload', '/home/whywillwizardry/.local/lib/python3.12/site-packages', '/usr/lib64/python3.12/site-packages', '/usr/lib/python3.12/site-packages', '/home/whywillwizardry/Documents/REALTIME PROject Test/github repository/S5200954-Bachelor-Project-/agents/vocab_instructor']
+2025-05-22 00:31:48,847 - run_background_processor - INFO - Received arguments: text=Yeah, I'm gonna take a hiatus ..., include_history=True
+2025-05-22 00:31:48,847 - run_background_processor - INFO - Background processor object: <background_processor.BackgroundProcessor object at 0x7f736bda7050>
+2025-05-22 00:31:48,848 - run_background_processor - INFO - Adding text to background processor...
+2025-05-22 00:31:48,848 - background_processor - INFO - Added text to processing queue: Yeah, I'm gonna take a hiatus to your mom's house....
+2025-05-22 00:31:48,848 - run_background_processor - INFO - Successfully added text to background processor: Yeah, I'm gonna take a hiatus to your mom's house....
+2025-05-22 00:34:56,408 - background_processor - INFO - Background processor started
+2025-05-22 00:34:56,408 - run_background_processor - INFO - Log file location: /home/whywillwizardry/Documents/REALTIME PROject Test/github repository/S5200954-Bachelor-Project-/background_processor.log
+2025-05-22 00:34:56,409 - run_background_processor - INFO - Starting run_background_processor.py
+2025-05-22 00:34:56,409 - run_background_processor - INFO - Current working directory: /home/whywillwizardry/Documents/REALTIME PROject Test/github repository/S5200954-Bachelor-Project-
+2025-05-22 00:34:56,409 - run_background_processor - INFO - Python path: ['/home/whywillwizardry/Documents/REALTIME PROject Test/github repository/S5200954-Bachelor-Project-/agents/vocab_instructor', '/usr/lib64/python312.zip', '/usr/lib64/python3.12', '/usr/lib64/python3.12/lib-dynload', '/home/whywillwizardry/.local/lib/python3.12/site-packages', '/usr/lib64/python3.12/site-packages', '/usr/lib/python3.12/site-packages', '/home/whywillwizardry/Documents/REALTIME PROject Test/github repository/S5200954-Bachelor-Project-/agents/vocab_instructor']
+2025-05-22 00:34:56,410 - run_background_processor - INFO - Received arguments: text=and his doom was impending bec..., include_history=True
+2025-05-22 00:34:56,410 - run_background_processor - INFO - Background processor object: <background_processor.BackgroundProcessor object at 0x7f43753a7050>
+2025-05-22 00:34:56,410 - run_background_processor - INFO - Adding text to background processor...
+2025-05-22 00:34:56,410 - background_processor - INFO - Added text to processing queue: and his doom was impending because my speech is im...
+2025-05-22 00:34:56,410 - run_background_processor - INFO - Successfully added text to background processor: and his doom was impending because my speech is im...
+2025-05-22 00:52:53,318 - background_processor - INFO - Background processor started
+2025-05-22 00:52:53,319 - run_background_processor - INFO - Log file location: /home/whywillwizardry/Documents/REALTIME PROject Test/github repository/S5200954-Bachelor-Project-/background_processor.log
+2025-05-22 00:52:53,319 - run_background_processor - INFO - Starting run_background_processor.py
+2025-05-22 00:52:53,319 - run_background_processor - INFO - Current working directory: /home/whywillwizardry/Documents/REALTIME PROject Test/github repository/S5200954-Bachelor-Project-
+2025-05-22 00:52:53,319 - run_background_processor - INFO - Python path: ['/home/whywillwizardry/Documents/REALTIME PROject Test/github repository/S5200954-Bachelor-Project-/agents/vocab_instructor', '/usr/lib64/python312.zip', '/usr/lib64/python3.12', '/usr/lib64/python3.12/lib-dynload', '/home/whywillwizardry/.local/lib/python3.12/site-packages', '/usr/lib64/python3.12/site-packages', '/usr/lib/python3.12/site-packages', '/home/whywillwizardry/Documents/REALTIME PROject Test/github repository/S5200954-Bachelor-Project-/agents/vocab_instructor']
+2025-05-22 00:52:53,321 - run_background_processor - INFO - Received arguments: text=I have no quandary with you.
+..., include_history=True
+2025-05-22 00:52:53,321 - run_background_processor - INFO - Background processor object: <background_processor.BackgroundProcessor object at 0x7f41f8da7050>
+2025-05-22 00:52:53,321 - run_background_processor - INFO - Adding text to background processor...
+2025-05-22 00:52:53,321 - background_processor - INFO - Added text to processing queue: I have no quandary with you.
+...
+2025-05-22 00:52:53,321 - run_background_processor - INFO - Successfully added text to background processor: I have no quandary with you.
+...
+2025-05-22 00:53:35,281 - background_processor - INFO - Background processor started
+2025-05-22 00:53:35,281 - run_background_processor - INFO - Log file location: /home/whywillwizardry/Documents/REALTIME PROject Test/github repository/S5200954-Bachelor-Project-/background_processor.log
+2025-05-22 00:53:35,282 - run_background_processor - INFO - Starting run_background_processor.py
+2025-05-22 00:53:35,282 - run_background_processor - INFO - Current working directory: /home/whywillwizardry/Documents/REALTIME PROject Test/github repository/S5200954-Bachelor-Project-
+2025-05-22 00:53:35,282 - run_background_processor - INFO - Python path: ['/home/whywillwizardry/Documents/REALTIME PROject Test/github repository/S5200954-Bachelor-Project-/agents/vocab_instructor', '/usr/lib64/python312.zip', '/usr/lib64/python3.12', '/usr/lib64/python3.12/lib-dynload', '/home/whywillwizardry/.local/lib/python3.12/site-packages', '/usr/lib64/python3.12/site-packages', '/usr/lib/python3.12/site-packages', '/home/whywillwizardry/Documents/REALTIME PROject Test/github repository/S5200954-Bachelor-Project-/agents/vocab_instructor']
+2025-05-22 00:53:35,283 - run_background_processor - INFO - Received arguments: text=I'm talking to you in a very p..., include_history=True
+2025-05-22 00:53:35,283 - run_background_processor - INFO - Background processor object: <background_processor.BackgroundProcessor object at 0x7f5666eab200>
+2025-05-22 00:53:35,283 - run_background_processor - INFO - Adding text to background processor...
+2025-05-22 00:53:35,283 - background_processor - INFO - Added text to processing queue: I'm talking to you in a very perfunctory manner at...
+2025-05-22 00:53:35,284 - run_background_processor - INFO - Successfully added text to background processor: I'm talking to you in a very perfunctory manner at...
+2025-05-22 00:57:37,487 - background_processor - INFO - Background processor started
+2025-05-22 00:57:37,487 - run_background_processor - INFO - Log file location: /home/whywillwizardry/Documents/REALTIME PROject Test/github repository/S5200954-Bachelor-Project-/background_processor.log
+2025-05-22 00:57:37,487 - run_background_processor - INFO - Starting run_background_processor.py
+2025-05-22 00:57:37,488 - run_background_processor - INFO - Current working directory: /home/whywillwizardry/Documents/REALTIME PROject Test/github repository/S5200954-Bachelor-Project-
+2025-05-22 00:57:37,488 - run_background_processor - INFO - Python path: ['/home/whywillwizardry/Documents/REALTIME PROject Test/github repository/S5200954-Bachelor-Project-/agents/vocab_instructor', '/usr/lib64/python312.zip', '/usr/lib64/python3.12', '/usr/lib64/python3.12/lib-dynload', '/home/whywillwizardry/.local/lib/python3.12/site-packages', '/usr/lib64/python3.12/site-packages', '/usr/lib/python3.12/site-packages', '/home/whywillwizardry/Documents/REALTIME PROject Test/github repository/S5200954-Bachelor-Project-/agents/vocab_instructor']
+2025-05-22 00:57:37,489 - run_background_processor - INFO - Received arguments: text="Abrogate" means to formally..., include_history=True
+2025-05-22 00:57:37,489 - run_background_processor - INFO - Background processor object: <background_processor.BackgroundProcessor object at 0x7f595d9a7050>
+2025-05-22 00:57:37,489 - run_background_processor - INFO - Adding text to background processor...
+2025-05-22 00:57:37,489 - background_processor - INFO - Added text to processing queue: "Abrogate" means to formally...
+2025-05-22 00:57:37,489 - run_background_processor - INFO - Successfully added text to background processor: "Abrogate" means to formally...
+2025-05-22 00:57:37,535 - background_processor - INFO - Background processor started
+2025-05-22 00:57:37,536 - run_background_processor - INFO - Log file location: /home/whywillwizardry/Documents/REALTIME PROject Test/github repository/S5200954-Bachelor-Project-/background_processor.log
+2025-05-22 00:57:37,536 - run_background_processor - INFO - Starting run_background_processor.py
+2025-05-22 00:57:37,536 - run_background_processor - INFO - Current working directory: /home/whywillwizardry/Documents/REALTIME PROject Test/github repository/S5200954-Bachelor-Project-
+2025-05-22 00:57:37,536 - run_background_processor - INFO - Python path: ['/home/whywillwizardry/Documents/REALTIME PROject Test/github repository/S5200954-Bachelor-Project-/agents/vocab_instructor', '/usr/lib64/python312.zip', '/usr/lib64/python3.12', '/usr/lib64/python3.12/lib-dynload', '/home/whywillwizardry/.local/lib/python3.12/site-packages', '/usr/lib64/python3.12/site-packages', '/usr/lib/python3.12/site-packages', '/home/whywillwizardry/Documents/REALTIME PROject Test/github repository/S5200954-Bachelor-Project-/agents/vocab_instructor']
+2025-05-22 00:57:37,537 - run_background_processor - INFO - Received arguments: text="Abrogate" means to formally..., include_history=True
+2025-05-22 00:57:37,538 - run_background_processor - INFO - Background processor object: <background_processor.BackgroundProcessor object at 0x7f2d3efa7050>
+2025-05-22 00:57:37,538 - run_background_processor - INFO - Adding text to background processor...
+2025-05-22 00:57:37,538 - background_processor - INFO - Added text to processing queue: "Abrogate" means to formally...
+2025-05-22 00:57:37,538 - run_background_processor - INFO - Successfully added text to background processor: "Abrogate" means to formally...
+2025-05-22 00:57:37,576 - background_processor - INFO - Background processor started
+2025-05-22 00:57:37,576 - run_background_processor - INFO - Log file location: /home/whywillwizardry/Documents/REALTIME PROject Test/github repository/S5200954-Bachelor-Project-/background_processor.log
+2025-05-22 00:57:37,577 - run_background_processor - INFO - Starting run_background_processor.py
+2025-05-22 00:57:37,577 - run_background_processor - INFO - Current working directory: /home/whywillwizardry/Documents/REALTIME PROject Test/github repository/S5200954-Bachelor-Project-
+2025-05-22 00:57:37,577 - run_background_processor - INFO - Python path: ['/home/whywillwizardry/Documents/REALTIME PROject Test/github repository/S5200954-Bachelor-Project-/agents/vocab_instructor', '/usr/lib64/python312.zip', '/usr/lib64/python3.12', '/usr/lib64/python3.12/lib-dynload', '/home/whywillwizardry/.local/lib/python3.12/site-packages', '/usr/lib64/python3.12/site-packages', '/usr/lib/python3.12/site-packages', '/home/whywillwizardry/Documents/REALTIME PROject Test/github repository/S5200954-Bachelor-Project-/agents/vocab_instructor']
+2025-05-22 00:57:37,578 - run_background_processor - INFO - Received arguments: text=Oh, what is abrogate?
+..., include_history=True
+2025-05-22 00:57:37,578 - run_background_processor - INFO - Background processor object: <background_processor.BackgroundProcessor object at 0x7f2b7ad8ac00>
+2025-05-22 00:57:37,579 - run_background_processor - INFO - Adding text to background processor...
+2025-05-22 00:57:37,579 - background_processor - INFO - Added text to processing queue: Oh, what is abrogate?
+...
+2025-05-22 00:57:37,579 - run_background_processor - INFO - Successfully added text to background processor: Oh, what is abrogate?
+...
+2025-05-22 00:57:53,885 - background_processor - INFO - Background processor started
+2025-05-22 00:57:53,885 - run_background_processor - INFO - Log file location: /home/whywillwizardry/Documents/REALTIME PROject Test/github repository/S5200954-Bachelor-Project-/background_processor.log
+2025-05-22 00:57:53,886 - run_background_processor - INFO - Starting run_background_processor.py
+2025-05-22 00:57:53,886 - run_background_processor - INFO - Current working directory: /home/whywillwizardry/Documents/REALTIME PROject Test/github repository/S5200954-Bachelor-Project-
+2025-05-22 00:57:53,886 - run_background_processor - INFO - Python path: ['/home/whywillwizardry/Documents/REALTIME PROject Test/github repository/S5200954-Bachelor-Project-/agents/vocab_instructor', '/usr/lib64/python312.zip', '/usr/lib64/python3.12', '/usr/lib64/python3.12/lib-dynload', '/home/whywillwizardry/.local/lib/python3.12/site-packages', '/usr/lib64/python3.12/site-packages', '/usr/lib/python3.12/site-packages', '/home/whywillwizardry/Documents/REALTIME PROject Test/github repository/S5200954-Bachelor-Project-/agents/vocab_instructor']
+2025-05-22 00:57:53,887 - run_background_processor - INFO - Received arguments: text="Clandestine" describes..., include_history=True
+2025-05-22 00:57:53,887 - run_background_processor - INFO - Background processor object: <background_processor.BackgroundProcessor object at 0x7f4c073a7050>
+2025-05-22 00:57:53,887 - run_background_processor - INFO - Adding text to background processor...
+2025-05-22 00:57:53,887 - background_processor - INFO - Added text to processing queue: "Clandestine" describes...
+2025-05-22 00:57:53,887 - run_background_processor - INFO - Successfully added text to background processor: "Clandestine" describes...
+2025-05-22 00:57:53,930 - background_processor - INFO - Background processor started
+2025-05-22 00:57:53,930 - run_background_processor - INFO - Log file location: /home/whywillwizardry/Documents/REALTIME PROject Test/github repository/S5200954-Bachelor-Project-/background_processor.log
+2025-05-22 00:57:53,930 - run_background_processor - INFO - Starting run_background_processor.py
+2025-05-22 00:57:53,930 - run_background_processor - INFO - Current working directory: /home/whywillwizardry/Documents/REALTIME PROject Test/github repository/S5200954-Bachelor-Project-
+2025-05-22 00:57:53,930 - run_background_processor - INFO - Python path: ['/home/whywillwizardry/Documents/REALTIME PROject Test/github repository/S5200954-Bachelor-Project-/agents/vocab_instructor', '/usr/lib64/python312.zip', '/usr/lib64/python3.12', '/usr/lib64/python3.12/lib-dynload', '/home/whywillwizardry/.local/lib/python3.12/site-packages', '/usr/lib64/python3.12/site-packages', '/usr/lib/python3.12/site-packages', '/home/whywillwizardry/Documents/REALTIME PROject Test/github repository/S5200954-Bachelor-Project-/agents/vocab_instructor']
+2025-05-22 00:57:53,932 - run_background_processor - INFO - Received arguments: text="Clandestine" describes..., include_history=True
+2025-05-22 00:57:53,932 - run_background_processor - INFO - Background processor object: <background_processor.BackgroundProcessor object at 0x7f4b207a7050>
+2025-05-22 00:57:53,932 - run_background_processor - INFO - Adding text to background processor...
+2025-05-22 00:57:53,932 - background_processor - INFO - Added text to processing queue: "Clandestine" describes...
+2025-05-22 00:57:53,932 - run_background_processor - INFO - Successfully added text to background processor: "Clandestine" describes...
+2025-05-22 01:33:48,074 - background_processor - INFO - Background processor started
+2025-05-22 01:33:48,075 - run_background_processor - INFO - Log file location: /home/whywillwizardry/Documents/REALTIME PROject Test/github repository/S5200954-Bachelor-Project-/background_processor.log
+2025-05-22 01:33:48,076 - run_background_processor - INFO - Starting run_background_processor.py
+2025-05-22 01:33:48,076 - run_background_processor - INFO - Current working directory: /home/whywillwizardry/Documents/REALTIME PROject Test/github repository/S5200954-Bachelor-Project-
+2025-05-22 01:33:48,076 - run_background_processor - INFO - Python path: ['/home/whywillwizardry/Documents/REALTIME PROject Test/github repository/S5200954-Bachelor-Project-/agents/vocab_instructor', '/usr/lib64/python312.zip', '/usr/lib64/python3.12', '/usr/lib64/python3.12/lib-dynload', '/home/whywillwizardry/.local/lib/python3.12/site-packages', '/usr/lib64/python3.12/site-packages', '/usr/lib/python3.12/site-packages', '/home/whywillwizardry/Documents/REALTIME PROject Test/github repository/S5200954-Bachelor-Project-/agents/vocab_instructor']
+2025-05-22 01:33:48,077 - run_background_processor - INFO - Received arguments: text="Acumen" refers..., include_history=True
+2025-05-22 01:33:48,077 - run_background_processor - INFO - Background processor object: <background_processor.BackgroundProcessor object at 0x7f256038ac00>
+2025-05-22 01:33:48,077 - run_background_processor - INFO - Adding text to background processor...
+2025-05-22 01:33:48,077 - background_processor - INFO - Added text to processing queue: "Acumen" refers...
+2025-05-22 01:33:48,078 - run_background_processor - INFO - Successfully added text to background processor: "Acumen" refers...
+2025-05-22 01:33:48,101 - background_processor - INFO - Background processor started
+2025-05-22 01:33:48,101 - run_background_processor - INFO - Log file location: /home/whywillwizardry/Documents/REALTIME PROject Test/github repository/S5200954-Bachelor-Project-/background_processor.log
+2025-05-22 01:33:48,102 - run_background_processor - INFO - Starting run_background_processor.py
+2025-05-22 01:33:48,102 - run_background_processor - INFO - Current working directory: /home/whywillwizardry/Documents/REALTIME PROject Test/github repository/S5200954-Bachelor-Project-
+2025-05-22 01:33:48,102 - run_background_processor - INFO - Python path: ['/home/whywillwizardry/Documents/REALTIME PROject Test/github repository/S5200954-Bachelor-Project-/agents/vocab_instructor', '/usr/lib64/python312.zip', '/usr/lib64/python3.12', '/usr/lib64/python3.12/lib-dynload', '/home/whywillwizardry/.local/lib/python3.12/site-packages', '/usr/lib64/python3.12/site-packages', '/usr/lib/python3.12/site-packages', '/home/whywillwizardry/Documents/REALTIME PROject Test/github repository/S5200954-Bachelor-Project-/agents/vocab_instructor']
+2025-05-22 01:33:48,103 - run_background_processor - INFO - Received arguments: text="Acumen" refers..., include_history=True
+2025-05-22 01:33:48,104 - run_background_processor - INFO - Background processor object: <background_processor.BackgroundProcessor object at 0x7f125a1a7050>
+2025-05-22 01:33:48,104 - run_background_processor - INFO - Adding text to background processor...
+2025-05-22 01:33:48,104 - background_processor - INFO - Added text to processing queue: "Acumen" refers...
+2025-05-22 01:33:48,104 - run_background_processor - INFO - Successfully added text to background processor: "Acumen" refers...

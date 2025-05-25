@@ -1,0 +1,27 @@
+2025-05-22 02:03:32,951 - run_background_processor - INFO - Log file location: /home/whywillwizardry/Documents/REALTIME PROject Test/github repository/S5200954-Bachelor-Project-/background_processor.log
+2025-05-22 02:03:32,964 - simple_effectiveness_analyzer - INFO - SimpleEffectivenessAnalyzer initialized with 100 words in cache
+2025-05-22 02:03:32,965 - background_processor - INFO - Background processor started
+2025-05-22 02:03:32,965 - run_background_processor - INFO - Using analyzer: SimpleEffectivenessAnalyzer
+2025-05-22 02:03:32,965 - run_background_processor - INFO - Starting run_background_processor.py
+2025-05-22 02:03:32,965 - run_background_processor - INFO - Current working directory: /home/whywillwizardry/Documents/REALTIME PROject Test/github repository/S5200954-Bachelor-Project-
+2025-05-22 02:03:32,965 - run_background_processor - INFO - Python path: ['/home/whywillwizardry/Documents/REALTIME PROject Test/github repository/S5200954-Bachelor-Project-/agents/vocab_instructor', '/usr/lib64/python312.zip', '/usr/lib64/python3.12', '/usr/lib64/python3.12/lib-dynload', '/home/whywillwizardry/.local/lib/python3.12/site-packages', '/usr/lib64/python3.12/site-packages', '/usr/lib/python3.12/site-packages', '/home/whywillwizardry/Documents/REALTIME PROject Test/github repository/S5200954-Bachelor-Project-/agents/vocab_instructor']
+2025-05-22 02:03:32,973 - run_background_processor - INFO - Received arguments: text=Are you frugal?
+..., include_history=True
+2025-05-22 02:03:32,973 - run_background_processor - INFO - Background processor object: <background_processor.BackgroundProcessor object at 0x7fe6405e3770>
+2025-05-22 02:03:32,973 - run_background_processor - INFO - Adding text to background processor...
+2025-05-22 02:03:32,973 - background_processor - INFO - Added text to processing queue: Are you frugal?
+...
+2025-05-22 02:03:32,973 - run_background_processor - INFO - Successfully added text to background processor: Are you frugal?
+...
+2025-05-22 02:04:19,719 - run_background_processor - INFO - Log file location: /home/whywillwizardry/Documents/REALTIME PROject Test/github repository/S5200954-Bachelor-Project-/background_processor.log
+2025-05-22 02:04:19,729 - simple_effectiveness_analyzer - INFO - SimpleEffectivenessAnalyzer initialized with 100 words in cache
+2025-05-22 02:04:19,729 - background_processor - INFO - Background processor started
+2025-05-22 02:04:19,729 - run_background_processor - INFO - Using analyzer: SimpleEffectivenessAnalyzer
+2025-05-22 02:04:19,730 - run_background_processor - INFO - Starting run_background_processor.py
+2025-05-22 02:04:19,730 - run_background_processor - INFO - Current working directory: /home/whywillwizardry/Documents/REALTIME PROject Test/github repository/S5200954-Bachelor-Project-
+2025-05-22 02:04:19,730 - run_background_processor - INFO - Python path: ['/home/whywillwizardry/Documents/REALTIME PROject Test/github repository/S5200954-Bachelor-Project-/agents/vocab_instructor', '/usr/lib64/python312.zip', '/usr/lib64/python3.12', '/usr/lib64/python3.12/lib-dynload', '/home/whywillwizardry/.local/lib/python3.12/site-packages', '/usr/lib64/python3.12/site-packages', '/usr/lib/python3.12/site-packages', '/home/whywillwizardry/Documents/REALTIME PROject Test/github repository/S5200954-Bachelor-Project-/agents/vocab_instructor']
+2025-05-22 02:04:19,738 - run_background_processor - INFO - Received arguments: text=I would like to sail into a be..., include_history=True
+2025-05-22 02:04:19,738 - run_background_processor - INFO - Background processor object: <background_processor.BackgroundProcessor object at 0x7fad4efa7050>
+2025-05-22 02:04:19,738 - run_background_processor - INFO - Adding text to background processor...
+2025-05-22 02:04:19,738 - background_processor - INFO - Added text to processing queue: I would like to sail into a beautiful enclave on t...
+2025-05-22 02:04:19,738 - run_background_processor - INFO - Successfully added text to background processor: I would like to sail into a beautiful enclave on t...

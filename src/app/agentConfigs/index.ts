@@ -13,4 +13,4 @@ export const allAgentSets: AllAgentConfigsType = {
   languageLearning,
 };
 
-export const defaultAgentSetKey = "simpleExample";
+export const defaultAgentSetKey = "vocabularyInstructor";

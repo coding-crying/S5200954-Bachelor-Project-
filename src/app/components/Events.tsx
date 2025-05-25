@@ -3,6 +3,8 @@
 import React, { useRef, useEffect, useState } from "react";
 import { useEvent } from "@/app/contexts/EventContext";
 import { LoggedEvent } from "@/app/types";
+import ConversationProcessor from "./ConversationProcessor";
+import LanguageProcessor from "./LanguageProcessor";
 
 export interface EventsProps {
   isExpanded: boolean;
@@ -31,6 +33,8 @@ function Events({ isExpanded }: EventsProps) {
     setPrevEventLogs(loggedEvents);
   }, [loggedEvents, isExpanded]);
 
+  const [showProcessor, setShowProcessor] = useState<boolean>(false);
+
   return (
     <div
       className={
@@ -43,7 +47,18 @@ function Events({ isExpanded }: EventsProps) {
         <div>
           <div className="flex items-center justify-between px-6 py-3.5 sticky top-0 z-10 text-base border-b bg-white rounded-t-xl">
             <span className="font-semibold">Logs</span>
+            <button
+              onClick={() => setShowProcessor(!showProcessor)}
+              className="text-sm px-2 py-1 bg-blue-100 hover:bg-blue-200 text-blue-800 rounded"
+            >
+              {showProcessor ? "Hide Processor" : "Process Conversation"}
+            </button>
           </div>
+
+          {/* Processors */}
+          <ConversationProcessor isVisible={showProcessor} />
+          <LanguageProcessor isVisible={showProcessor} />
+
           <div>
             {loggedEvents.map((log) => {
               const arrowInfo = getDirectionArrow(log.direction);

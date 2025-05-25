@@ -19,6 +19,7 @@ export interface UseHandleServerEventParams {
   setSelectedAgentName: (name: string) => void;
   shouldForceResponse?: boolean;
   setIsOutputAudioBufferActive: (active: boolean) => void;
+  processVocabularyMessage?: (itemId: string, text: string) => void;
 }
 
 export function useHandleServerEvent({
@@ -28,6 +29,7 @@ export function useHandleServerEvent({
   sendClientEvent,
   setSelectedAgentName,
   setIsOutputAudioBufferActive,
+  processVocabularyMessage,
 }: UseHandleServerEventParams) {
   const {
     transcriptItems,
@@ -55,7 +57,7 @@ export function useHandleServerEvent({
       // If the existing guardrail result is more complete, skip updating. We're running multiple guardrail checks and you don't want an earlier one to overwrite a later, more complete result.
       return;
     }
-    
+
     const newGuardrailResult: GuardrailResultType = {
       status: "DONE",
       testText: text,
@@ -194,6 +196,19 @@ export function useHandleServerEvent({
             : serverEvent.transcript;
         if (itemId) {
           updateTranscriptMessage(itemId, finalTranscript, false);
+
+          // Process the transcribed user message for vocabulary words
+          if (processVocabularyMessage && finalTranscript !== "[inaudible]") {
+            processVocabularyMessage(itemId, finalTranscript);
+
+            // Add a silent breadcrumb for debugging (can be removed in production)
+            addTranscriptBreadcrumb("Vocabulary Processing", {
+              action: "automatic",
+              text: finalTranscript,
+              timestamp: Date.now(),
+              hidden: true // This will hide it from the UI but keep it in the logs
+            });
+          }
         }
         break;
       }

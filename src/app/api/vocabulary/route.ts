@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server';
-import { getRandomWord, getRandomWords, searchWords, resetPresentedWordsTracking } from '@/app/agentConfigs/vocabularyInstructor/vocabularyTool.server';
+import { getRandomWord, getRandomWords, searchWords, resetPresentedWordsTracking, getIntroducedWords, getHighPriorityWords } from '@/app/agentConfigs/vocabularyInstructor/vocabularyTool.server';
 import fs from 'fs';
 import path from 'path';
 import { parse } from 'csv-parse/sync';
@@ -151,6 +151,44 @@ export async function GET(request: NextRequest) {
 
         return NextResponse.json({ success: true, words: records });
 
+      case 'introduced':
+        // Get only introduced words (words that have been seen before)
+        const introducedCount = parseInt(searchParams.get('count') || '3', 10);
+        const introducedWords = getIntroducedWords(introducedCount);
+
+        if (introducedWords.length === 0) {
+          return NextResponse.json({
+            success: false,
+            data: [],
+            message: "No introduced words found. The user needs to learn some words first."
+          });
+        }
+
+        return NextResponse.json({
+          success: true,
+          data: introducedWords,
+          count: introducedWords.length
+        });
+
+      case 'high-priority':
+        // Get high priority words for review
+        const priorityCount = parseInt(searchParams.get('count') || '5', 10);
+        const priorityWords = getHighPriorityWords(priorityCount);
+
+        if (priorityWords.length === 0) {
+          return NextResponse.json({
+            success: false,
+            data: [],
+            message: "No high priority words found. The user needs to learn some words first."
+          });
+        }
+
+        return NextResponse.json({
+          success: true,
+          data: priorityWords,
+          count: priorityWords.length
+        });
+
       case 'reset-tracking':
         // Reset the tracking of recently presented words
         const result = resetPresentedWordsTracking();
@@ -159,7 +197,7 @@ export async function GET(request: NextRequest) {
       default:
         return NextResponse.json({
           success: false,
-          error: 'Invalid action. Use "random", "multiple", "search", "srs", or "reset-tracking".'
+          error: 'Invalid action. Use "random", "multiple", "search", "srs", "introduced", "high-priority", or "reset-tracking".'
         }, { status: 400 });
     }
   } catch (error) {

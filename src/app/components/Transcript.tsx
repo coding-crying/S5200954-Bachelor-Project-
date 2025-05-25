@@ -160,6 +160,11 @@ function Transcript({
                 </div>
               );
             } else if (type === "BREADCRUMB") {
+              // Skip rendering if the breadcrumb is hidden
+              if (isHidden) {
+                return null;
+              }
+
               return (
                 <div
                   key={itemId}

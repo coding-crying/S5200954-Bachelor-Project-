@@ -1,13 +1,12 @@
-# Realtime API Agents Demo
+# Conversational Tutor
 
-This is a simple demonstration of more advanced, agentic patterns built on top of the Realtime API. In particular, this demonstrates:
-- Sequential agent handoffs according to a defined agent graph (taking inspiration from [OpenAI Swarm](https://github.com/openai/swarm))
-- Background escalation to more intelligent models like o1-mini for high-stakes decisions
-- Prompting models to follow a state machine, for example to accurately collect things like names and phone numbers with confirmation character by character to authenticate a user.
+This is an interactive language learning application that uses conversational AI to help users learn new languages. The application features:
+- Sequential agent handoffs between different tutoring agents
+- Vocabulary instruction and practice
+- Interactive conversations for language practice
+- Spaced repetition for effective learning
 
-Here's a quick [demo video](https://x.com/OpenAIDevs/status/1880306081517432936) if you'd like a walkthrough. You should be able to use this repo to prototype your own multi-agent realtime voice app in less than 20 minutes!
-
-![Screenshot of the Realtime API Agents Demo](/public/screenshot.png)
+![Screenshot of the Conversational Tutor](/public/screenshot.png)
 
 ## Setup
 

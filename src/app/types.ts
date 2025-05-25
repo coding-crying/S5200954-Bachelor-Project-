@@ -59,7 +59,7 @@ export type AllAgentConfigsType = Record<string, AgentConfig[]>;
 
 export interface GuardrailResultType {
   status: "IN_PROGRESS" | "DONE";
-  testText?: string; 
+  testText?: string;
   category?: ModerationCategory;
   rationale?: string;
 }
@@ -144,3 +144,29 @@ export const GuardrailOutputZod = z.object({
 });
 
 export type GuardrailOutput = z.infer<typeof GuardrailOutputZod>;
+
+export interface VocabularyWord {
+  word: string;
+  time_last_seen: string;
+  correct_uses: string;
+  total_uses: string;
+  next_due: string;
+  EF: string;
+  interval: string;
+  repetitions: string;
+}
+
+export interface VocabularyProcessingResult {
+  processed: boolean;
+  text?: string;
+  wordsFound?: string[];
+  analysis?: {
+    words_found: {
+      word: string;
+      used_correctly: boolean;
+      explanation?: string;
+    }[];
+  };
+  reason?: string;
+  timestamp?: number;
+}

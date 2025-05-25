@@ -71,6 +71,58 @@ export async function searchVocabularyWords(searchTerm: string) {
 }
 
 /**
+ * Fetches only introduced vocabulary words (words that have been seen before)
+ * @param count The number of introduced words to retrieve
+ * @returns A promise that resolves to an array of introduced vocabulary words
+ */
+export async function fetchIntroducedWords(count: number) {
+  try {
+    const response = await fetch(`/api/vocabulary?action=introduced&count=${count}`);
+    const result = await response.json();
+
+    if (!result.success) {
+      console.error('Error fetching introduced words:', result.message || result.error);
+      return { words: [], count: 0, hasWords: false };
+    }
+
+    return {
+      words: result.data,
+      count: result.count,
+      hasWords: result.data.length > 0
+    };
+  } catch (error) {
+    console.error('Error fetching introduced words:', error);
+    return { words: [], count: 0, hasWords: false };
+  }
+}
+
+/**
+ * Fetches high priority vocabulary words for review
+ * @param count The number of high priority words to retrieve
+ * @returns A promise that resolves to an array of high priority vocabulary words
+ */
+export async function fetchHighPriorityWords(count: number) {
+  try {
+    const response = await fetch(`/api/vocabulary?action=high-priority&count=${count}`);
+    const result = await response.json();
+
+    if (!result.success) {
+      console.error('Error fetching high priority words:', result.message || result.error);
+      return { words: [], count: 0, hasWords: false };
+    }
+
+    return {
+      words: result.data,
+      count: result.count,
+      hasWords: result.data.length > 0
+    };
+  } catch (error) {
+    console.error('Error fetching high priority words:', error);
+    return { words: [], count: 0, hasWords: false };
+  }
+}
+
+/**
  * Resets the tracking of recently presented words
  * @returns A promise that resolves to a success message
  */

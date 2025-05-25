@@ -18,6 +18,8 @@ import { AgentConfig, SessionStatus } from "@/app/types";
 import { useTranscript } from "@/app/contexts/TranscriptContext";
 import { useEvent } from "@/app/contexts/EventContext";
 import { useHandleServerEvent } from "./hooks/useHandleServerEvent";
+import { useVocabularyProcessor } from "./hooks/useVocabularyProcessor";
+import { useLanguageProcessor } from "./hooks/useLanguageProcessor";
 
 // Utilities
 import { createRealtimeConnection } from "./lib/realtimeConnection";
@@ -36,6 +38,9 @@ function App() {
   const { transcriptItems, addTranscriptMessage, addTranscriptBreadcrumb } =
     useTranscript();
   const { logClientEvent, logServerEvent } = useEvent();
+
+  // Initialize the language processor hook
+  useLanguageProcessor();
 
   const [selectedAgentName, setSelectedAgentName] = useState<string>("");
   const [selectedAgentConfigSet, setSelectedAgentConfigSet] = useState<
@@ -80,6 +85,11 @@ function App() {
     }
   };
 
+  // Initialize the vocabulary processor
+  const {
+    processMessage: processVocabularyMessage,
+  } = useVocabularyProcessor();
+
   const handleServerEventRef = useHandleServerEvent({
     setSessionStatus,
     selectedAgentName,
@@ -87,6 +97,7 @@ function App() {
     sendClientEvent,
     setSelectedAgentName,
     setIsOutputAudioBufferActive,
+    processVocabularyMessage,
   });
 
   useEffect(() => {
@@ -307,10 +318,15 @@ function App() {
     if (!userText.trim()) return;
     cancelAssistantSpeech();
 
+    // Create a unique ID for the message
+    const messageId = uuidv4().slice(0, 32);
+
+    // Send the message to the realtime API
     sendClientEvent(
       {
         type: "conversation.item.create",
         item: {
+          id: messageId,
           type: "message",
           role: "user",
           content: [{ type: "input_text", text: userText.trim() }],
@@ -318,6 +334,10 @@ function App() {
       },
       "(send user text message)"
     );
+
+    // Note: Message processing is now handled automatically by the useVocabularyProcessor hook
+    // No need to manually call processVocabularyMessage here
+
     setUserText("");
 
     sendClientEvent({ type: "response.create" }, "(trigger response)");
@@ -443,15 +463,15 @@ function App() {
         >
           <div>
             <Image
-              src="/openai-logomark.svg"
-              alt="OpenAI Logo"
+              src="/conversational-tutor-logo.svg"
+              alt="Conversational Tutor Logo"
               width={20}
               height={20}
               className="mr-2"
             />
           </div>
           <div>
-            Realtime API <span className="text-gray-500">Agents</span>
+            Conversational <span className="text-gray-500">Tutor</span>
           </div>
         </div>
         <div className="flex items-center">

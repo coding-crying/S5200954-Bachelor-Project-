@@ -50,8 +50,8 @@ export function readVocabularyFile() {
 }
 
 /**
- * Gets the next word due for review based on the SM-2 spaced repetition algorithm
- * @returns A vocabulary word that is due for review
+ * Gets a random unintroduced vocabulary word
+ * @returns A vocabulary word that has not been introduced yet
  */
 export function getRandomWord() {
   const words = readVocabularyFile();
@@ -59,35 +59,28 @@ export function getRandomWord() {
     return null;
   }
 
-  const currentTime = Date.now().toString();
+  // Filter words that have NOT been introduced (time_last_seen = 0 or undefined)
+  const unintroducedWords = words.filter(word =>
+    !word.time_last_seen || word.time_last_seen === '0'
+  );
 
-  // Sort words by next_due (oldest first)
-  // Words with next_due = 0 (never seen) come first, then words that are due
-  const sortedWords = [...words].sort((a, b) => {
-    // If both are 0 (never seen), sort randomly
-    if (a.next_due === '0' && b.next_due === '0') {
-      return Math.random() - 0.5;
-    }
+  if (unintroducedWords.length === 0) {
+    console.log('No unintroduced words found in the vocabulary file');
+    return null;
+  }
 
-    // If one is 0 (never seen), prioritize it
-    if (a.next_due === '0') return -1;
-    if (b.next_due === '0') return 1;
+  // Select a random unintroduced word
+  const randomIndex = Math.floor(Math.random() * unintroducedWords.length);
+  const selectedWord = unintroducedWords[randomIndex];
 
-    // Otherwise sort by next_due (oldest first)
-    return parseInt(a.next_due) - parseInt(b.next_due);
-  });
-
-  // Get the first word (most due for review)
-  const selectedWord = sortedWords[0];
-
-  console.log(`Selected word for review: ${selectedWord.word} (next_due: ${selectedWord.next_due})`);
+  console.log(`Selected random unintroduced word: ${selectedWord.word}`);
   return selectedWord;
 }
 
 /**
- * Gets multiple words due for review based on the SM-2 spaced repetition algorithm
- * @param count The number of words to retrieve
- * @returns An array of vocabulary words that are due for review
+ * Gets multiple new vocabulary words that have not been introduced yet
+ * @param count The number of new words to retrieve
+ * @returns An array of unintroduced vocabulary words
  */
 export function getRandomWords(count: number) {
   const words = readVocabularyFile();
@@ -95,28 +88,23 @@ export function getRandomWords(count: number) {
     return [];
   }
 
-  const currentTime = Date.now().toString();
+  // Filter words that have NOT been introduced (time_last_seen = 0 or undefined)
+  const unintroducedWords = words.filter(word =>
+    !word.time_last_seen || word.time_last_seen === '0'
+  );
 
-  // Sort words by next_due (oldest first)
-  // Words with next_due = 0 (never seen) come first, then words that are due
-  const sortedWords = [...words].sort((a, b) => {
-    // If both are 0 (never seen), sort randomly
-    if (a.next_due === '0' && b.next_due === '0') {
-      return Math.random() - 0.5;
-    }
+  if (unintroducedWords.length === 0) {
+    console.log('No unintroduced words found in the vocabulary file');
+    return [];
+  }
 
-    // If one is 0 (never seen), prioritize it
-    if (a.next_due === '0') return -1;
-    if (b.next_due === '0') return 1;
+  // Randomize the order of unintroduced words
+  const shuffledWords = [...unintroducedWords].sort(() => Math.random() - 0.5);
 
-    // Otherwise sort by next_due (oldest first)
-    return parseInt(a.next_due) - parseInt(b.next_due);
-  });
+  // Get the requested number of words
+  const selectedWords = shuffledWords.slice(0, Math.min(count, shuffledWords.length));
 
-  // Get the requested number of words (most due for review)
-  const selectedWords = sortedWords.slice(0, Math.min(count, sortedWords.length));
-
-  console.log(`Selected ${selectedWords.length} words for review`);
+  console.log(`Selected ${selectedWords.length} new unintroduced words for introduction`);
   return selectedWords;
 }
 
@@ -136,6 +124,89 @@ export function searchWords(searchTerm: string) {
     word.word.toLowerCase().includes(term) ||
     (word.part_of_speech && word.part_of_speech.toLowerCase().includes(term))
   );
+}
+
+/**
+ * Gets only introduced vocabulary words (words that have been seen before)
+ * @param count The number of words to retrieve
+ * @returns An array of introduced vocabulary words
+ */
+export function getIntroducedWords(count: number) {
+  const words = readVocabularyFile();
+  if (words.length === 0) {
+    return [];
+  }
+
+  // Filter words that have been introduced (time_last_seen > 0)
+  const introducedWords = words.filter(word =>
+    word.time_last_seen && word.time_last_seen !== '0'
+  );
+
+  if (introducedWords.length === 0) {
+    return [];
+  }
+
+  // Sort by least recently seen (oldest first)
+  const sortedWords = [...introducedWords].sort((a, b) => {
+    return parseInt(a.time_last_seen) - parseInt(b.time_last_seen);
+  });
+
+  // Get the requested number of words
+  const selectedWords = sortedWords.slice(0, Math.min(count, sortedWords.length));
+
+  console.log(`Selected ${selectedWords.length} introduced words for roleplay, prioritizing least recently used`);
+  return selectedWords;
+}
+
+/**
+ * Gets high priority words for review based on next_due date and usage statistics
+ * @param count The number of words to retrieve
+ * @returns An array of high priority vocabulary words for review
+ */
+export function getHighPriorityWords(count: number) {
+  const words = readVocabularyFile();
+  if (words.length === 0) {
+    return [];
+  }
+
+  // Filter words that have been introduced (time_last_seen > 0)
+  const introducedWords = words.filter(word =>
+    word.time_last_seen && word.time_last_seen !== '0'
+  );
+
+  if (introducedWords.length === 0) {
+    return [];
+  }
+
+  const currentTime = Date.now().toString();
+
+  // First prioritize words that are due for review (next_due <= current time)
+  // Then prioritize words with lower correct_uses/total_uses ratio
+  const sortedWords = [...introducedWords].sort((a, b) => {
+    // Check if either word is due for review
+    const aIsDue = parseInt(a.next_due) <= parseInt(currentTime);
+    const bIsDue = parseInt(b.next_due) <= parseInt(currentTime);
+
+    // If one is due and the other isn't, prioritize the due one
+    if (aIsDue && !bIsDue) return -1;
+    if (!aIsDue && bIsDue) return 1;
+
+    // If both are due or both are not due, sort by next_due date
+    if (parseInt(a.next_due) !== parseInt(b.next_due)) {
+      return parseInt(a.next_due) - parseInt(b.next_due);
+    }
+
+    // If next_due dates are the same, sort by correct usage ratio (ascending)
+    const aRatio = parseInt(a.correct_uses) / Math.max(1, parseInt(a.total_uses));
+    const bRatio = parseInt(b.correct_uses) / Math.max(1, parseInt(b.total_uses));
+    return aRatio - bRatio;
+  });
+
+  // Get the requested number of words
+  const selectedWords = sortedWords.slice(0, Math.min(count, sortedWords.length));
+
+  console.log(`Selected ${selectedWords.length} high priority words for review`);
+  return selectedWords;
 }
 
 /**
