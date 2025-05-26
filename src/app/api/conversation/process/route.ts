@@ -40,7 +40,7 @@ interface ConversationProcessingResult {
 export async function POST(req: NextRequest) {
   try {
     const body = await req.json();
-    const { text, vocabularyWords = [], includeAnalysis = true, speaker = 'user' } = body;
+    const { text, vocabularyWords = [], includeAnalysis = true, speaker = 'user', batchMode = false, messageCount = 1 } = body;
 
     if (!text || typeof text !== 'string') {
       return NextResponse.json(
@@ -72,6 +72,8 @@ export async function POST(req: NextRequest) {
         {
           role: "system",
           content: `You are a vocabulary learning analysis assistant. Analyze conversation text to identify vocabulary words and provide structured data for CSV updates.
+
+          ${batchMode ? `BATCH MODE: You are analyzing ${messageCount} messages combined into a single text. This provides better context for vocabulary analysis and reduces API calls.` : ''}
 
           IMPORTANT: Differentiate between USER speech and SYSTEM/ASSISTANT speech. Only USER vocabulary usage should count toward learning progress.
 
@@ -121,14 +123,18 @@ export async function POST(req: NextRequest) {
           role: "user",
           content: `Analyze this conversation text for vocabulary usage:
 
+          ${batchMode ? `BATCH ANALYSIS: Processing ${messageCount} combined messages` : 'SINGLE MESSAGE ANALYSIS'}
           Text: "${text}"
           Speaker: ${speaker} (${speaker === 'user' ? 'learner' : 'system/assistant'})
+          ${batchMode ? `Text Length: ${text.length} characters from ${messageCount} messages` : ''}
 
           Vocabulary words to look for: ${limitedVocabWords.join(', ')}
 
           Provide structured analysis for CSV updates. Remember to use the correct action types based on the speaker:
           - For USER/learner speech: use "increment_user_total" and "increment_user_correct"
-          - For ASSISTANT/system speech: use "increment_system_total" and "increment_system_correct"`
+          - For ASSISTANT/system speech: use "increment_system_total" and "increment_system_correct"
+
+          ${batchMode ? 'BATCH BENEFITS: Better context understanding, more accurate usage assessment, reduced API calls.' : ''}`
         }
       ],
       temperature: 0.2,
@@ -177,7 +183,7 @@ export async function POST(req: NextRequest) {
     };
 
     // Log the processing for debugging
-    console.log(`Processed conversation text: ${text.length} characters`);
+    console.log(`${batchMode ? '[BATCH]' : '[SINGLE]'} Processed conversation text: ${text.length} characters${batchMode ? ` from ${messageCount} messages` : ''}`);
     console.log(`Found ${result.analysis.vocabulary_words.length} vocabulary words`);
     console.log(`Generated ${result.csv_updates?.length || 0} CSV updates`);
 
