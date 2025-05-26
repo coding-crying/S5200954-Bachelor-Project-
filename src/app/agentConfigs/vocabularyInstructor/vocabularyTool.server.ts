@@ -37,14 +37,23 @@ export function readVocabularyFile() {
   try {
     // Read the vocabulary CSV file
     const filePath = path.join(process.cwd(), 'vocabulary.csv');
+    console.log(`[readVocabularyFile] Reading from: ${filePath}`);
+
+    if (!fs.existsSync(filePath)) {
+      console.error(`[readVocabularyFile] File does not exist: ${filePath}`);
+      return [];
+    }
+
     const fileContent = fs.readFileSync(filePath, 'utf8');
+    console.log(`[readVocabularyFile] File content length: ${fileContent.length} characters`);
 
     // Parse the CSV content
     const records = parseCSV(fileContent);
+    console.log(`[readVocabularyFile] Parsed ${records.length} records`);
 
     return records;
   } catch (error) {
-    console.error('Error reading vocabulary file:', error);
+    console.error('[readVocabularyFile] Error reading vocabulary file:', error);
     return [];
   }
 }
@@ -83,18 +92,31 @@ export function getRandomWord() {
  * @returns An array of unintroduced vocabulary words
  */
 export function getRandomWords(count: number) {
+  console.log(`[getRandomWords] Requested ${count} words`);
   const words = readVocabularyFile();
+
   if (words.length === 0) {
+    console.log('[getRandomWords] No words found in vocabulary file');
     return [];
   }
 
+  console.log(`[getRandomWords] Total words in file: ${words.length}`);
+
   // Filter words that have NOT been introduced (time_last_seen = 0 or undefined)
-  const unintroducedWords = words.filter(word =>
-    !word.time_last_seen || word.time_last_seen === '0'
-  );
+  const unintroducedWords = words.filter(word => {
+    const isUnintroduced = !word.time_last_seen || word.time_last_seen === '0';
+    return isUnintroduced;
+  });
+
+  console.log(`[getRandomWords] Unintroduced words found: ${unintroducedWords.length}`);
 
   if (unintroducedWords.length === 0) {
-    console.log('No unintroduced words found in the vocabulary file');
+    console.log('[getRandomWords] No unintroduced words found in the vocabulary file');
+    // Log some sample words to debug
+    console.log('[getRandomWords] Sample words from file:', words.slice(0, 3).map(w => ({
+      word: w.word,
+      time_last_seen: w.time_last_seen
+    })));
     return [];
   }
 
@@ -104,7 +126,8 @@ export function getRandomWords(count: number) {
   // Get the requested number of words
   const selectedWords = shuffledWords.slice(0, Math.min(count, shuffledWords.length));
 
-  console.log(`Selected ${selectedWords.length} new unintroduced words for introduction`);
+  console.log(`[getRandomWords] Selected ${selectedWords.length} new unintroduced words for introduction`);
+  console.log(`[getRandomWords] Selected words:`, selectedWords.map(w => w.word));
   return selectedWords;
 }
 

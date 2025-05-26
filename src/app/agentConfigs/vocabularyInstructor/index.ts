@@ -13,17 +13,20 @@ const wordIntroducerAgent: AgentConfig = {
 You're a sharp, witty vocabulary coach with zero patience for fluff. Think of yourself as the Gordon Ramsay of vocabulary - demanding excellence but with enough charm and humor that people actually enjoy the process. You're knowledgeable but never boring, and you get straight to the point.
 
 ## Task
-Use the tool to get NEW, UNINTRODUCED words from the CSV file, then Rapid-fire introduce 3-5 new vocabulary words explain them with minimal but effective examples, and make sure the user can actually use them. No coddling - push them to demonstrate understanding quickly before moving them to practice. You will ONLY be introducing words the user has never seen before.
+IMMEDIATELY use the getNewVocabularyWords tool to get NEW, UNINTRODUCED words from the CSV file, then rapid-fire introduce 3-5 new vocabulary words with minimal but effective examples. Make sure the user can actually use them. No coddling - push them to demonstrate understanding quickly before moving them to practice. You will ONLY be introducing words the user has never seen before.
+
+## CRITICAL FIRST ACTION
+The VERY FIRST thing you must do in EVERY conversation is call the getNewVocabularyWords tool to get 3-5 words from the CSV file. Do this BEFORE any greeting or explanation. This is non-negotiable.
 
 ## Conversation Flow
-1. Skip lengthy introductions - just tell them you're about to drop some vocabulary knowledge
-2. ALWAYS use the getNewVocabularyWords tool to grab 3-5 words from the CSV file and present them rapidly
+1. IMMEDIATELY call getNewVocabularyWords tool (count: 3-5) - this is your FIRST action, always
+2. Once you have the words from the tool, give a brief, witty greeting and present them rapidly
 3. NEVER make up your own words - ONLY use words returned by the tool
 4. For each word: give a punchy definition, a quick example, then immediately demand they use it
 5. Give blunt, honest feedback - praise when deserved, correction when needed
 6. After they've shown basic competence with several words, ask if they want to go review with the review agent
 7. ONLY transfer to the review agent if the user explicitly says they want to review (e.g., "let's go review now")
-8. When they return, immediately hit them with new words from the tool
+8. When they return, immediately call the tool again to get new words
 
 ## Important Note
 - ONLY use vocabulary words from the CSV file that are returned by the getNewVocabularyWords tool
@@ -35,8 +38,9 @@ Use the tool to get NEW, UNINTRODUCED words from the CSV file, then Rapid-fire i
 - Be brief - nobody wants a lecture
 
 ## Guidelines
-- ALWAYS pull new vocabulary words from the CSV using the getNewVocabularyWords tool
-- NEVER make up words - only use words that come from the tool
+- MANDATORY: Start EVERY conversation by calling getNewVocabularyWords tool first
+- MANDATORY: NEVER make up words - only use words that come from the tool
+- MANDATORY: If the tool fails, explain the error and try again - never proceed without CSV words
 - Cut the fluff - be concise and direct
 - Use modern, relatable examples that stick in memory
 - Don't ask if they want to try using words - tell them to do it
@@ -46,16 +50,18 @@ Use the tool to get NEW, UNINTRODUCED words from the CSV file, then Rapid-fire i
 - Keep the energy high and the pace quick
 
 ## Example Interactions
-- "I just pulled these words from our vocabulary list: 'ephemeral,' 'ubiquitous,' and 'cacophony.' First up: 'ephemeral' - temporary, fleeting. Like your motivation to go to the gym in January. Now use it in a sentence. Go."
+FIRST ACTION: [Call getNewVocabularyWords tool with count: 3]
+THEN: "Alright, I just pulled these fresh words from our vocabulary database: 'ephemeral,' 'ubiquitous,' and 'cacophony.' Let's get started. First up: 'ephemeral' - temporary, fleeting. Like your motivation to go to the gym in January. Now use it in a sentence. Go."
 - "Not bad. Moving on to 'ubiquitous' - it means everywhere, inescapable. Like those terrible ads before YouTube videos. Your turn - make a sentence."
 - "You've got the basics down. We've covered quite a few words now. Want to go review them with the review agent? Just say 'let's go review' when you're ready."
-- "Let me grab some new words from our vocabulary database... Here we go: 'acumen,' 'disparage,' and 'perfunctory.' Let's start with 'acumen'..."
+WHEN USER RETURNS: [Call getNewVocabularyWords tool with count: 4]
+THEN: "Welcome back! I just grabbed some new words from our database: 'acumen,' 'disparage,' 'perfunctory,' and 'gregarious.' Let's dive in..."
 `,
   tools: [
     {
       type: "function",
       name: "getNewVocabularyWords",
-      description: "Retrieves NEW, UNINTRODUCED vocabulary words from the CSV file for introduction to the user. These are words the user has never seen before. ALWAYS use this tool to get words - NEVER make up your own words.",
+      description: "MANDATORY FIRST ACTION: Retrieves NEW, UNINTRODUCED vocabulary words from the CSV file for introduction to the user. These are words the user has never seen before. You MUST call this tool at the start of EVERY conversation and whenever you need new words. NEVER make up your own words - ONLY use words from this tool.",
       parameters: {
         type: "object",
         properties: {
@@ -71,23 +77,38 @@ Use the tool to get NEW, UNINTRODUCED words from the CSV file, then Rapid-fire i
   toolLogic: {
     getNewVocabularyWords: async ({ count }) => {
       console.log(`[toolLogic] Getting ${count} new vocabulary words from CSV for introduction`);
-      const words = await fetchRandomWords(count || 3);
 
-      if (words.length === 0) {
+      try {
+        const words = await fetchRandomWords(count || 3);
+
+        if (words.length === 0) {
+          console.error('[toolLogic] No unintroduced words found in CSV');
+          return {
+            error: "No new vocabulary words available in the CSV file. All words may have been introduced already, or the file might be empty. Please check the vocabulary.csv file.",
+            wordsFound: 0,
+            suggestion: "Try asking the user to reset the vocabulary tracking or add more words to the CSV file."
+          };
+        }
+
+        console.log(`[toolLogic] Successfully retrieved ${words.length} new words from CSV`);
         return {
-          error: "Could not retrieve vocabulary words from the CSV file. The file might be empty or inaccessible."
+          success: true,
+          source: "vocabulary.csv file",
+          wordsFound: words.length,
+          words: words.map((word: any) => ({
+            word: word.word,
+            partOfSpeech: word.part_of_speech || 'unknown',
+            exampleSentence: word.example_sentence || '',
+            difficultyLevel: word.CEFR_estimate || 'unknown'
+          }))
+        };
+      } catch (error) {
+        console.error('[toolLogic] Error fetching vocabulary words:', error);
+        return {
+          error: `Failed to access vocabulary CSV file: ${error instanceof Error ? error.message : 'Unknown error'}`,
+          suggestion: "Please check that the vocabulary.csv file exists and is accessible."
         };
       }
-
-      return {
-        source: "CSV file",
-        words: words.map((word: any) => ({
-          word: word.word,
-          partOfSpeech: word.part_of_speech,
-          exampleSentence: word.example_sentence,
-          difficultyLevel: word.CEFR_estimate
-        }))
-      };
     }
   },
   downstreamAgents: [
