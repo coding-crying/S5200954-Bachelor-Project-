@@ -38,38 +38,60 @@ export function useVocabularyProcessor() {
     setLastProcessedItemId(itemId);
 
     try {
-      // First, process the message to identify vocabulary words
-      const response = await fetch('/api/vocabulary', {
-        method: 'PUT',
+      // Use the new enhanced processing pipeline with GPT-4.1-mini
+      const response = await fetch('/api/conversation/process', {
+        method: 'POST',
         headers: {
           'Content-Type': 'application/json',
         },
-        body: JSON.stringify({ text }),
+        body: JSON.stringify({
+          text,
+          vocabularyWords: vocabularyWords.map(w => w.word),
+          includeAnalysis: true
+        }),
       });
 
       const result = await response.json();
 
-      if (result.success && result.processed && result.wordsFound.length > 0) {
-        console.log(`Vocabulary words found: ${result.wordsFound.join(', ')}`);
+      if (result.success && result.processed) {
+        const wordsFound = result.analysis?.vocabulary_words || [];
+        const csvUpdates = result.csv_updates || [];
 
-        // Only show a visible breadcrumb if words were actually updated
-        if (result.wordsUpdated && result.wordsUpdated.length > 0) {
-          addTranscriptBreadcrumb('Vocabulary Words Updated', {
-            text,
-            wordsFound: result.wordsFound,
-            wordsUpdated: result.wordsUpdated,
-            timestamp: result.timestamp,
-            hidden: true // Hide this from the UI to avoid clutter
-          });
+        console.log(`GPT-4.1-mini analysis complete: ${wordsFound.length} words found, ${csvUpdates.length} CSV updates`);
 
-          // Reload vocabulary words to get the updated data
-          loadVocabularyWords();
+        // Only show a breadcrumb if vocabulary words were found
+        if (wordsFound.length > 0) {
+          addTranscriptBreadcrumb(
+            `GPT-4.1-mini Analysis: ${wordsFound.length} vocabulary word(s) detected`,
+            {
+              text,
+              wordsFound: wordsFound.map((w: any) => `${w.found_form} → ${w.word} (${w.used_correctly ? '✓' : '✗'})`),
+              csvUpdates: csvUpdates.length,
+              effectiveness: result.analysis?.learning_effectiveness || 0,
+              summary: result.analysis?.summary || '',
+              timestamp: result.timestamp,
+              hidden: true // Hide from UI to avoid clutter
+            }
+          );
+
+          // Apply CSV updates if available
+          if (csvUpdates.length > 0) {
+            // For now, we'll use the existing vocabulary API to apply updates
+            // In the future, we can create a dedicated CSV update endpoint
+            fetch('/api/vocabulary', {
+              method: 'PUT',
+              headers: {
+                'Content-Type': 'application/json',
+              },
+              body: JSON.stringify({ text, useGPTAnalysis: true }),
+            }).then(() => {
+              console.log('CSV updates applied via vocabulary API');
+              loadVocabularyWords();
+            }).catch(err => {
+              console.error('Error applying CSV updates:', err);
+            });
+          }
         }
-
-        // Then, automatically process the text with the effectiveness analyzer in the background
-        processConversationText(text).catch(err => {
-          console.error('Error in background effectiveness analysis:', err);
-        });
       }
     } catch (error) {
       console.error('Error processing message for vocabulary:', error);
