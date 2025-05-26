@@ -1,6 +1,6 @@
 /**
  * CSV Updater Utility
- * 
+ *
  * This module provides utilities to apply structured updates to the vocabulary CSV
  * based on GPT-4.1-mini analysis results.
  */
@@ -15,9 +15,10 @@ const VOCAB_PATH = path.join(process.cwd(), 'vocabulary.csv');
 
 interface CSVUpdate {
   word: string;
-  action: 'increment_total' | 'increment_correct' | 'update_timing' | 'set_value';
+  action: 'increment_total' | 'increment_correct' | 'update_timing' | 'set_value' | 'increment_user_total' | 'increment_user_correct' | 'increment_system_total' | 'increment_system_correct';
   value: string | number;
   timestamp: string;
+  speaker?: 'user' | 'assistant';
   field?: string; // For set_value actions
 }
 
@@ -87,6 +88,38 @@ export async function applyCsvUpdates(updates: CSVUpdate[]): Promise<UpdateResul
             updated = true;
             break;
 
+          case 'increment_user_total':
+            const currentUserTotal = parseInt(record.user_total_uses || '0');
+            record.user_total_uses = (currentUserTotal + Number(update.value)).toString();
+            // Also update overall total for backward compatibility
+            const overallTotal = parseInt(record.total_uses || '0');
+            record.total_uses = (overallTotal + Number(update.value)).toString();
+            record.time_last_seen = update.timestamp;
+            updated = true;
+            break;
+
+          case 'increment_user_correct':
+            const currentUserCorrect = parseInt(record.user_correct_uses || '0');
+            record.user_correct_uses = (currentUserCorrect + Number(update.value)).toString();
+            // Also update overall correct for backward compatibility
+            const overallCorrect = parseInt(record.correct_uses || '0');
+            record.correct_uses = (overallCorrect + Number(update.value)).toString();
+            updated = true;
+            break;
+
+          case 'increment_system_total':
+            const currentSystemTotal = parseInt(record.system_total_uses || '0');
+            record.system_total_uses = (currentSystemTotal + Number(update.value)).toString();
+            record.time_last_seen = update.timestamp;
+            updated = true;
+            break;
+
+          case 'increment_system_correct':
+            const currentSystemCorrect = parseInt(record.system_correct_uses || '0');
+            record.system_correct_uses = (currentSystemCorrect + Number(update.value)).toString();
+            updated = true;
+            break;
+
           case 'update_timing':
             record.time_last_seen = update.timestamp;
             updated = true;
@@ -124,6 +157,10 @@ export async function applyCsvUpdates(updates: CSVUpdate[]): Promise<UpdateResul
           'time_last_seen',
           'correct_uses',
           'total_uses',
+          'user_correct_uses',
+          'user_total_uses',
+          'system_correct_uses',
+          'system_total_uses',
           'next_due',
           'EF',
           'interval',
@@ -147,7 +184,7 @@ export async function applyCsvUpdates(updates: CSVUpdate[]): Promise<UpdateResul
 /**
  * Convert GPT analysis to CSV updates
  */
-export function convertAnalysisToUpdates(analysis: any): CSVUpdate[] {
+export function convertAnalysisToUpdates(analysis: any, defaultSpeaker: 'user' | 'assistant' = 'user'): CSVUpdate[] {
   const updates: CSVUpdate[] = [];
   const timestamp = new Date().toISOString();
 
@@ -155,22 +192,29 @@ export function convertAnalysisToUpdates(analysis: any): CSVUpdate[] {
     for (const wordInfo of analysis.vocabulary_words) {
       const word = wordInfo.word;
       const usedCorrectly = wordInfo.used_correctly === true;
+      const speaker = wordInfo.speaker || defaultSpeaker;
 
-      // Always increment total uses
+      // Use speaker-specific actions
+      const totalAction = speaker === 'user' ? 'increment_user_total' : 'increment_system_total';
+      const correctAction = speaker === 'user' ? 'increment_user_correct' : 'increment_system_correct';
+
+      // Always increment total uses for the specific speaker
       updates.push({
         word,
-        action: 'increment_total',
+        action: totalAction,
         value: 1,
-        timestamp
+        timestamp,
+        speaker
       });
 
       // Increment correct uses if used correctly
       if (usedCorrectly) {
         updates.push({
           word,
-          action: 'increment_correct',
+          action: correctAction,
           value: 1,
-          timestamp
+          timestamp,
+          speaker
         });
       }
 
@@ -179,7 +223,8 @@ export function convertAnalysisToUpdates(analysis: any): CSVUpdate[] {
         word,
         action: 'update_timing',
         value: Date.now().toString(),
-        timestamp
+        timestamp,
+        speaker
       });
     }
   }

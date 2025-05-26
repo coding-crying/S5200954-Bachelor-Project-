@@ -9,6 +9,7 @@ interface ConversationProcessingResult {
   success: boolean;
   processed: boolean;
   text: string;
+  speaker?: 'user' | 'assistant';
   analysis?: {
     vocabulary_words: Array<{
       word: string;
@@ -16,15 +17,17 @@ interface ConversationProcessingResult {
       used_correctly: boolean;
       confidence: number;
       context: string;
+      speaker: 'user' | 'assistant';
     }>;
     summary: string;
     learning_effectiveness: number;
   };
   csv_updates?: Array<{
     word: string;
-    action: 'increment_total' | 'increment_correct' | 'update_timing';
+    action: 'increment_total' | 'increment_correct' | 'update_timing' | 'increment_user_total' | 'increment_user_correct' | 'increment_system_total' | 'increment_system_correct';
     value: string | number;
     timestamp: string;
+    speaker: 'user' | 'assistant';
   }>;
   error?: string;
   timestamp: number;
@@ -37,11 +40,18 @@ interface ConversationProcessingResult {
 export async function POST(req: NextRequest) {
   try {
     const body = await req.json();
-    const { text, vocabularyWords = [], includeAnalysis = true } = body;
+    const { text, vocabularyWords = [], includeAnalysis = true, speaker = 'user' } = body;
 
     if (!text || typeof text !== 'string') {
       return NextResponse.json(
         { success: false, error: "Invalid request: text is required" },
+        { status: 400 }
+      );
+    }
+
+    if (speaker && !['user', 'assistant'].includes(speaker)) {
+      return NextResponse.json(
+        { success: false, error: "Invalid speaker: must be 'user' or 'assistant'" },
         { status: 400 }
       );
     }
@@ -63,6 +73,8 @@ export async function POST(req: NextRequest) {
           role: "system",
           content: `You are a vocabulary learning analysis assistant. Analyze conversation text to identify vocabulary words and provide structured data for CSV updates.
 
+          IMPORTANT: Differentiate between USER speech and SYSTEM/ASSISTANT speech. Only USER vocabulary usage should count toward learning progress.
+
           Return ONLY a valid JSON object with this exact structure:
           {
             "vocabulary_words": [
@@ -71,21 +83,24 @@ export async function POST(req: NextRequest) {
                 "found_form": "actual_word_in_text",
                 "used_correctly": true,
                 "confidence": 0.95,
-                "context": "surrounding sentence or phrase"
+                "context": "surrounding sentence or phrase",
+                "speaker": "user"
               }
             ],
             "csv_updates": [
               {
                 "word": "vocabulary_word",
-                "action": "increment_total",
+                "action": "increment_user_total",
                 "value": 1,
-                "timestamp": "${new Date().toISOString()}"
+                "timestamp": "${new Date().toISOString()}",
+                "speaker": "user"
               },
               {
-                "word": "vocabulary_word", 
-                "action": "increment_correct",
+                "word": "vocabulary_word",
+                "action": "increment_user_correct",
                 "value": 1,
-                "timestamp": "${new Date().toISOString()}"
+                "timestamp": "${new Date().toISOString()}",
+                "speaker": "user"
               }
             ],
             "summary": "Brief analysis of vocabulary usage",
@@ -97,18 +112,23 @@ export async function POST(req: NextRequest) {
           - Include different word forms (plurals, conjugations, past tense, etc.)
           - Set used_correctly based on proper context usage
           - Set confidence between 0.0 and 1.0
-          - Generate csv_updates for each word found
-          - learning_effectiveness should be 0.0-1.0 based on overall usage quality`
+          - Use "increment_user_total" and "increment_user_correct" for USER speech
+          - Use "increment_system_total" and "increment_system_correct" for ASSISTANT speech
+          - learning_effectiveness should be 0.0-1.0 based on USER vocabulary usage quality only
+          - System/assistant vocabulary usage should be tracked separately but not count toward learning progress`
         },
         {
           role: "user",
           content: `Analyze this conversation text for vocabulary usage:
 
           Text: "${text}"
+          Speaker: ${speaker} (${speaker === 'user' ? 'learner' : 'system/assistant'})
 
           Vocabulary words to look for: ${limitedVocabWords.join(', ')}
 
-          Provide structured analysis for CSV updates.`
+          Provide structured analysis for CSV updates. Remember to use the correct action types based on the speaker:
+          - For USER/learner speech: use "increment_user_total" and "increment_user_correct"
+          - For ASSISTANT/system speech: use "increment_system_total" and "increment_system_correct"`
         }
       ],
       temperature: 0.2,
@@ -140,12 +160,19 @@ export async function POST(req: NextRequest) {
       success: true,
       processed: true,
       text,
+      speaker,
       analysis: {
-        vocabulary_words: analysis.vocabulary_words || [],
+        vocabulary_words: (analysis.vocabulary_words || []).map((word: any) => ({
+          ...word,
+          speaker: word.speaker || speaker // Ensure speaker is set
+        })),
         summary: analysis.summary || "No analysis provided",
         learning_effectiveness: analysis.learning_effectiveness || 0.0
       },
-      csv_updates: analysis.csv_updates || [],
+      csv_updates: (analysis.csv_updates || []).map((update: any) => ({
+        ...update,
+        speaker: update.speaker || speaker // Ensure speaker is set
+      })),
       timestamp: Date.now()
     };
 
@@ -158,7 +185,7 @@ export async function POST(req: NextRequest) {
 
   } catch (error: any) {
     console.error('Error processing conversation:', error);
-    
+
     return NextResponse.json({
       success: false,
       processed: false,
@@ -180,7 +207,7 @@ export async function GET(req: NextRequest) {
       model: "gpt-4o-mini",
       features: [
         "vocabulary_detection",
-        "word_form_recognition", 
+        "word_form_recognition",
         "usage_correctness_analysis",
         "csv_update_generation",
         "learning_effectiveness_scoring"

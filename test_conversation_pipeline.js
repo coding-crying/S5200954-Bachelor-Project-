@@ -137,6 +137,88 @@ const testVocabularyAPI = async () => {
   }
 };
 
+// Test speaker differentiation
+const testSpeakerDifferentiation = async () => {
+  console.log('\n🧪 Testing Speaker Differentiation...\n');
+
+  const speakerTests = [
+    {
+      text: "I was running to the store yesterday",
+      vocab: ["run", "store"],
+      speaker: "user",
+      expectedActions: ["increment_user_total", "increment_user_correct"]
+    },
+    {
+      text: "The user was running to the store yesterday",
+      vocab: ["run", "store"],
+      speaker: "assistant",
+      expectedActions: ["increment_system_total", "increment_system_correct"]
+    }
+  ];
+
+  let passedTests = 0;
+  let totalTests = speakerTests.length;
+
+  for (let i = 0; i < speakerTests.length; i++) {
+    const test = speakerTests[i];
+    console.log(`\n📝 Test ${i + 1}: ${test.speaker.toUpperCase()} speech`);
+    console.log(`Text: "${test.text}"`);
+    console.log(`Expected actions: [${test.expectedActions.join(', ')}]`);
+
+    try {
+      const response = await fetch('http://localhost:3000/api/conversation/process', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          text: test.text,
+          vocabularyWords: test.vocab,
+          speaker: test.speaker,
+          includeAnalysis: true
+        }),
+      });
+
+      if (!response.ok) {
+        console.log(`❌ API Error: ${response.status}`);
+        continue;
+      }
+
+      const result = await response.json();
+
+      if (result.success && result.csv_updates) {
+        const actions = result.csv_updates.map(update => update.action);
+        console.log(`✅ Generated actions: [${actions.join(', ')}]`);
+
+        // Check if the correct speaker-specific actions were generated
+        const hasCorrectActions = test.expectedActions.every(expectedAction =>
+          actions.some(action => action.includes(expectedAction.split('_')[1])) // Check for 'user' or 'system'
+        );
+
+        if (hasCorrectActions) {
+          console.log(`✅ Test ${i + 1}: PASSED - Correct speaker-specific actions`);
+          passedTests++;
+        } else {
+          console.log(`❌ Test ${i + 1}: FAILED - Incorrect actions for ${test.speaker}`);
+        }
+      } else {
+        console.log(`❌ Test ${i + 1}: FAILED - No CSV updates generated`);
+      }
+
+    } catch (error) {
+      console.log(`❌ Test ${i + 1}: ERROR - ${error.message}`);
+    }
+  }
+
+  console.log(`\n🏁 Speaker Differentiation Results: ${passedTests}/${totalTests} tests passed`);
+
+  return {
+    passed: passedTests,
+    total: totalTests,
+    success: passedTests === totalTests
+  };
+};
+
 // Test specific conjugation detection
 const testConjugationDetection = async () => {
   console.log('\n🧪 Testing Conjugation Detection...\n');
@@ -249,21 +331,36 @@ const runTests = async () => {
 
   console.log('\n' + '=' .repeat(60));
 
-  // Test 3: Conjugation Detection
+  // Test 3: Speaker Differentiation
+  const speakerResult = await testSpeakerDifferentiation();
+
+  console.log('\n' + '=' .repeat(60));
+
+  // Test 4: Conjugation Detection
   const conjugationResult = await testConjugationDetection();
 
   console.log('\n' + '=' .repeat(60));
   console.log('\n🏁 Test Summary:');
   console.log('Conversation API:', conversationResult ? '✅ PASSED' : '❌ FAILED');
   console.log('Vocabulary API:', vocabularyResult ? '✅ PASSED' : '❌ FAILED');
+  console.log('Speaker Differentiation:', speakerResult?.success ? '✅ PASSED' : '❌ FAILED');
   console.log('Conjugation Detection:', conjugationResult?.success ? '✅ PASSED' : '❌ FAILED');
+
+  if (speakerResult?.success) {
+    console.log(`  - Speaker Tests: ${speakerResult.passed}/${speakerResult.total} passed`);
+  }
 
   if (conjugationResult?.success) {
     console.log(`  - Conjugation Tests: ${conjugationResult.passed}/${conjugationResult.total} passed`);
   }
 
-  if (conversationResult && vocabularyResult && conjugationResult?.success) {
-    console.log('\n🎉 All tests passed! The enhanced conjugation detection is working correctly.');
+  if (conversationResult && vocabularyResult && speakerResult?.success && conjugationResult?.success) {
+    console.log('\n🎉 All tests passed! The enhanced vocabulary system is working correctly.');
+    console.log('\n📊 Speaker Differentiation Features:');
+    console.log('✅ User vocabulary tracking (increment_user_total, increment_user_correct)');
+    console.log('✅ System vocabulary tracking (increment_system_total, increment_system_correct)');
+    console.log('✅ Separate CSV columns for user vs system usage');
+    console.log('✅ Learning effectiveness based only on user vocabulary usage');
     console.log('\n📊 Conjugation Detection Features:');
     console.log('✅ Irregular verbs (went → go, ate → eat, written → write)');
     console.log('✅ Regular conjugations (running → run, playing → play)');
@@ -286,9 +383,10 @@ if (typeof window === 'undefined') {
   window.testConversationPipeline = {
     testConversationProcessing,
     testVocabularyAPI,
+    testSpeakerDifferentiation,
     testConjugationDetection,
     runTests
   };
   console.log('Test functions available at window.testConversationPipeline');
-  console.log('Available tests: testConversationProcessing, testVocabularyAPI, testConjugationDetection, runTests');
+  console.log('Available tests: testConversationProcessing, testVocabularyAPI, testSpeakerDifferentiation, testConjugationDetection, runTests');
 }

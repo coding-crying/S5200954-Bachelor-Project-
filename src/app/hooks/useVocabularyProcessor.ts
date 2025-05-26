@@ -29,7 +29,7 @@ export function useVocabularyProcessor() {
   }, []);
 
   // Process a single message to identify vocabulary words and analyze effectiveness
-  const processMessage = useCallback(async (itemId: string, text: string) => {
+  const processMessage = useCallback(async (itemId: string, text: string, speaker: 'user' | 'assistant' = 'user') => {
     if (!text || itemId === lastProcessedItemId) {
       return;
     }
@@ -47,7 +47,8 @@ export function useVocabularyProcessor() {
         body: JSON.stringify({
           text,
           vocabularyWords: vocabularyWords.map(w => w.word),
-          includeAnalysis: true
+          includeAnalysis: true,
+          speaker
         }),
       });
 
@@ -61,10 +62,14 @@ export function useVocabularyProcessor() {
 
         // Only show a breadcrumb if vocabulary words were found
         if (wordsFound.length > 0) {
+          const speakerLabel = speaker === 'user' ? 'User' : 'Assistant';
+          const speakerEmoji = speaker === 'user' ? '👤' : '🤖';
+
           addTranscriptBreadcrumb(
-            `GPT-4.1-mini Analysis: ${wordsFound.length} vocabulary word(s) detected`,
+            `${speakerEmoji} ${speakerLabel} Vocabulary: ${wordsFound.length} word(s) detected`,
             {
               text,
+              speaker,
               wordsFound: wordsFound.map((w: any) => `${w.found_form} → ${w.word} (${w.used_correctly ? '✓' : '✗'})`),
               csvUpdates: csvUpdates.length,
               effectiveness: result.analysis?.learning_effectiveness || 0,
@@ -170,11 +175,12 @@ export function useVocabularyProcessor() {
       latestItem.title &&
       latestItem.itemId !== lastProcessedItemId
     ) {
-      // Process both user and assistant messages
-      processMessage(latestItem.itemId, latestItem.title);
+      // Process both user and assistant messages with speaker information
+      const speaker = latestItem.role || 'user'; // Default to 'user' if role is not set
+      processMessage(latestItem.itemId, latestItem.title, speaker);
 
       // Log that automatic processing occurred (hidden from UI)
-      console.log(`Auto-processed message: ${latestItem.itemId.slice(0, 8)}...`);
+      console.log(`Auto-processed ${speaker} message: ${latestItem.itemId.slice(0, 8)}...`);
     }
   }, [transcriptItems, lastProcessedItemId, processMessage]);
 
@@ -192,7 +198,7 @@ export function useVocabularyProcessor() {
     const latestUserMessage = userMessages[userMessages.length - 1];
 
     if (latestUserMessage.itemId !== lastProcessedItemId && latestUserMessage.title) {
-      processMessage(latestUserMessage.itemId, latestUserMessage.title);
+      processMessage(latestUserMessage.itemId, latestUserMessage.title, 'user');
     }
   }, [transcriptItems, lastProcessedItemId, processMessage]);
 

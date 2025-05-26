@@ -150,6 +150,10 @@ export interface VocabularyWord {
   time_last_seen: string;
   correct_uses: string;
   total_uses: string;
+  user_correct_uses: string;
+  user_total_uses: string;
+  system_correct_uses: string;
+  system_total_uses: string;
   next_due: string;
   EF: string;
   interval: string;
