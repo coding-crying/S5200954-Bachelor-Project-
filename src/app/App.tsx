@@ -18,6 +18,12 @@ import { AgentConfig, SessionStatus } from "@/app/types";
 import { useTranscript } from "@/app/contexts/TranscriptContext";
 import { useEvent } from "@/app/contexts/EventContext";
 import { useHandleServerEvent } from "./hooks/useHandleServerEvent";
+<<<<<<< HEAD
+=======
+import { useVocabularyProcessor } from "./hooks/useVocabularyProcessor";
+import { useLanguageProcessor } from "./hooks/useLanguageProcessor";
+import { useLanguageLearningProcessor } from "./hooks/useLanguageLearningProcessor";
+>>>>>>> be1e1eb (working vocab instructor pipeline with updated scheduling)
 
 // Utilities
 import { createRealtimeConnection } from "./lib/realtimeConnection";
@@ -37,6 +43,19 @@ function App() {
     useTranscript();
   const { logClientEvent, logServerEvent } = useEvent();
 
+<<<<<<< HEAD
+=======
+  // Initialize the language processor hook
+  useLanguageProcessor();
+
+  // Get the agent config from URL
+  const agentConfigKey = searchParams.get("agentConfig") || defaultAgentSetKey;
+  const isLanguageLearning = agentConfigKey === "languageLearning";
+
+  // Initialize language learning processor for language learning scenarios
+  const languageLearningProcessor = useLanguageLearningProcessor();
+
+>>>>>>> be1e1eb (working vocab instructor pipeline with updated scheduling)
   const [selectedAgentName, setSelectedAgentName] = useState<string>("");
   const [selectedAgentConfigSet, setSelectedAgentConfigSet] = useState<
     AgentConfig[] | null
@@ -80,6 +99,19 @@ function App() {
     }
   };
 
+<<<<<<< HEAD
+=======
+  // Initialize the vocabulary processor (for non-language learning scenarios)
+  const {
+    processMessage: processVocabularyMessage,
+  } = useVocabularyProcessor();
+
+  // Use the appropriate processor based on agent config
+  const processMessage = isLanguageLearning
+    ? () => {} // Language learning processing is handled automatically by the hook
+    : processVocabularyMessage;
+
+>>>>>>> be1e1eb (working vocab instructor pipeline with updated scheduling)
   const handleServerEventRef = useHandleServerEvent({
     setSessionStatus,
     selectedAgentName,
@@ -87,6 +119,10 @@ function App() {
     sendClientEvent,
     setSelectedAgentName,
     setIsOutputAudioBufferActive,
+<<<<<<< HEAD
+=======
+    processVocabularyMessage: processMessage,
+>>>>>>> be1e1eb (working vocab instructor pipeline with updated scheduling)
   });
 
   useEffect(() => {

@@ -344,3 +344,177 @@ export async function PUT(req: Request) {
     );
   }
 }
+<<<<<<< HEAD
+=======
+
+/**
+ * Process text with GPT-4.1-mini for enhanced vocabulary analysis
+ */
+async function processTextWithGPT(text: string, records: VocabularyWord[]) {
+  try {
+    const openai = await import('openai').then(m => new m.default({
+      apiKey: process.env.OPENAI_API_KEY,
+    }));
+
+    // Create vocabulary word list for the prompt
+    const vocabWords = records.map(r => r.word).slice(0, 100); // Limit to avoid token limits
+
+    const response = await openai.chat.completions.create({
+      model: "gpt-4.1-mini",
+      messages: [
+        {
+          role: "system",
+          content: `You are a vocabulary analysis assistant. Analyze text to identify vocabulary words and their usage.
+
+          Return ONLY a valid JSON object with this exact structure:
+          {
+            "words_found": [
+              {
+                "word": "vocabulary_word_from_list",
+                "found_form": "actual_word_in_text",
+                "used_correctly": true,
+                "confidence": 0.9
+              }
+            ]
+          }
+
+          Rules:
+          - Only include words that appear in the vocabulary list
+          - Include different forms (plurals, conjugations, etc.)
+          - Set used_correctly to true if used properly in context
+          - Set confidence between 0.0 and 1.0`
+        },
+        {
+          role: "user",
+          content: `Text: "${text}"
+
+          Vocabulary words: ${vocabWords.join(', ')}`
+        }
+      ],
+      temperature: 0.2,
+      max_tokens: 1000,
+      response_format: { type: "json_object" }
+    });
+
+    const content = response.choices[0].message.content;
+    if (!content) {
+      return { success: false, error: "Empty response from GPT" };
+    }
+
+    const analysis = JSON.parse(content);
+    const wordsFound: string[] = [];
+    const wordsUpdated: string[] = [];
+    const updates: Array<{word: string, data: Partial<VocabularyWord>}> = [];
+
+    const currentTime = Date.now().toString();
+
+    for (const wordInfo of analysis.words_found || []) {
+      const vocabWord = wordInfo.word?.toLowerCase();
+      const foundForm = wordInfo.found_form?.toLowerCase();
+      const usedCorrectly = wordInfo.used_correctly === true;
+
+      if (vocabWord && foundForm) {
+        wordsFound.push(`${foundForm} → ${vocabWord}`);
+
+        // Find the record to update
+        const record = records.find(r => r.word.toLowerCase() === vocabWord);
+        if (record) {
+          const totalUses = parseInt(record.total_uses || '0') + 1;
+          const correctUses = parseInt(record.correct_uses || '0') + (usedCorrectly ? 1 : 0);
+
+          updates.push({
+            word: vocabWord,
+            data: {
+              time_last_seen: currentTime,
+              total_uses: totalUses.toString(),
+              correct_uses: correctUses.toString()
+            }
+          });
+
+          wordsUpdated.push(`${vocabWord} (${foundForm}): total=${totalUses}, correct=${correctUses}`);
+        }
+      }
+    }
+
+    return {
+      success: true,
+      wordsFound,
+      wordsUpdated,
+      updates
+    };
+
+  } catch (error) {
+    console.error('Error in GPT processing:', error);
+    return {
+      success: false,
+      error: error instanceof Error ? error.message : 'Unknown error',
+      wordsFound: [],
+      wordsUpdated: [],
+      updates: []
+    };
+  }
+}
+
+/**
+ * Process text locally using lemmatization
+ */
+async function processTextLocally(text: string, records: VocabularyWord[]) {
+  try {
+    // Import the word lemmatizer
+    const { wordLemmatizer } = await import('@/app/lib/wordLemmatizer');
+
+    // Create vocabulary word set
+    const vocabWords = new Set(records.map(r => r.word.toLowerCase()));
+
+    // Find vocabulary matches using lemmatization
+    const matches = wordLemmatizer.findVocabularyMatches(text, vocabWords);
+
+    const wordsFound: string[] = [];
+    const wordsUpdated: string[] = [];
+    const updates: Array<{word: string, data: Partial<VocabularyWord>}> = [];
+
+    const currentTime = Date.now().toString();
+
+    // Process each match
+    for (const match of matches) {
+      const vocabWord = match.vocabularyWord.toLowerCase();
+      const foundForm = match.foundWord.toLowerCase();
+
+      wordsFound.push(match.isExactMatch ? vocabWord : `${foundForm} → ${vocabWord}`);
+
+      // Find the record to update
+      const record = records.find(r => r.word.toLowerCase() === vocabWord);
+      if (record) {
+        const totalUses = parseInt(record.total_uses || '0') + 1;
+
+        updates.push({
+          word: vocabWord,
+          data: {
+            time_last_seen: currentTime,
+            total_uses: totalUses.toString()
+          }
+        });
+
+        wordsUpdated.push(`${vocabWord}${!match.isExactMatch ? ` (${foundForm})` : ''}: total=${totalUses}`);
+      }
+    }
+
+    return {
+      success: true,
+      wordsFound,
+      wordsUpdated,
+      updates
+    };
+
+  } catch (error) {
+    console.error('Error in local processing:', error);
+    return {
+      success: false,
+      error: error instanceof Error ? error.message : 'Unknown error',
+      wordsFound: [],
+      wordsUpdated: [],
+      updates: []
+    };
+  }
+}
+>>>>>>> be1e1eb (working vocab instructor pipeline with updated scheduling)

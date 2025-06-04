@@ -1,6 +1,6 @@
 "use client";
 
-import { useRef } from "react";
+import { useRef, useCallback } from "react";
 import {
   ServerEvent,
   SessionStatus,
@@ -41,7 +41,7 @@ export function useHandleServerEvent({
 
   const assistantDeltasRef = useRef<{ [itemId: string]: string }>({});
 
-  async function processGuardrail(itemId: string, text: string) {
+  const processGuardrail = useCallback(async (itemId: string, text: string) => {
     let res;
     try {
       res = await runGuardrailClassifier(text);
@@ -65,7 +65,7 @@ export function useHandleServerEvent({
 
     // Update the transcript item with the new guardrail result.
     updateTranscriptItem(itemId, { guardrailResult: newGuardrailResult });
-  }
+  }, [transcriptItems, updateTranscriptItem]);
 
   const handleFunctionCall = async (functionCallParams: {
     name: string;

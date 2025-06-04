@@ -47,10 +47,9 @@ function Transcript({
 
     if (hasNewMessage || hasUpdatedMessage) {
       scrollToBottom();
+      setPrevLogs(transcriptItems);
     }
-
-    setPrevLogs(transcriptItems);
-  }, [transcriptItems]);
+  }, [transcriptItems, prevLogs]);
 
   // Autofocus on text box input on load
   useEffect(() => {
