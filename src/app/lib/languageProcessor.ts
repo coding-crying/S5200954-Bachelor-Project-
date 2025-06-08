@@ -31,42 +31,12 @@ interface ProcessingResult {
  * @returns Promise that resolves to the processing result
  */
 export async function processLanguageText(text: string): Promise<ProcessingResult> {
-  try {
-    if (!text || !text.trim()) {
-      return { processed: false, error: 'Empty text' };
-    }
-
-    const response = await fetch('/api/language/words', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify({ text }),
-    });
-    
-    if (!response.ok) {
-      const errorData = await response.json();
-      return {
-        processed: false,
-        error: errorData.error || `API error: ${response.status}`,
-      };
-    }
-    
-    const result = await response.json();
-    return {
-      processed: true,
-      text,
-      wordsExtracted: result.wordsExtracted,
-      wordsUpdated: result.wordsUpdated,
-      timestamp: result.timestamp,
-    };
-  } catch (error) {
-    console.error('Error processing language text:', error);
-    return {
-      processed: false,
-      error: error instanceof Error ? error.message : String(error),
-    };
-  }
+  // DISABLED: Language processor is disabled - using vocabulary processor only
+  console.log('Language processor is disabled - using vocabulary processor only');
+  return {
+    processed: false,
+    error: 'Language processor is disabled - using vocabulary processor only'
+  };
 }
 
 /**
@@ -199,5 +169,15 @@ export class LanguageProcessorService {
   }
 }
 
+// DISABLED: Language processor singleton - using vocabulary processor only
 // Create a singleton instance for easy access
-export const languageProcessor = new LanguageProcessorService();
+// export const languageProcessor = new LanguageProcessorService();
+
+// Create a disabled stub to prevent errors if imported
+export const languageProcessor = {
+  start: () => console.log('Language processor is disabled - using vocabulary processor only'),
+  stop: () => console.log('Language processor is disabled'),
+  addText: () => {},
+  isRunning: () => false,
+  getTimeSinceLastProcessing: () => -1
+};

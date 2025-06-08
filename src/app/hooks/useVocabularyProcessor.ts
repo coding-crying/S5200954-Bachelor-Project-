@@ -3,10 +3,9 @@
  * and analyze vocabulary usage effectiveness
  */
 
-import { useState, useEffect, useCallback } from 'react';
+import { useState, useEffect, useCallback, useRef } from 'react';
 import { useTranscript } from '@/app/contexts/TranscriptContext';
 import { VocabularyWord, VocabularyProcessingResult } from '@/app/types';
-import { processConversationText } from '@/app/lib/effectivenessAnalyzer';
 
 export function useVocabularyProcessor() {
   const { transcriptItems, addTranscriptBreadcrumb } = useTranscript();
@@ -19,7 +18,23 @@ export function useVocabularyProcessor() {
     speaker: 'user' | 'assistant';
     timestamp: number;
   }>>([]);
-  const [processingTimer, setProcessingTimer] = useState<NodeJS.Timeout | null>(null);
+  const processingTimerRef = useRef<NodeJS.Timeout | null>(null);
+  const vocabularyWordsRef = useRef<VocabularyWord[]>([]);
+  const messageBufferRef = useRef<Array<{
+    itemId: string;
+    text: string;
+    speaker: 'user' | 'assistant';
+    timestamp: number;
+  }>>([]);
+
+  // Keep refs in sync with state
+  useEffect(() => {
+    vocabularyWordsRef.current = vocabularyWords;
+  }, [vocabularyWords]);
+
+  useEffect(() => {
+    messageBufferRef.current = messageBuffer;
+  }, [messageBuffer]);
 
   // Load vocabulary words from the API
   const loadVocabularyWords = useCallback(async () => {
@@ -37,17 +52,18 @@ export function useVocabularyProcessor() {
 
   // Process multiple messages in batch to reduce API calls and improve efficiency
   const processBatchedMessages = useCallback(async () => {
-    if (messageBuffer.length === 0 || isProcessing) {
+    const currentBuffer = messageBufferRef.current;
+    if (currentBuffer.length === 0 || isProcessing) {
       return;
     }
 
     setIsProcessing(true);
-    console.log(`[Batch Processing] Processing ${messageBuffer.length} messages in batch`);
+    console.log(`[Batch Processing] Processing ${currentBuffer.length} messages in batch`);
 
     try {
       // Group messages by speaker for better analysis
-      const userMessages = messageBuffer.filter(msg => msg.speaker === 'user');
-      const assistantMessages = messageBuffer.filter(msg => msg.speaker === 'assistant');
+      const userMessages = currentBuffer.filter(msg => msg.speaker === 'user');
+      const assistantMessages = currentBuffer.filter(msg => msg.speaker === 'assistant');
 
       // Process user and assistant messages separately if both exist
       const processingPromises = [];
@@ -61,31 +77,32 @@ export function useVocabularyProcessor() {
         );
       }
 
-      if (assistantMessages.length > 0) {
-        const assistantText = assistantMessages.map(msg => msg.text).join(' ');
-        const assistantItemIds = assistantMessages.map(msg => msg.itemId);
-
-        processingPromises.push(
-          processBatchText(assistantText, 'assistant', assistantItemIds)
-        );
-      }
+      // DISABLED: Don't process assistant messages for vocabulary analysis
+      // Assistant messages are system-generated teaching content, not user learning demonstrations
+      // if (assistantMessages.length > 0) {
+      //   const assistantText = assistantMessages.map(msg => msg.text).join(' ');
+      //   const assistantItemIds = assistantMessages.map(msg => msg.itemId);
+      //   processingPromises.push(
+      //     processBatchText(assistantText, 'assistant', assistantItemIds)
+      //   );
+      // }
 
       // Wait for all processing to complete
       const results = await Promise.all(processingPromises);
 
       // Clear the buffer and update last processed ID
-      const lastMessage = messageBuffer[messageBuffer.length - 1];
+      const lastMessage = currentBuffer[currentBuffer.length - 1];
       setLastProcessedItemId(lastMessage.itemId);
       setMessageBuffer([]);
 
-      console.log(`[Batch Processing] Completed processing ${messageBuffer.length} messages`);
+      console.log(`[Batch Processing] Completed processing ${currentBuffer.length} messages`);
 
     } catch (error) {
       console.error('[Batch Processing] Error processing batch:', error);
     } finally {
       setIsProcessing(false);
     }
-  }, [messageBuffer, isProcessing, vocabularyWords, addTranscriptBreadcrumb, loadVocabularyWords]);
+  }, [isProcessing, addTranscriptBreadcrumb, loadVocabularyWords]);
 
   // Process a batch of text for a specific speaker
   const processBatchText = useCallback(async (text: string, speaker: 'user' | 'assistant', itemIds: string[]) => {
@@ -100,7 +117,7 @@ export function useVocabularyProcessor() {
         },
         body: JSON.stringify({
           text,
-          vocabularyWords: vocabularyWords.map(w => w.word),
+          vocabularyWords: vocabularyWordsRef.current.map(w => w.word),
           includeAnalysis: true,
           speaker,
           batchMode: true,
@@ -137,20 +154,11 @@ export function useVocabularyProcessor() {
             }
           );
 
-          // Apply CSV updates if available
+          // CSV updates are now handled directly by the /api/conversation/process endpoint
+          // No need for additional processing calls
           if (csvUpdates.length > 0) {
-            fetch('/api/vocabulary', {
-              method: 'PUT',
-              headers: {
-                'Content-Type': 'application/json',
-              },
-              body: JSON.stringify({ text, useGPTAnalysis: true }),
-            }).then(() => {
-              console.log(`[Batch Processing] CSV updates applied for ${speaker}`);
-              loadVocabularyWords();
-            }).catch(err => {
-              console.error(`[Batch Processing] Error applying CSV updates for ${speaker}:`, err);
-            });
+            console.log(`[Batch Processing] ${csvUpdates.length} CSV updates processed for ${speaker}`);
+            loadVocabularyWords(); // Reload to reflect changes
           }
         }
       }
@@ -160,7 +168,7 @@ export function useVocabularyProcessor() {
       console.error(`[Batch Processing] Error processing ${speaker} text:`, error);
       return null;
     }
-  }, [vocabularyWords, addTranscriptBreadcrumb, loadVocabularyWords]);
+  }, [addTranscriptBreadcrumb, loadVocabularyWords]);
 
   // Add message to buffer for batch processing (replaces individual processing)
   const addMessageToBuffer = useCallback((itemId: string, text: string, speaker: 'user' | 'assistant' = 'user') => {
@@ -179,17 +187,15 @@ export function useVocabularyProcessor() {
     }]);
 
     // Clear existing timer
-    if (processingTimer) {
-      clearTimeout(processingTimer);
+    if (processingTimerRef.current) {
+      clearTimeout(processingTimerRef.current);
     }
 
     // Set new timer for batch processing
-    const newTimer = setTimeout(() => {
+    processingTimerRef.current = setTimeout(() => {
       processBatchedMessages();
     }, 3000); // Process batch after 3 seconds of inactivity
-
-    setProcessingTimer(newTimer);
-  }, [lastProcessedItemId, processingTimer, processBatchedMessages]);
+  }, [lastProcessedItemId, processBatchedMessages]);
 
   // Legacy single message processing (kept for manual processing)
   const processMessage = useCallback(async (itemId: string, text: string, speaker: 'user' | 'assistant' = 'user') => {
@@ -209,7 +215,7 @@ export function useVocabularyProcessor() {
         },
         body: JSON.stringify({
           text,
-          vocabularyWords: vocabularyWords.map(w => w.word),
+          vocabularyWords: vocabularyWordsRef.current.map(w => w.word),
           includeAnalysis: true,
           speaker
         }),
@@ -242,22 +248,11 @@ export function useVocabularyProcessor() {
             }
           );
 
-          // Apply CSV updates if available
+          // CSV updates are now handled directly by the /api/conversation/process endpoint
+          // No need for additional processing calls
           if (csvUpdates.length > 0) {
-            // For now, we'll use the existing vocabulary API to apply updates
-            // In the future, we can create a dedicated CSV update endpoint
-            fetch('/api/vocabulary', {
-              method: 'PUT',
-              headers: {
-                'Content-Type': 'application/json',
-              },
-              body: JSON.stringify({ text, useGPTAnalysis: true }),
-            }).then(() => {
-              console.log('CSV updates applied via vocabulary API');
-              loadVocabularyWords();
-            }).catch(err => {
-              console.error('Error applying CSV updates:', err);
-            });
+            console.log(`${csvUpdates.length} CSV updates processed`);
+            loadVocabularyWords(); // Reload to reflect changes
           }
         }
       }
@@ -286,7 +281,7 @@ export function useVocabularyProcessor() {
             {
               role: 'system',
               content: `You are a language analysis assistant that identifies vocabulary words in text and evaluates their usage.
-              Analyze the text for any of these vocabulary words: ${vocabularyWords.slice(0, 50).map(w => w.word).join(', ')}.
+              Analyze the text for any of these vocabulary words: ${vocabularyWordsRef.current.slice(0, 50).map(w => w.word).join(', ')}.
               For each word found, determine if it was used correctly in context.`
             },
             { role: 'user', content: text }
@@ -316,7 +311,7 @@ export function useVocabularyProcessor() {
     } finally {
       setIsProcessing(false);
     }
-  }, [isProcessing, lastProcessedItemId, addTranscriptBreadcrumb, vocabularyWords]);
+  }, [isProcessing, lastProcessedItemId, addTranscriptBreadcrumb]);
 
   // Monitor transcript items for new messages
   useEffect(() => {
@@ -324,7 +319,7 @@ export function useVocabularyProcessor() {
     loadVocabularyWords();
   }, [loadVocabularyWords]);
 
-  // Automatically add new messages to batch buffer
+  // Automatically add new USER messages to batch buffer (NOT assistant messages)
   useEffect(() => {
     // Skip if there are no transcript items
     if (transcriptItems.length === 0) return;
@@ -332,18 +327,17 @@ export function useVocabularyProcessor() {
     // Get the latest message
     const latestItem = transcriptItems[transcriptItems.length - 1];
 
-    // Only process MESSAGE type items that have text content
+    // Only process MESSAGE type items that have text content AND are from USER
     if (
       latestItem.type === 'MESSAGE' &&
       latestItem.title &&
-      latestItem.itemId !== lastProcessedItemId
+      latestItem.itemId !== lastProcessedItemId &&
+      latestItem.role === 'user' // ONLY process user messages
     ) {
-      // Add both user and assistant messages to batch buffer
-      const speaker = latestItem.role || 'user'; // Default to 'user' if role is not set
-      addMessageToBuffer(latestItem.itemId, latestItem.title, speaker);
+      addMessageToBuffer(latestItem.itemId, latestItem.title, 'user');
 
       // Log that message was added to buffer (hidden from UI)
-      console.log(`Auto-added ${speaker} message to batch buffer: ${latestItem.itemId.slice(0, 8)}...`);
+      console.log(`Auto-added user message to batch buffer: ${latestItem.itemId.slice(0, 8)}...`);
     }
   }, [transcriptItems, lastProcessedItemId, addMessageToBuffer]);
 
@@ -352,22 +346,22 @@ export function useVocabularyProcessor() {
     // Process immediately if buffer gets too large (10+ messages)
     if (messageBuffer.length >= 10) {
       console.log('[Buffer] Buffer size limit reached, processing immediately');
-      if (processingTimer) {
-        clearTimeout(processingTimer);
-        setProcessingTimer(null);
+      if (processingTimerRef.current) {
+        clearTimeout(processingTimerRef.current);
+        processingTimerRef.current = null;
       }
       processBatchedMessages();
     }
-  }, [messageBuffer.length, processingTimer, processBatchedMessages]);
+  }, [messageBuffer.length, processBatchedMessages]);
 
   // Cleanup timer on unmount
   useEffect(() => {
     return () => {
-      if (processingTimer) {
-        clearTimeout(processingTimer);
+      if (processingTimerRef.current) {
+        clearTimeout(processingTimerRef.current);
       }
     };
-  }, [processingTimer]);
+  }, []);
 
   // Function to manually process the latest user message
   const processLatestUserMessage = useCallback(() => {

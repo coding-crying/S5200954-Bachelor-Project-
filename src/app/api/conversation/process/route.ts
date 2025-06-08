@@ -1,9 +1,17 @@
 import { NextRequest, NextResponse } from 'next/server';
 import OpenAI from 'openai';
+import fs from 'fs';
+import path from 'path';
+import { parse } from 'csv-parse/sync';
+import { stringify } from 'csv-stringify/sync';
+import { VocabularyWord } from '@/app/types';
 
 const openai = new OpenAI({
   apiKey: process.env.OPENAI_API_KEY,
 });
+
+// Path to the vocabulary CSV file
+const VOCAB_PATH = path.join(process.cwd(), 'vocabulary.csv');
 
 interface ConversationProcessingResult {
   success: boolean;
@@ -54,6 +62,24 @@ export async function POST(req: NextRequest) {
         { success: false, error: "Invalid speaker: must be 'user' or 'assistant'" },
         { status: 400 }
       );
+    }
+
+    // LANGUAGE LEARNING SYSTEM: Only process USER messages for vocabulary analysis
+    // Assistant messages are system-generated teaching content, not user learning demonstrations
+    if (speaker === 'assistant') {
+      return NextResponse.json({
+        success: true,
+        processed: false,
+        text,
+        speaker,
+        analysis: {
+          vocabulary_words: [],
+          summary: "Assistant messages are not processed for vocabulary analysis",
+          learning_effectiveness: 0.0
+        },
+        csv_updates: [],
+        timestamp: Date.now()
+      });
     }
 
     if (!process.env.OPENAI_API_KEY) {
@@ -182,6 +208,17 @@ export async function POST(req: NextRequest) {
       timestamp: Date.now()
     };
 
+    // Apply CSV updates directly
+    if (result.csv_updates && result.csv_updates.length > 0) {
+      try {
+        await applyCsvUpdates(result.csv_updates);
+        console.log(`Applied ${result.csv_updates.length} CSV updates`);
+      } catch (error) {
+        console.error('Error applying CSV updates:', error);
+        // Don't fail the request if CSV updates fail
+      }
+    }
+
     // Log the processing for debugging
     console.log(`${batchMode ? '[BATCH]' : '[SINGLE]'} Processed conversation text: ${text.length} characters${batchMode ? ` from ${messageCount} messages` : ''}`);
     console.log(`Found ${result.analysis.vocabulary_words.length} vocabulary words`);
@@ -225,5 +262,90 @@ export async function GET(req: NextRequest) {
       success: false,
       error: error.message || "Internal server error"
     }, { status: 500 });
+  }
+}
+
+/**
+ * Apply CSV updates directly to the vocabulary file
+ */
+async function applyCsvUpdates(csvUpdates: Array<{
+  word: string;
+  action: string;
+  value: string | number;
+  timestamp: string;
+  speaker: string;
+}>) {
+  if (!fs.existsSync(VOCAB_PATH)) {
+    console.error('Vocabulary CSV file not found');
+    return;
+  }
+
+  // Read the current CSV file
+  const fileContent = fs.readFileSync(VOCAB_PATH, 'utf-8');
+  const records = parse(fileContent, {
+    columns: true,
+    skip_empty_lines: true,
+  }) as VocabularyWord[];
+
+  let updated = false;
+
+  // Apply each update
+  for (const update of csvUpdates) {
+    const recordIndex = records.findIndex(r => r.word.toLowerCase() === update.word.toLowerCase());
+
+    if (recordIndex !== -1) {
+      const record = records[recordIndex];
+
+      switch (update.action) {
+        case 'increment_user_total':
+          record.user_total_uses = (parseInt(record.user_total_uses || '0') + 1).toString();
+          record.time_last_seen = update.timestamp;
+          updated = true;
+          break;
+        case 'increment_user_correct':
+          record.user_correct_uses = (parseInt(record.user_correct_uses || '0') + 1).toString();
+          updated = true;
+          break;
+        case 'increment_system_total':
+          record.system_total_uses = (parseInt(record.system_total_uses || '0') + 1).toString();
+          record.time_last_seen = update.timestamp;
+          updated = true;
+          break;
+        case 'increment_system_correct':
+          record.system_correct_uses = (parseInt(record.system_correct_uses || '0') + 1).toString();
+          updated = true;
+          break;
+        case 'update_timing':
+          record.time_last_seen = update.timestamp;
+          updated = true;
+          break;
+        default:
+          console.warn(`Unknown CSV update action: ${update.action}`);
+      }
+    }
+  }
+
+  // Write the updated records back to the CSV file if any were updated
+  if (updated) {
+    const csv = stringify(records, {
+      header: true,
+      columns: [
+        'word',
+        'time_last_seen',
+        'correct_uses',
+        'total_uses',
+        'user_correct_uses',
+        'user_total_uses',
+        'system_correct_uses',
+        'system_total_uses',
+        'next_due',
+        'EF',
+        'interval',
+        'repetitions',
+      ],
+    });
+
+    fs.writeFileSync(VOCAB_PATH, csv);
+    console.log(`Updated vocabulary CSV with ${csvUpdates.length} changes`);
   }
 }

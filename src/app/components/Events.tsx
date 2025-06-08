@@ -4,7 +4,7 @@ import React, { useRef, useEffect, useState } from "react";
 import { useEvent } from "@/app/contexts/EventContext";
 import { LoggedEvent } from "@/app/types";
 import ConversationProcessor from "./ConversationProcessor";
-import LanguageProcessor from "./LanguageProcessor";
+// import LanguageProcessor from "./LanguageProcessor"; // DISABLED: Using vocabulary processor only
 
 export interface EventsProps {
   isExpanded: boolean;
@@ -57,7 +57,8 @@ function Events({ isExpanded }: EventsProps) {
 
           {/* Processors */}
           <ConversationProcessor isVisible={showProcessor} />
-          <LanguageProcessor isVisible={showProcessor} />
+          {/* DISABLED: Language processor component - using vocabulary processor only */}
+          {/* <LanguageProcessor isVisible={showProcessor} /> */}
 
           <div>
             {loggedEvents.map((log) => {

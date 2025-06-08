@@ -19,7 +19,7 @@ import { useTranscript } from "@/app/contexts/TranscriptContext";
 import { useEvent } from "@/app/contexts/EventContext";
 import { useHandleServerEvent } from "./hooks/useHandleServerEvent";
 import { useVocabularyProcessor } from "./hooks/useVocabularyProcessor";
-import { useLanguageProcessor } from "./hooks/useLanguageProcessor";
+// import { useLanguageProcessor } from "./hooks/useLanguageProcessor"; // DISABLED: Using vocabulary processor only
 
 // Utilities
 import { createRealtimeConnection } from "./lib/realtimeConnection";
@@ -39,8 +39,8 @@ function App() {
     useTranscript();
   const { logClientEvent, logServerEvent } = useEvent();
 
-  // Initialize the language processor hook
-  useLanguageProcessor();
+  // DISABLED: Language processor hook (using vocabulary processor only)
+  // useLanguageProcessor();
 
   const [selectedAgentName, setSelectedAgentName] = useState<string>("");
   const [selectedAgentConfigSet, setSelectedAgentConfigSet] = useState<
