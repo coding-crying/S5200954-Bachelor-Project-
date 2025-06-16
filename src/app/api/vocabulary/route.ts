@@ -132,6 +132,14 @@ export async function GET(request: NextRequest) {
 
         return NextResponse.json({ success: true, data: words });
 
+      case 'unintroduced':
+        // Get unintroduced words WITHOUT updating timestamps (for word introducer agent)
+        const unintroducedCount = parseInt(searchParams.get('count') || '3', 10);
+        const unintroducedWords = getRandomWords(unintroducedCount);
+
+        // Don't update any timestamps - just return the words for potential introduction
+        return NextResponse.json({ success: true, data: unintroducedWords });
+
       case 'search':
         const searchTerm = searchParams.get('term') || '';
         const matchingWords = searchWords(searchTerm);
@@ -205,7 +213,7 @@ export async function GET(request: NextRequest) {
       default:
         return NextResponse.json({
           success: false,
-          error: 'Invalid action. Use "random", "multiple", "search", "srs", "introduced", "high-priority", or "reset-tracking".'
+          error: 'Invalid action. Use "random", "multiple", "unintroduced", "search", "srs", "introduced", "high-priority", or "reset-tracking".'
         }, { status: 400 });
     }
   } catch (error) {

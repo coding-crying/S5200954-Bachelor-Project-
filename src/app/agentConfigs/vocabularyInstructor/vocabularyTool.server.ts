@@ -68,10 +68,11 @@ export function getRandomWord() {
     return null;
   }
 
-  // Filter words that have NOT been introduced (time_last_seen = 0 or undefined)
-  const unintroducedWords = words.filter(word =>
-    !word.time_last_seen || word.time_last_seen === '0'
-  );
+  // Filter words that have NOT been introduced (total_uses = 0 or undefined)
+  const unintroducedWords = words.filter(word => {
+    const totalUses = parseInt(word.total_uses || '0');
+    return totalUses === 0;
+  });
 
   if (unintroducedWords.length === 0) {
     console.log('No unintroduced words found in the vocabulary file');
@@ -102,9 +103,10 @@ export function getRandomWords(count: number) {
 
   console.log(`[getRandomWords] Total words in file: ${words.length}`);
 
-  // Filter words that have NOT been introduced (time_last_seen = 0 or undefined)
+  // Filter words that have NOT been introduced (total_uses = 0 or undefined)
   const unintroducedWords = words.filter(word => {
-    const isUnintroduced = !word.time_last_seen || word.time_last_seen === '0';
+    const totalUses = parseInt(word.total_uses || '0');
+    const isUnintroduced = totalUses === 0;
     return isUnintroduced;
   });
 
@@ -115,7 +117,7 @@ export function getRandomWords(count: number) {
     // Log some sample words to debug
     console.log('[getRandomWords] Sample words from file:', words.slice(0, 3).map(w => ({
       word: w.word,
-      time_last_seen: w.time_last_seen
+      total_uses: w.total_uses
     })));
     return [];
   }
@@ -182,7 +184,7 @@ export function getIntroducedWords(count: number) {
 }
 
 /**
- * Gets high priority words for review based on next_due date and usage statistics
+ * Gets high priority words for review - simplified for single session + 24h test
  * @param count The number of words to retrieve
  * @returns An array of high priority vocabulary words for review
  */
@@ -192,43 +194,32 @@ export function getHighPriorityWords(count: number) {
     return [];
   }
 
-  // Filter words that have been introduced (time_last_seen > 0)
-  const introducedWords = words.filter(word =>
-    word.time_last_seen && word.time_last_seen !== '0'
-  );
+  // Filter words that have been used at least once (total_uses > 0)
+  const usedWords = words.filter(word => {
+    const totalUses = parseInt(word.total_uses || '0');
+    return totalUses > 0;
+  });
 
-  if (introducedWords.length === 0) {
+  if (usedWords.length === 0) {
     return [];
   }
 
-  const currentTime = Date.now().toString();
+  const currentTime = Date.now();
 
-  // First prioritize words that are due for review (next_due <= current time)
-  // Then prioritize words with lower correct_uses/total_uses ratio
-  const sortedWords = [...introducedWords].sort((a, b) => {
-    // Check if either word is due for review
-    const aIsDue = parseInt(a.next_due) <= parseInt(currentTime);
-    const bIsDue = parseInt(b.next_due) <= parseInt(currentTime);
-
-    // If one is due and the other isn't, prioritize the due one
-    if (aIsDue && !bIsDue) return -1;
-    if (!aIsDue && bIsDue) return 1;
-
-    // If both are due or both are not due, sort by next_due date
-    if (parseInt(a.next_due) !== parseInt(b.next_due)) {
-      return parseInt(a.next_due) - parseInt(b.next_due);
-    }
-
-    // If next_due dates are the same, sort by correct usage ratio (ascending)
-    const aRatio = parseInt(a.correct_uses) / Math.max(1, parseInt(a.total_uses));
-    const bRatio = parseInt(b.correct_uses) / Math.max(1, parseInt(b.total_uses));
-    return aRatio - bRatio;
+  // Simple priority: overdue words first, then by next_due time (closest first)
+  const sortedWords = usedWords.sort((a, b) => {
+    const aNextDue = parseInt(a.next_due || '0');
+    const bNextDue = parseInt(b.next_due || '0');
+    
+    // Sort by next_due time (earliest first)
+    return aNextDue - bNextDue;
   });
 
   // Get the requested number of words
   const selectedWords = sortedWords.slice(0, Math.min(count, sortedWords.length));
 
-  console.log(`Selected ${selectedWords.length} high priority words for review`);
+  console.log(`Selected ${selectedWords.length} words for review, sorted by next due time`);
+  
   return selectedWords;
 }
 

@@ -24,23 +24,23 @@ export async function fetchRandomWord() {
 }
 
 /**
- * Fetches multiple random vocabulary words from the API
- * @param count The number of random words to retrieve
- * @returns A promise that resolves to an array of random vocabulary words
+ * Fetches multiple unintroduced vocabulary words from the API
+ * @param count The number of unintroduced words to retrieve
+ * @returns A promise that resolves to an array of unintroduced vocabulary words
  */
 export async function fetchRandomWords(count: number) {
   try {
-    const response = await fetch(`/api/vocabulary?action=multiple&count=${count}`);
+    const response = await fetch(`/api/vocabulary?action=unintroduced&count=${count}`);
     const result = await response.json();
 
     if (!result.success) {
-      console.error('Error fetching random words:', result.error);
+      console.error('Error fetching unintroduced words:', result.error);
       return [];
     }
 
     return result.data;
   } catch (error) {
-    console.error('Error fetching random words:', error);
+    console.error('Error fetching unintroduced words:', error);
     return [];
   }
 }

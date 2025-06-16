@@ -40,7 +40,7 @@ interface ConversationProcessingResult {
 export async function POST(req: NextRequest) {
   try {
     const body = await req.json();
-    const { text, vocabularyWords = [], includeAnalysis = true, speaker = 'user', batchMode = false, messageCount = 1 } = body;
+    const { text, vocabularyWords = [], includeAnalysis = true, speaker = 'user' } = body;
 
     if (!text || typeof text !== 'string') {
       return NextResponse.json(
@@ -73,7 +73,6 @@ export async function POST(req: NextRequest) {
           role: "system",
           content: `You are a vocabulary learning analysis assistant. Analyze conversation text to identify vocabulary words and provide structured data for CSV updates.
 
-          ${batchMode ? `BATCH MODE: You are analyzing ${messageCount} messages combined into a single text. This provides better context for vocabulary analysis and reduces API calls.` : ''}
 
           IMPORTANT: Differentiate between USER speech and SYSTEM/ASSISTANT speech. Only USER vocabulary usage should count toward learning progress.
 
@@ -109,24 +108,41 @@ export async function POST(req: NextRequest) {
             "learning_effectiveness": 0.8
           }
 
-          Rules:
+          Evaluation Criteria for "used_correctly":
+          
+          TRUE (correct usage):
+          - Word meaning matches context precisely
+          - Demonstrates clear understanding of word's definition
+          - Used in appropriate grammatical context
+          - Shows familiarity with word's nuances
+          
+          FALSE (incorrect usage):
+          - Word meaning doesn't match context
+          - Used generically without understanding (e.g., "He was astute" with no judgment context)
+          - Wrong part of speech or grammatical usage
+          - Shows confusion about word's actual meaning
+          - Used inappropriately trying to sound sophisticated
+          
+          Assessment Guidelines:
+          - Analyze the surrounding context for meaning clarity
+          - Consider if a native speaker would use the word this way
+          - Look for signs of user confusion or uncertainty
+          - Evaluate depth of understanding vs. superficial usage
+          - Set confidence based on clarity of correct usage demonstration
+          
+          Technical Rules:
           - Only include words from the provided vocabulary list
           - Include different word forms (plurals, conjugations, past tense, etc.)
-          - Set used_correctly based on proper context usage
-          - Set confidence between 0.0 and 1.0
           - Use "increment_user_total" and "increment_user_correct" for USER speech
           - Use "increment_system_total" and "increment_system_correct" for ASSISTANT speech
-          - learning_effectiveness should be 0.0-1.0 based on USER vocabulary usage quality only
-          - System/assistant vocabulary usage should be tracked separately but not count toward learning progress`
+          - learning_effectiveness should reflect actual demonstration of word knowledge (0.0-1.0)`
         },
         {
           role: "user",
           content: `Analyze this conversation text for vocabulary usage:
 
-          ${batchMode ? `BATCH ANALYSIS: Processing ${messageCount} combined messages` : 'SINGLE MESSAGE ANALYSIS'}
           Text: "${text}"
           Speaker: ${speaker} (${speaker === 'user' ? 'learner' : 'system/assistant'})
-          ${batchMode ? `Text Length: ${text.length} characters from ${messageCount} messages` : ''}
 
           Vocabulary words to look for: ${limitedVocabWords.join(', ')}
 
@@ -134,7 +150,7 @@ export async function POST(req: NextRequest) {
           - For USER/learner speech: use "increment_user_total" and "increment_user_correct"
           - For ASSISTANT/system speech: use "increment_system_total" and "increment_system_correct"
 
-          ${batchMode ? 'BATCH BENEFITS: Better context understanding, more accurate usage assessment, reduced API calls.' : ''}`
+`
         }
       ],
       temperature: 0.2,
@@ -183,7 +199,7 @@ export async function POST(req: NextRequest) {
     };
 
     // Log the processing for debugging
-    console.log(`${batchMode ? '[BATCH]' : '[SINGLE]'} Processed conversation text: ${text.length} characters${batchMode ? ` from ${messageCount} messages` : ''}`);
+    console.log(`Processed conversation text: ${text.length} characters`);
     console.log(`Found ${result.analysis.vocabulary_words.length} vocabulary words`);
     console.log(`Generated ${result.csv_updates?.length || 0} CSV updates`);
 
