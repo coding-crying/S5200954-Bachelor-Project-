@@ -1,0 +1,42 @@
+Participant 2 - Word Selection Log
+Total words available: 34
+Words selected for removal: 2
+Words remaining for experiment: 32
+
+Words removed (already known):
+- clandestine
+- demure
+
+Words included in experiment:
+- abrogate
+- abstruse
+- acumen
+- admonish
+- austere
+- benevolent
+- bolster
+- cacophony
+- cajole
+- candor
+- capitulate
+- capricious
+- circumspect
+- complacent
+- conciliatory
+- conundrum
+- copious
+- cursory
+- deleterious
+- despot
+- disparage
+- ennui
+- ephemeral
+- eschew
+- garrulous
+- hackneyed
+- intractable
+- obfuscate
+- perfunctory
+- precocious
+- quandary
+- vociferous
