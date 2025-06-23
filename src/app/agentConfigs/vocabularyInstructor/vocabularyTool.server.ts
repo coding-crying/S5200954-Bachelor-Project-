@@ -75,10 +75,12 @@ export function readVocabularyFile(participantId?: string, condition?: string) {
 
 /**
  * Gets a random unintroduced vocabulary word
+ * @param participantId - Optional participant ID for participant-specific vocabulary
+ * @param condition - Optional condition for condition-specific vocabulary
  * @returns A vocabulary word that has not been introduced yet
  */
-export function getRandomWord() {
-  const words = readVocabularyFile();
+export function getRandomWord(participantId?: string, condition?: string) {
+  const words = readVocabularyFile(participantId, condition);
   if (words.length === 0) {
     return null;
   }
@@ -107,9 +109,9 @@ export function getRandomWord() {
  * @param count The number of new words to retrieve
  * @returns An array of unintroduced vocabulary words
  */
-export function getRandomWords(count: number) {
-  console.log(`[getRandomWords] Requested ${count} words`);
-  const words = readVocabularyFile();
+export function getRandomWords(count: number, participantId?: string, condition?: string) {
+  console.log(`[getRandomWords] Requested ${count} words for participant ${participantId}, condition ${condition}`);
+  const words = readVocabularyFile(participantId, condition);
 
   if (words.length === 0) {
     console.log('[getRandomWords] No words found in vocabulary file');
@@ -151,10 +153,12 @@ export function getRandomWords(count: number) {
 /**
  * Searches for words in the vocabulary list
  * @param searchTerm The term to search for
+ * @param participantId - Optional participant ID for participant-specific vocabulary
+ * @param condition - Optional condition for condition-specific vocabulary
  * @returns An array of matching vocabulary words
  */
-export function searchWords(searchTerm: string) {
-  const words = readVocabularyFile();
+export function searchWords(searchTerm: string, participantId?: string, condition?: string) {
+  const words = readVocabularyFile(participantId, condition);
   if (words.length === 0 || !searchTerm) {
     return [];
   }
@@ -169,10 +173,12 @@ export function searchWords(searchTerm: string) {
 /**
  * Gets only introduced vocabulary words (words that have been seen before)
  * @param count The number of words to retrieve
+ * @param participantId - Optional participant ID for participant-specific vocabulary
+ * @param condition - Optional condition for condition-specific vocabulary
  * @returns An array of introduced vocabulary words
  */
-export function getIntroducedWords(count: number) {
-  const words = readVocabularyFile();
+export function getIntroducedWords(count: number, participantId?: string, condition?: string) {
+  const words = readVocabularyFile(participantId, condition);
   if (words.length === 0) {
     return [];
   }
@@ -201,10 +207,12 @@ export function getIntroducedWords(count: number) {
 /**
  * Gets high priority words for review - simplified for single session + 24h test
  * @param count The number of words to retrieve
+ * @param participantId - Optional participant ID for participant-specific vocabulary
+ * @param condition - Optional condition for condition-specific vocabulary
  * @returns An array of high priority vocabulary words for review
  */
-export function getHighPriorityWords(count: number) {
-  const words = readVocabularyFile();
+export function getHighPriorityWords(count: number, participantId?: string, condition?: string) {
+  const words = readVocabularyFile(participantId, condition);
   if (words.length === 0) {
     return [];
   }

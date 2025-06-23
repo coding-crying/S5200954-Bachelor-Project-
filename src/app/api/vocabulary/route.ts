@@ -28,7 +28,7 @@ export async function GET(request: NextRequest) {
   try {
     switch (action) {
       case 'random':
-        const word = getRandomWord();
+        const word = getRandomWord(participantId, condition);
 
         // Update the word's next_due date if it was retrieved successfully
         if (word && participantId) {
@@ -85,7 +85,7 @@ export async function GET(request: NextRequest) {
 
       case 'multiple':
         const count = parseInt(searchParams.get('count') || '3', 10);
-        const words = getRandomWords(count);
+        const words = getRandomWords(count, participantId, condition);
 
         // Update the next_due dates for all retrieved words
         if (words.length > 0) {
@@ -154,14 +154,14 @@ export async function GET(request: NextRequest) {
       case 'unintroduced':
         // Get unintroduced words WITHOUT updating timestamps (for word introducer agent)
         const unintroducedCount = parseInt(searchParams.get('count') || '3', 10);
-        const unintroducedWords = getRandomWords(unintroducedCount);
+        const unintroducedWords = getRandomWords(unintroducedCount, participantId, condition);
 
         // Don't update any timestamps - just return the words for potential introduction
         return NextResponse.json({ success: true, data: unintroducedWords });
 
       case 'search':
         const searchTerm = searchParams.get('term') || '';
-        const matchingWords = searchWords(searchTerm);
+        const matchingWords = searchWords(searchTerm, participantId, condition);
         return NextResponse.json({
           success: true,
           data: matchingWords,
@@ -192,7 +192,7 @@ export async function GET(request: NextRequest) {
       case 'introduced':
         // Get only introduced words (words that have been seen before)
         const introducedCount = parseInt(searchParams.get('count') || '3', 10);
-        const introducedWords = getIntroducedWords(introducedCount);
+        const introducedWords = getIntroducedWords(introducedCount, participantId, condition);
 
         if (introducedWords.length === 0) {
           return NextResponse.json({
@@ -211,7 +211,7 @@ export async function GET(request: NextRequest) {
       case 'high-priority':
         // Get high priority words for review
         const priorityCount = parseInt(searchParams.get('count') || '5', 10);
-        const priorityWords = getHighPriorityWords(priorityCount);
+        const priorityWords = getHighPriorityWords(priorityCount, participantId, condition);
 
         if (priorityWords.length === 0) {
           return NextResponse.json({

@@ -1,0 +1,31 @@
+Participant 573 - Condition Word Assignments
+Total words: 24
+Split: 12 words per condition
+
+Conversational Condition Words (12):
+- abrogate
+- acumen
+- cacophony
+- candor
+- capricious
+- circumspect
+- cursory
+- despot
+- obfuscate
+- precocious
+- quandary
+- vociferous
+
+Flashcard Condition Words (12):
+- admonish
+- cajole
+- capitulate
+- complacent
+- conciliatory
+- copious
+- deleterious
+- disparage
+- eschew
+- hackneyed
+- intractable
+- perfunctory
