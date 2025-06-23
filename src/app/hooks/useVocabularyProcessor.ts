@@ -4,20 +4,31 @@
  */
 
 import { useState, useEffect, useCallback } from 'react';
+import { useSearchParams } from 'next/navigation';
 import { useTranscript } from '@/app/contexts/TranscriptContext';
 import { VocabularyWord, VocabularyProcessingResult } from '@/app/types';
 import { processConversationText } from '@/app/lib/effectivenessAnalyzer';
 
 export function useVocabularyProcessor() {
   const { transcriptItems, addTranscriptBreadcrumb } = useTranscript();
+  const searchParams = useSearchParams();
   const [vocabularyWords, setVocabularyWords] = useState<VocabularyWord[]>([]);
   const [isProcessing, setIsProcessing] = useState<boolean>(false);
   const [lastProcessedItemId, setLastProcessedItemId] = useState<string | null>(null);
 
+  // Get participant and condition from URL parameters
+  const participantId = searchParams.get('participant');
+  const condition = searchParams.get('condition');
+
   // Load vocabulary words from the API
   const loadVocabularyWords = useCallback(async () => {
     try {
-      const response = await fetch('/api/vocabulary?action=srs');
+      // Build API URL with participant and condition parameters
+      const params = new URLSearchParams({ action: 'srs' });
+      if (participantId) params.append('participant', participantId);
+      if (condition) params.append('condition', condition);
+      
+      const response = await fetch(`/api/vocabulary?${params.toString()}`);
       const data = await response.json();
 
       if (data.success && Array.isArray(data.words)) {
@@ -26,7 +37,7 @@ export function useVocabularyProcessor() {
     } catch (error) {
       console.error('Error loading vocabulary words:', error);
     }
-  }, []);
+  }, [participantId, condition]);
 
 
 

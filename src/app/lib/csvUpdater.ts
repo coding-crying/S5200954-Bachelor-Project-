@@ -11,7 +11,14 @@ import { parse } from 'csv-parse/sync';
 import { stringify } from 'csv-stringify/sync';
 import { VocabularyWord } from '@/app/types';
 
-const VOCAB_PATH = path.join(process.cwd(), 'vocabulary.csv');
+const MAIN_VOCAB_PATH = path.join(process.cwd(), 'vocabulary.csv');
+
+/**
+ * Get the vocabulary CSV path for a specific participant
+ */
+function getParticipantVocabPath(participantId: string): string {
+  return path.join(process.cwd(), `participant_${participantId}`, 'vocabulary.csv');
+}
 
 interface CSVUpdate {
   word: string;
@@ -30,9 +37,37 @@ interface UpdateResult {
 }
 
 /**
- * Apply structured CSV updates from conversation processing
+ * Copy main vocabulary to participant-specific file
  */
-export async function applyCsvUpdates(updates: CSVUpdate[]): Promise<UpdateResult> {
+export function initializeParticipantVocabulary(participantId: string): boolean {
+  try {
+    const participantVocabPath = getParticipantVocabPath(participantId);
+    const participantDir = path.dirname(participantVocabPath);
+    
+    // Create participant directory if it doesn't exist
+    if (!fs.existsSync(participantDir)) {
+      fs.mkdirSync(participantDir, { recursive: true });
+    }
+    
+    // Copy main vocabulary to participant file
+    if (fs.existsSync(MAIN_VOCAB_PATH)) {
+      fs.copyFileSync(MAIN_VOCAB_PATH, participantVocabPath);
+      console.log(`Initialized vocabulary for participant ${participantId}`);
+      return true;
+    } else {
+      console.error('Main vocabulary.csv not found');
+      return false;
+    }
+  } catch (error) {
+    console.error(`Error initializing participant vocabulary: ${error}`);
+    return false;
+  }
+}
+
+/**
+ * Apply structured CSV updates from conversation processing to participant-specific vocabulary
+ */
+export async function applyCsvUpdates(updates: CSVUpdate[], participantId: string): Promise<UpdateResult> {
   const result: UpdateResult = {
     success: false,
     updatesApplied: 0,
@@ -41,14 +76,16 @@ export async function applyCsvUpdates(updates: CSVUpdate[]): Promise<UpdateResul
   };
 
   try {
-    // Check if the vocabulary file exists
-    if (!fs.existsSync(VOCAB_PATH)) {
-      result.errors.push("Vocabulary CSV file not found");
+    const participantVocabPath = getParticipantVocabPath(participantId);
+    
+    // Check if the participant's vocabulary file exists
+    if (!fs.existsSync(participantVocabPath)) {
+      result.errors.push(`Participant vocabulary CSV file not found: ${participantVocabPath}`);
       return result;
     }
 
     // Read the current CSV data
-    const fileContent = fs.readFileSync(VOCAB_PATH, 'utf-8');
+    const fileContent = fs.readFileSync(participantVocabPath, 'utf-8');
     const records = parse(fileContent, {
       columns: true,
       skip_empty_lines: true,
@@ -168,8 +205,8 @@ export async function applyCsvUpdates(updates: CSVUpdate[]): Promise<UpdateResul
         ],
       });
 
-      fs.writeFileSync(VOCAB_PATH, csv);
-      console.log(`Applied ${result.updatesApplied} updates to vocabulary CSV`);
+      fs.writeFileSync(participantVocabPath, csv);
+      console.log(`Applied ${result.updatesApplied} updates to participant ${participantId} vocabulary CSV (preserved ${records.length} total words)`);
     }
 
     result.success = result.updatesApplied > 0 || updates.length === 0;
@@ -235,7 +272,7 @@ export function convertAnalysisToUpdates(analysis: any, defaultSpeaker: 'user' |
 /**
  * Process conversation text and apply updates automatically
  */
-export async function processAndUpdateVocabulary(text: string, vocabularyWords: string[] = []): Promise<{
+export async function processAndUpdateVocabulary(text: string, participantId: string, vocabularyWords: string[] = []): Promise<{
   success: boolean;
   analysis?: any;
   updateResult?: UpdateResult;
@@ -273,7 +310,7 @@ export async function processAndUpdateVocabulary(text: string, vocabularyWords: 
 
     // Apply the CSV updates
     const csvUpdates = result.csv_updates || convertAnalysisToUpdates(result.analysis);
-    const updateResult = await applyCsvUpdates(csvUpdates);
+    const updateResult = await applyCsvUpdates(csvUpdates, participantId);
 
     return {
       success: true,
@@ -290,15 +327,18 @@ export async function processAndUpdateVocabulary(text: string, vocabularyWords: 
 }
 
 /**
- * Get vocabulary words from CSV for processing
+ * Get vocabulary words from participant CSV for processing
  */
-export function getVocabularyWordsForProcessing(): string[] {
+export function getVocabularyWordsForProcessing(participantId: string): string[] {
   try {
-    if (!fs.existsSync(VOCAB_PATH)) {
+    const participantVocabPath = getParticipantVocabPath(participantId);
+    
+    if (!fs.existsSync(participantVocabPath)) {
+      console.warn(`Participant vocabulary not found: ${participantVocabPath}`);
       return [];
     }
 
-    const fileContent = fs.readFileSync(VOCAB_PATH, 'utf-8');
+    const fileContent = fs.readFileSync(participantVocabPath, 'utf-8');
     const records = parse(fileContent, {
       columns: true,
       skip_empty_lines: true,

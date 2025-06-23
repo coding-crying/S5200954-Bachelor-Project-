@@ -31,13 +31,28 @@ function parseCSV(csvString: string) {
 
 /**
  * Reads and processes the vocabulary CSV file
+ * @param participantId - Optional participant ID for participant-specific vocabulary
+ * @param condition - Optional condition (conversational/flashcard) for condition-specific vocabulary
  * @returns An array of vocabulary words with their details
  */
-export function readVocabularyFile() {
+export function readVocabularyFile(participantId?: string, condition?: string) {
   try {
-    // Read the vocabulary CSV file
-    const filePath = path.join(process.cwd(), 'vocabulary.csv');
-    console.log(`[readVocabularyFile] Reading from: ${filePath}`);
+    // Determine which vocabulary file to read
+    let filePath: string;
+    
+    if (participantId && condition) {
+      // Use condition-specific vocabulary file
+      filePath = path.join(process.cwd(), `participant_${participantId}`, `vocabulary_${condition}.csv`);
+      console.log(`[readVocabularyFile] Reading condition-specific file: ${filePath}`);
+    } else if (participantId) {
+      // Use participant-specific vocabulary file
+      filePath = path.join(process.cwd(), `participant_${participantId}`, 'vocabulary.csv');
+      console.log(`[readVocabularyFile] Reading participant-specific file: ${filePath}`);
+    } else {
+      // Use main vocabulary file
+      filePath = path.join(process.cwd(), 'vocabulary.csv');
+      console.log(`[readVocabularyFile] Reading main vocabulary file: ${filePath}`);
+    }
 
     if (!fs.existsSync(filePath)) {
       console.error(`[readVocabularyFile] File does not exist: ${filePath}`);

@@ -3,12 +3,43 @@
  */
 
 /**
+ * Get participant and condition from current URL parameters
+ */
+function getUrlParams() {
+  if (typeof window === 'undefined') return { participantId: null, condition: null };
+  
+  const urlParams = new URLSearchParams(window.location.search);
+  return {
+    participantId: urlParams.get('participant'),
+    condition: urlParams.get('condition')
+  };
+}
+
+/**
+ * Build API URL with participant and condition parameters
+ */
+function buildApiUrl(baseAction: string, additionalParams: Record<string, string> = {}) {
+  const { participantId, condition } = getUrlParams();
+  const params = new URLSearchParams({ action: baseAction });
+  
+  if (participantId) params.append('participant', participantId);
+  if (condition) params.append('condition', condition);
+  
+  // Add any additional parameters
+  Object.entries(additionalParams).forEach(([key, value]) => {
+    params.append(key, value);
+  });
+  
+  return `/api/vocabulary?${params.toString()}`;
+}
+
+/**
  * Fetches a random vocabulary word from the API
  * @returns A promise that resolves to a random vocabulary word
  */
 export async function fetchRandomWord() {
   try {
-    const response = await fetch('/api/vocabulary?action=random');
+    const response = await fetch(buildApiUrl('random'));
     const result = await response.json();
 
     if (!result.success) {
@@ -30,7 +61,7 @@ export async function fetchRandomWord() {
  */
 export async function fetchRandomWords(count: number) {
   try {
-    const response = await fetch(`/api/vocabulary?action=unintroduced&count=${count}`);
+    const response = await fetch(buildApiUrl('unintroduced', { count: count.toString() }));
     const result = await response.json();
 
     if (!result.success) {
@@ -52,7 +83,7 @@ export async function fetchRandomWords(count: number) {
  */
 export async function searchVocabularyWords(searchTerm: string) {
   try {
-    const response = await fetch(`/api/vocabulary?action=search&term=${encodeURIComponent(searchTerm)}`);
+    const response = await fetch(buildApiUrl('search', { term: encodeURIComponent(searchTerm) }));
     const result = await response.json();
 
     if (!result.success) {
@@ -77,7 +108,7 @@ export async function searchVocabularyWords(searchTerm: string) {
  */
 export async function fetchIntroducedWords(count: number) {
   try {
-    const response = await fetch(`/api/vocabulary?action=introduced&count=${count}`);
+    const response = await fetch(buildApiUrl('introduced', { count: count.toString() }));
     const result = await response.json();
 
     if (!result.success) {
@@ -103,7 +134,7 @@ export async function fetchIntroducedWords(count: number) {
  */
 export async function fetchHighPriorityWords(count: number) {
   try {
-    const response = await fetch(`/api/vocabulary?action=high-priority&count=${count}`);
+    const response = await fetch(buildApiUrl('high-priority', { count: count.toString() }));
     const result = await response.json();
 
     if (!result.success) {
@@ -128,7 +159,7 @@ export async function fetchHighPriorityWords(count: number) {
  */
 export async function resetPresentedWordsTracking() {
   try {
-    const response = await fetch('/api/vocabulary?action=reset-tracking');
+    const response = await fetch(buildApiUrl('reset-tracking'));
     const result = await response.json();
 
     if (!result.success) {

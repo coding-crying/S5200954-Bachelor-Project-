@@ -1,18 +1,19 @@
-Participant 2 - Word Selection Log
-Total words available: 34
-Words selected for removal: 2
-Words remaining for experiment: 32
+Participant 224 - Word Selection Log
+Total words available: 33
+Words selected for removal: 3
+Words remaining for experiment: 24
+Test word 'happy' selected: YES
 
 Words removed (already known):
-- clandestine
-- demure
+- conciliatory
+- copious
+- happy (TEST WORD)
 
-Words included in experiment:
+Words included in experiment (final 24):
 - abrogate
 - abstruse
 - acumen
 - admonish
-- austere
 - benevolent
 - bolster
 - cacophony
@@ -21,22 +22,15 @@ Words included in experiment:
 - capitulate
 - capricious
 - circumspect
-- complacent
-- conciliatory
 - conundrum
-- copious
-- cursory
 - deleterious
 - despot
 - disparage
-- ennui
 - ephemeral
 - eschew
 - garrulous
 - hackneyed
 - intractable
-- obfuscate
 - perfunctory
 - precocious
-- quandary
 - vociferous

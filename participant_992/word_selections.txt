@@ -1,0 +1,35 @@
+Participant 992 - Word Selection Log
+Total words available: 24
+Words selected for removal: 1
+Words remaining for experiment: 23
+Test word 'happy' selected: NO (ATTENTION FLAG)
+
+⚠️  ATTENTION CHECK FAILED - Participant did not select obvious test word
+
+Words removed (already known):
+- conundrum
+
+Words included in experiment (final 24):
+- abrogate
+- admonish
+- bolster
+- cacophony
+- candor
+- capitulate
+- capricious
+- circumspect
+- conciliatory
+- copious
+- cursory
+- deleterious
+- despot
+- disparage
+- ephemeral
+- eschew
+- garrulous
+- hackneyed
+- intractable
+- obfuscate
+- perfunctory
+- precocious
+- vociferous

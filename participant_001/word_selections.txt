@@ -1,0 +1,29 @@
+Participant 001 - Automated Word Selection
+Total words available: 33
+Words selected for experiment: 24
+
+Words included in experiment:
+- abrogate
+- abstruse
+- acumen
+- admonish
+- austere
+- bolster
+- cacophony
+- cajole
+- candor
+- circumspect
+- copious
+- cursory
+- deleterious
+- despot
+- disparage
+- ennui
+- ephemeral
+- garrulous
+- intractable
+- obfuscate
+- perfunctory
+- precocious
+- quandary
+- vociferous

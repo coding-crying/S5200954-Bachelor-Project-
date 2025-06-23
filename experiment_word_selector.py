@@ -151,7 +151,15 @@ Words you click will turn RED and be removed from your learning session."""
         canvas.bind_all("<MouseWheel>", _on_mousewheel)
         
     def get_participant_id(self):
-        """Get participant ID from user input"""
+        """Get participant ID from environment variable or user input"""
+        # Check if participant ID is provided via environment variable (from experimental controller)
+        import os
+        if 'PRETEST_PARTICIPANT_ID' in os.environ:
+            participant_id = os.environ['PRETEST_PARTICIPANT_ID']
+            if participant_id and participant_id.isdigit():
+                return participant_id
+        
+        # Otherwise, get from user input
         while True:
             participant_id = simpledialog.askstring(
                 "Participant ID",
@@ -343,9 +351,8 @@ Continue with experiment?"""
                 for word in sorted(remaining_words):
                     file.write(f"- {word}\n")
             
-            # Update the main vocabulary.csv to point to participant's version
-            # This ensures the experiment system uses the personalized vocabulary
-            shutil.copy2(participant_csv, original_csv)
+            # Note: Do NOT overwrite main vocabulary.csv - it should remain the master list
+            # The experimental controller will handle using participant-specific vocabulary
             
             # Success message
             messagebox.showinfo(

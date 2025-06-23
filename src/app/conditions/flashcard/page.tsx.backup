@@ -1,0 +1,234 @@
+'use client';
+
+import React, { useState, useEffect } from 'react';
+import { FlashcardDisplay } from './components/FlashcardDisplay';
+import { FlashcardManager } from '@/app/lib/flashcardManager';
+
+interface FlashcardWord {
+  word: string;
+  definition: string;
+  contextExamples: string[];
+}
+
+export default function FlashcardCondition() {
+  const [manager, setManager] = useState<FlashcardManager | null>(null);
+  const [currentCard, setCurrentCard] = useState<FlashcardWord | null>(null);
+  const [currentIndex, setCurrentIndex] = useState(0);
+  const [totalCards, setTotalCards] = useState(0);
+  const [timeRemaining, setTimeRemaining] = useState(0);
+  const [isSessionActive, setIsSessionActive] = useState(false);
+  const [sessionComplete, setSessionComplete] = useState(false);
+
+  useEffect(() => {
+    // Initialize flashcard manager
+    const initializeSession = async () => {
+      try {
+        const flashcardManager = new FlashcardManager();
+        await flashcardManager.initialize();
+        
+        setManager(flashcardManager);
+        setTotalCards(flashcardManager.getTotalCards());
+        setCurrentCard(flashcardManager.getCurrentCard());
+        setTimeRemaining(flashcardManager.getTimeRemaining());
+        setIsSessionActive(true);
+        
+        // Start session timer
+        const timer = setInterval(() => {
+          const remaining = flashcardManager.getTimeRemaining();
+          setTimeRemaining(remaining);
+          
+          if (remaining <= 0) {
+            setIsSessionActive(false);
+            setSessionComplete(true);
+            clearInterval(timer);
+          }
+        }, 1000);
+
+        return () => clearInterval(timer);
+      } catch (error) {
+        console.error('Failed to initialize flashcard session:', error);
+      }
+    };
+
+    initializeSession();
+  }, []);
+
+  const handleNext = () => {
+    if (!manager || !isSessionActive) return;
+    
+    const nextCard = manager.nextCard();
+    if (nextCard) {
+      setCurrentCard(nextCard);
+      setCurrentIndex(manager.getCurrentIndex());
+    }
+  };
+
+  const handlePrevious = () => {
+    if (!manager || !isSessionActive) return;
+    
+    const prevCard = manager.previousCard();
+    if (prevCard) {
+      setCurrentCard(prevCard);
+      setCurrentIndex(manager.getCurrentIndex());
+    }
+  };
+
+  const handleRestart = () => {
+    if (!manager || !isSessionActive) return;
+    
+    manager.restartFromBeginning();
+    setCurrentCard(manager.getCurrentCard());
+    setCurrentIndex(0);
+  };
+
+  const formatTime = (seconds: number): string => {
+    const mins = Math.floor(seconds / 60);
+    const secs = seconds % 60;
+    return `${mins}:${secs.toString().padStart(2, '0')}`;
+  };
+
+  const progressPercentage = totalCards > 0 ? ((currentIndex + 1) / totalCards) * 100 : 0;
+
+  if (!manager || !currentCard) {
+    return (
+      <div className="min-h-screen bg-gradient-to-br from-blue-50 to-indigo-100 flex items-center justify-center">
+        <div className="w-96 p-8 bg-white rounded-lg shadow-md">
+          <div className="text-center">
+            <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-600 mx-auto mb-4"></div>
+            <p className="text-gray-600">Loading flashcard session...</p>
+          </div>
+        </div>
+      </div>
+    );
+  }
+
+  if (sessionComplete) {
+    return (
+      <div className="min-h-screen bg-gradient-to-br from-green-50 to-emerald-100 flex items-center justify-center">
+        <div className="w-96 p-8 bg-white rounded-lg shadow-md">
+          <div className="text-center">
+            <div className="text-green-600 mb-4">
+              <div className="text-6xl mb-2">📚</div>
+            </div>
+            <h2 className="text-2xl font-bold text-gray-800 mb-2">Session Complete!</h2>
+            <p className="text-gray-600 mb-4">
+              You've completed the flashcard learning session.
+            </p>
+            <div className="bg-green-50 p-4 rounded-lg">
+              <p className="text-sm text-green-700">
+                <strong>Cards Studied:</strong> {totalCards}<br />
+                <strong>Duration:</strong> 6 minutes
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+    );
+  }
+
+  return (
+    <div className="min-h-screen bg-gradient-to-br from-blue-50 to-indigo-100 p-4">
+      <div className="max-w-4xl mx-auto">
+        {/* Header with timer and progress */}
+        <div className="mb-6">
+          <div className="bg-white rounded-lg shadow-md">
+            <div className="p-4">
+              <div className="flex items-center justify-between mb-4">
+                <div className="flex items-center space-x-4">
+                  <div className="flex items-center space-x-2">
+                    <span className="text-blue-600">🕒</span>
+                    <span className="text-lg font-semibold text-gray-800">
+                      {formatTime(timeRemaining)}
+                    </span>
+                  </div>
+                  <div className="flex items-center space-x-2">
+                    <span className="text-blue-600">📖</span>
+                    <span className="text-lg font-semibold text-gray-800">
+                      {currentIndex + 1} / {totalCards}
+                    </span>
+                  </div>
+                </div>
+                <div className="text-right">
+                  <h1 className="text-xl font-bold text-gray-800">Flashcard Study</h1>
+                  <p className="text-sm text-gray-600">Learn vocabulary through repetition</p>
+                </div>
+              </div>
+              
+              <div className="space-y-2">
+                <div className="flex justify-between text-sm text-gray-600">
+                  <span>Progress</span>
+                  <span>{Math.round(progressPercentage)}%</span>
+                </div>
+                <div className="w-full bg-gray-200 rounded-full h-2">
+                  <div
+                    className="bg-blue-600 h-2 rounded-full transition-all duration-300"
+                    style={{ width: `${progressPercentage}%` }}
+                  ></div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        {/* Main flashcard display */}
+        <div className="mb-6">
+          <FlashcardDisplay 
+            word={currentCard}
+            isActive={isSessionActive}
+          />
+        </div>
+
+        {/* Navigation controls */}
+        <div className="bg-white rounded-lg shadow-md">
+          <div className="p-4">
+            <div className="flex justify-center space-x-4">
+              <button
+                onClick={handlePrevious}
+                disabled={!isSessionActive || currentIndex === 0}
+                className="px-4 py-2 border border-gray-300 rounded-md text-gray-700 hover:bg-gray-50 disabled:opacity-50 disabled:cursor-not-allowed flex items-center space-x-2"
+              >
+                <span>← Previous</span>
+              </button>
+              
+              <button
+                onClick={handleRestart}
+                disabled={!isSessionActive}
+                className="px-4 py-2 border border-gray-300 rounded-md text-gray-700 hover:bg-gray-50 disabled:opacity-50 disabled:cursor-not-allowed flex items-center space-x-2"
+              >
+                <span>🔄</span>
+                <span>Restart</span>
+              </button>
+              
+              <button
+                onClick={handleNext}
+                disabled={!isSessionActive || currentIndex === totalCards - 1}
+                className="px-4 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700 disabled:opacity-50 disabled:cursor-not-allowed flex items-center space-x-2"
+              >
+                <span>Next →</span>
+              </button>
+            </div>
+            
+            <div className="mt-4 text-center text-sm text-gray-600">
+              <p>Study each card carefully. You can navigate back and forth to review.</p>
+              <p>Use the remaining time to reinforce your learning.</p>
+            </div>
+          </div>
+        </div>
+
+        {/* Session status */}
+        {timeRemaining <= 60 && isSessionActive && (
+          <div className="mt-4 border border-orange-200 bg-orange-50 rounded-lg">
+            <div className="p-4">
+              <div className="flex items-center space-x-2 text-orange-700">
+                <span>⏰</span>
+                <span className="font-semibold">
+                  Less than 1 minute remaining! Continue studying.
+                </span>
+              </div>
+            </div>
+          </div>
+        )}
+      </div>
+    </div>
+  );
+}

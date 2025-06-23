@@ -1,0 +1,16 @@
+{
+  "participant_id": "107",
+  "condition_order": "BABA",
+  "start_time": "2025-06-23T18:41:36.563059",
+  "blocks_completed": [
+    {
+      "block_number": 1,
+      "condition": "flashcard",
+      "completion_time": "2025-06-23T18:47:49.956041",
+      "duration_minutes": 6
+    }
+  ],
+  "rimms_scores": {},
+  "vocabulary_sets": {},
+  "session_complete": false
+}

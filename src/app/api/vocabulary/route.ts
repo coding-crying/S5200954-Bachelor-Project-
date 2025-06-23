@@ -6,12 +6,24 @@ import { parse } from 'csv-parse/sync';
 import { stringify } from 'csv-stringify/sync';
 import { VocabularyWord } from '@/app/types';
 
-// Path to the vocabulary CSV file
-const VOCAB_PATH = path.join(process.cwd(), 'vocabulary.csv');
+// Path to the main vocabulary CSV file (read-only)
+const MAIN_VOCAB_PATH = path.join(process.cwd(), 'vocabulary.csv');
+
+/**
+ * Get participant-specific vocabulary path
+ */
+function getParticipantVocabPath(participantId: string, condition?: string): string {
+  if (condition) {
+    return path.join(process.cwd(), `participant_${participantId}`, `vocabulary_${condition}.csv`);
+  }
+  return path.join(process.cwd(), `participant_${participantId}`, 'vocabulary.csv');
+}
 
 export async function GET(request: NextRequest) {
   const searchParams = request.nextUrl.searchParams;
   const action = searchParams.get('action');
+  const participantId = searchParams.get('participant');
+  const condition = searchParams.get('condition'); // conversational or flashcard
 
   try {
     switch (action) {
@@ -19,9 +31,12 @@ export async function GET(request: NextRequest) {
         const word = getRandomWord();
 
         // Update the word's next_due date if it was retrieved successfully
-        if (word) {
-          // Read the CSV file
-          const fileContent = fs.readFileSync(VOCAB_PATH, 'utf-8');
+        if (word && participantId) {
+          // Read the participant's CSV file
+          const vocabPath = getParticipantVocabPath(participantId, condition);
+          
+          if (fs.existsSync(vocabPath)) {
+            const fileContent = fs.readFileSync(vocabPath, 'utf-8');
           const records = parse(fileContent, {
             columns: true,
             skip_empty_lines: true,
@@ -58,10 +73,11 @@ export async function GET(request: NextRequest) {
                 ],
               });
 
-              fs.writeFileSync(VOCAB_PATH, csv);
+              fs.writeFileSync(vocabPath, csv);
               console.log(`Updated next_due for word: ${word.word}, next_due: ${new Date(nextDue).toLocaleString()}`);
               break;
             }
+          }
           }
         }
 
@@ -73,8 +89,11 @@ export async function GET(request: NextRequest) {
 
         // Update the next_due dates for all retrieved words
         if (words.length > 0) {
+          // Use participant-specific vocabulary if participant ID provided, otherwise main vocabulary
+          const vocabPath = participantId ? getParticipantVocabPath(participantId, condition) : MAIN_VOCAB_PATH;
+          
           // Read the CSV file
-          const fileContent = fs.readFileSync(VOCAB_PATH, 'utf-8');
+          const fileContent = fs.readFileSync(vocabPath, 'utf-8');
           const records = parse(fileContent, {
             columns: true,
             skip_empty_lines: true,
@@ -126,7 +145,7 @@ export async function GET(request: NextRequest) {
               ],
             });
 
-            fs.writeFileSync(VOCAB_PATH, csv);
+            fs.writeFileSync(vocabPath, csv);
           }
         }
 
@@ -151,15 +170,18 @@ export async function GET(request: NextRequest) {
 
       case 'srs':
         // Get all vocabulary words from the CSV file
-        if (!fs.existsSync(VOCAB_PATH)) {
+        // Use participant-specific vocabulary if participant ID provided, otherwise main vocabulary
+        const vocabPath = participantId ? getParticipantVocabPath(participantId, condition) : MAIN_VOCAB_PATH;
+        
+        if (!fs.existsSync(vocabPath)) {
           return NextResponse.json(
-            { success: false, error: "Vocabulary file not found" },
+            { success: false, error: `Vocabulary file not found: ${vocabPath}` },
             { status: 404 }
           );
         }
 
         // Read the CSV file
-        const fileContent = fs.readFileSync(VOCAB_PATH, 'utf-8');
+        const fileContent = fs.readFileSync(vocabPath, 'utf-8');
         const records = parse(fileContent, {
           columns: true,
           skip_empty_lines: true,
@@ -229,6 +251,10 @@ export async function GET(request: NextRequest) {
  * Update vocabulary words in the CSV file
  */
 export async function POST(req: Request) {
+  const searchParams = new URL(req.url).searchParams;
+  const participantId = searchParams.get('participant');
+  const condition = searchParams.get('condition');
+  
   try {
     const body = await req.json();
     const { words } = body;
@@ -240,8 +266,11 @@ export async function POST(req: Request) {
       );
     }
 
+    // Use participant-specific vocabulary if participant ID provided, otherwise main vocabulary
+    const vocabPath = participantId ? getParticipantVocabPath(participantId, condition) : MAIN_VOCAB_PATH;
+
     // Check if the file exists
-    if (!fs.existsSync(VOCAB_PATH)) {
+    if (!fs.existsSync(vocabPath)) {
       return NextResponse.json(
         { success: false, error: "Vocabulary file not found" },
         { status: 404 }
@@ -249,7 +278,7 @@ export async function POST(req: Request) {
     }
 
     // Read the current CSV file to get the header and existing words
-    const fileContent = fs.readFileSync(VOCAB_PATH, 'utf-8');
+    const fileContent = fs.readFileSync(vocabPath, 'utf-8');
     const existingRecords = parse(fileContent, {
       columns: true,
       skip_empty_lines: true,
@@ -288,7 +317,7 @@ export async function POST(req: Request) {
       ],
     });
 
-    fs.writeFileSync(VOCAB_PATH, csv);
+    fs.writeFileSync(vocabPath, csv);
 
     return NextResponse.json({
       success: true,
@@ -307,6 +336,10 @@ export async function POST(req: Request) {
  * Process user text to identify vocabulary words using enhanced lemmatization
  */
 export async function PUT(req: Request) {
+  const searchParams = new URL(req.url).searchParams;
+  const participantId = searchParams.get('participant');
+  const condition = searchParams.get('condition');
+  
   try {
     const body = await req.json();
     const { text, useGPTAnalysis = false } = body;
@@ -318,8 +351,11 @@ export async function PUT(req: Request) {
       );
     }
 
+    // Use participant-specific vocabulary if participant ID provided, otherwise main vocabulary
+    const vocabPath = participantId ? getParticipantVocabPath(participantId, condition) : MAIN_VOCAB_PATH;
+
     // Check if the file exists
-    if (!fs.existsSync(VOCAB_PATH)) {
+    if (!fs.existsSync(vocabPath)) {
       return NextResponse.json(
         { success: false, error: "Vocabulary file not found" },
         { status: 404 }
@@ -327,7 +363,7 @@ export async function PUT(req: Request) {
     }
 
     // Read the CSV file
-    const fileContent = fs.readFileSync(VOCAB_PATH, 'utf-8');
+    const fileContent = fs.readFileSync(vocabPath, 'utf-8');
     const records = parse(fileContent, {
       columns: true,
       skip_empty_lines: true,
@@ -393,8 +429,8 @@ export async function PUT(req: Request) {
         ],
       });
 
-      fs.writeFileSync(VOCAB_PATH, csv);
-      console.log(`Wrote updated vocabulary to ${VOCAB_PATH}`);
+      fs.writeFileSync(vocabPath, csv);
+      console.log(`Wrote updated vocabulary to ${vocabPath}`);
     }
 
     return NextResponse.json({
