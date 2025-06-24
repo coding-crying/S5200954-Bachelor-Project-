@@ -1,0 +1,31 @@
+Participant 719 - Condition Word Assignments
+Total words: 24
+Split: 12 words per condition
+
+Conversational Condition Words (12):
+- abstruse
+- acumen
+- admonish
+- capitulate
+- circumspect
+- conciliatory
+- conundrum
+- ephemeral
+- eschew
+- garrulous
+- obfuscate
+- precocious
+
+Flashcard Condition Words (12):
+- abrogate
+- austere
+- benevolent
+- bolster
+- cajole
+- complacent
+- copious
+- deleterious
+- disparage
+- hackneyed
+- quandary
+- vociferous

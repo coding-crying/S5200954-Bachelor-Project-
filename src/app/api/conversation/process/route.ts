@@ -41,6 +41,11 @@ export async function POST(req: NextRequest) {
   try {
     const body = await req.json();
     const { text, vocabularyWords = [], includeAnalysis = true, speaker = 'user' } = body;
+    
+    // Extract participant and condition from URL parameters
+    const searchParams = req.nextUrl.searchParams;
+    const participantId = searchParams.get('participant');
+    const condition = searchParams.get('condition');
 
     if (!text || typeof text !== 'string') {
       return NextResponse.json(

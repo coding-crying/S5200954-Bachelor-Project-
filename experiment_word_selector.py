@@ -27,7 +27,7 @@ class VocabularySelector:
             
         self.root.deiconify()  # Show main window
         self.root.title(f"Vocabulary Experiment - Participant {self.participant_id}")
-        self.root.geometry("800x600")
+        self.root.geometry("1000x800")  # Larger window to fit all word boxes
         self.root.configure(bg='#f0f0f0')
         
         # Vocabulary data
@@ -53,7 +53,7 @@ class VocabularySelector:
         title_label = tk.Label(
             title_frame,
             text=f"Vocabulary Experiment - Participant {self.participant_id}",
-            font=('Arial', 18, 'bold'),
+            font=('Arial', 28, 'bold'),
             bg='#f0f0f0'
         )
         title_label.pack()
@@ -72,10 +72,10 @@ Words you click will turn RED and be removed from your learning session."""
         instructions_label = tk.Label(
             instructions_frame,
             text=instructions_text,
-            font=('Arial', 11),
+            font=('Arial', 18),
             bg='#f0f0f0',
             justify='left',
-            wraplength=750
+            wraplength=1200
         )
         instructions_label.pack()
         
@@ -90,7 +90,7 @@ Words you click will turn RED and be removed from your learning session."""
         self.count_label = tk.Label(
             control_frame,
             text="Words selected for removal: 0",
-            font=('Arial', 10),
+            font=('Arial', 16),
             bg='#f0f0f0'
         )
         self.count_label.pack(pady=5)
@@ -103,9 +103,10 @@ Words you click will turn RED and be removed from your learning session."""
             button_frame,
             text="Clear All Selections",
             command=self.clear_selections,
-            font=('Arial', 10),
+            font=('Arial', 16),
             bg='#e0e0e0',
-            padx=20
+            padx=30,
+            pady=10
         )
         clear_button.pack(side='left', padx=10)
         
@@ -113,10 +114,11 @@ Words you click will turn RED and be removed from your learning session."""
             button_frame,
             text="Start Experiment",
             command=self.start_experiment,
-            font=('Arial', 12, 'bold'),
+            font=('Arial', 18, 'bold'),
             bg='#4CAF50',
             fg='white',
-            padx=30
+            padx=40,
+            pady=12
         )
         start_button.pack(side='left', padx=10)
         
@@ -203,7 +205,7 @@ Words you click will turn RED and be removed from your learning session."""
     def create_word_buttons(self):
         """Create clickable buttons for each word"""
         # Configure grid weights
-        for i in range(6):  # 6 columns
+        for i in range(6):  # 6 columns to fit all words
             self.scrollable_frame.columnconfigure(i, weight=1)
             
         # Create buttons in grid layout
@@ -215,17 +217,17 @@ Words you click will turn RED and be removed from your learning session."""
                 self.scrollable_frame,
                 text=word,
                 command=lambda w=word: self.toggle_word(w),
-                font=('Arial', 14, 'bold'),
+                font=('Arial', 16, 'bold'),
                 bg='#ffffff',
                 relief='solid',
-                borderwidth=1,
+                borderwidth=2,
                 padx=15,
-                pady=12,
-                width=12,
-                wraplength=120
+                pady=15,
+                width=18,
+                wraplength=200
             )
             
-            button.grid(row=row, column=col, padx=5, pady=5, sticky='ew')
+            button.grid(row=row, column=col, padx=8, pady=8, sticky='ew')
             self.word_buttons[word] = button
             
     def toggle_word(self, word):

@@ -82,14 +82,9 @@ export const RIMMSQuestion: React.FC<RIMMSQuestionProps> = ({
       {/* Rating scale */}
       <div className="space-y-4">
         <div className="text-center">
-          <p className="text-sm font-medium text-gray-700 mb-2">
+          <p className="text-sm font-medium text-gray-700 mb-4">
             Rate your agreement with this statement:
           </p>
-          {displayRating > 0 && (
-            <p className="text-sm text-gray-600 mb-4">
-              Selected: <span className="font-semibold">{getRatingLabel(displayRating)}</span>
-            </p>
-          )}
         </div>
 
         {/* Interactive rating buttons */}
@@ -121,6 +116,15 @@ export const RIMMSQuestion: React.FC<RIMMSQuestionProps> = ({
           <span>Neutral</span>
           <span>Agree</span>
           <span>Strongly<br />Agree</span>
+        </div>
+
+        {/* Preview text below buttons */}
+        <div className="text-center h-6 flex items-center justify-center">
+          {displayRating > 0 && (
+            <p className="text-sm text-gray-600">
+              Selected: <span className="font-semibold">{getRatingLabel(displayRating)}</span>
+            </p>
+          )}
         </div>
 
         {/* Visual feedback */}

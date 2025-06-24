@@ -151,7 +151,7 @@ class ExperimentalSession:
             blocks.append({
                 'block_number': i + 1,
                 'condition': condition_type,
-                'duration_minutes': 6,
+                'duration_minutes': 1,
                 'is_first_exposure': is_first_exposure,
                 'requires_rimms': not is_first_exposure,  # RIMMS after 2nd exposure to each condition
                 'vocabulary_count': 12  # Each condition uses all 12 words
@@ -164,6 +164,7 @@ class ExperimentalController:
         self.current_session: Optional[ExperimentalSession] = None
         self.timer_thread: Optional[threading.Thread] = None
         self.block_complete = False
+        self.dev_server_process = None
         
     def start_experiment(self, participant_id: str, condition_order: str = None):
         """Initialize and start a new experimental session"""
@@ -186,6 +187,9 @@ class ExperimentalController:
         
         # Display experimental schedule
         self._display_experimental_schedule()
+        
+        # Start npm development server for web interface
+        self._start_development_server()
         
         # Start with block 1
         self._advance_to_next_block()
@@ -223,7 +227,7 @@ class ExperimentalController:
             exposure = "1st" if block['is_first_exposure'] else "2nd"
             rimms = " + RIMMS" if block['requires_rimms'] else ""
             
-            print(f"Block {block_num}: {condition} ({exposure} exposure) - 6 min{rimms}")
+            print(f"Block {block_num}: {condition} ({exposure} exposure) - 1 min{rimms}")
         
         print("-" * 40)
     
@@ -296,9 +300,9 @@ class ExperimentalController:
         
         print(f"\n🚀 Starting {condition.title()} Learning Block...")
         print(f"⏱️  Duration: {block['duration_minutes']} minutes")
-        print("🔄 Starting in 3 seconds...")
+        print("🔄 Starting in 30 seconds...")
         
-        time.sleep(3)
+        time.sleep(30)
         
         # Start timer
         self.block_complete = False
@@ -468,6 +472,17 @@ class ExperimentalController:
         
         print("\n✅ Session data saved successfully!")
         print(f"📂 Data location: {self.current_session.data_dir}")
+        
+        # Clean up development server
+        if self.dev_server_process and self.dev_server_process.poll() is None:
+            print("\n🛑 Stopping development server...")
+            self.dev_server_process.terminate()
+            try:
+                self.dev_server_process.wait(timeout=5)
+                print("✅ Development server stopped")
+            except subprocess.TimeoutExpired:
+                self.dev_server_process.kill()
+                print("🔥 Development server force stopped")
     
     def _display_session_summary(self):
         """Display summary of completed session"""
@@ -542,6 +557,54 @@ class ExperimentalController:
                 
         except Exception as e:
             print(f"❌ Pretest failed: {str(e)}")
+            return False
+    
+    def _start_development_server(self):
+        """Start the npm development server for the web interface"""
+        try:
+            print(f"\n🚀 Starting web development server...")
+            print(f"⏳ This may take a few moments to initialize...")
+            
+            # Start npm dev server in background
+            self.dev_server_process = subprocess.Popen(
+                ['npm', 'run', 'dev'],
+                stdout=subprocess.PIPE,
+                stderr=subprocess.PIPE,
+                text=True
+            )
+            
+            # Wait for server to be ready (check for specific output)
+            import time
+            max_wait = 30  # seconds
+            start_time = time.time()
+            
+            while time.time() - start_time < max_wait:
+                # Check if process is still running
+                if self.dev_server_process.poll() is not None:
+                    # Process has ended
+                    stdout, stderr = self.dev_server_process.communicate()
+                    print(f"❌ Development server failed to start: {stderr}")
+                    return False
+                
+                # Check if server is responding
+                try:
+                    import requests
+                    response = requests.get('http://localhost:3000', timeout=2)
+                    if response.status_code == 200:
+                        print(f"✅ Development server ready at http://localhost:3000")
+                        return True
+                except:
+                    pass
+                
+                time.sleep(1)
+            
+            print(f"⚠️  Development server taking longer than expected to start")
+            print(f"💡 Continuing with experiment - server should be ready soon")
+            return True
+            
+        except Exception as e:
+            print(f"❌ Failed to start development server: {str(e)}")
+            print(f"💡 Please manually run 'npm run dev' in another terminal")
             return False
     
     def _schedule_posttest(self):

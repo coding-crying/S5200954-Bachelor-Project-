@@ -53,7 +53,12 @@ export function useVocabularyProcessor() {
 
     try {
       // Use the new enhanced processing pipeline with GPT-4.1-mini
-      const response = await fetch('/api/conversation/process', {
+      // Build URL with participant and condition parameters
+      const processParams = new URLSearchParams();
+      if (participantId) processParams.append('participant', participantId);
+      if (condition) processParams.append('condition', condition);
+      
+      const response = await fetch(`/api/conversation/process?${processParams.toString()}`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -95,8 +100,12 @@ export function useVocabularyProcessor() {
 
           // Apply CSV updates if available
           if (csvUpdates.length > 0) {
-            // Use the existing vocabulary API to apply updates
-            fetch('/api/vocabulary', {
+            // Use the existing vocabulary API to apply updates with participant/condition parameters
+            const updateParams = new URLSearchParams();
+            if (participantId) updateParams.append('participant', participantId);
+            if (condition) updateParams.append('condition', condition);
+            
+            fetch(`/api/vocabulary?${updateParams.toString()}`, {
               method: 'PUT',
               headers: {
                 'Content-Type': 'application/json',

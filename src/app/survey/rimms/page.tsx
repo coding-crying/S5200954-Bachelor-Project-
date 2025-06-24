@@ -156,49 +156,55 @@ export default function RIMMSSurvey() {
     <div className="min-h-screen bg-gradient-to-br from-blue-50 to-indigo-100 p-4">
       <div className="max-w-4xl mx-auto">
         {/* Header */}
-        <Card className="mb-6">
-          <CardHeader>
-            <CardTitle className="text-center">
+        <div className="bg-white rounded-lg shadow-md p-6 mb-6">
+          <div className="mb-4">
+            <h1 className="text-2xl font-bold text-center text-gray-800">
               RIMMS Motivation Survey
-            </CardTitle>
-            <div className="text-center text-sm text-gray-600">
+            </h1>
+            <div className="text-center text-sm text-gray-600 mt-2">
               <p>Condition: <span className="font-semibold capitalize">{condition}</span></p>
               <p>Participant: {participantId}</p>
             </div>
-          </CardHeader>
-          <CardContent>
+          </div>
+          <div>
             <div className="space-y-2">
               <div className="flex justify-between text-sm text-gray-600">
                 <span>Progress: Question {currentQuestionIndex + 1} of {totalQuestions}</span>
                 <span>{answeredQuestions}/{totalQuestions} answered</span>
               </div>
-              <Progress value={progressPercentage} className="w-full" />
+              <div className="w-full bg-gray-200 rounded-full h-2">
+                <div 
+                  className="bg-blue-600 h-2 rounded-full transition-all duration-300"
+                  style={{width: `${progressPercentage}%`}}
+                ></div>
+              </div>
             </div>
-          </CardContent>
-        </Card>
+          </div>
+        </div>
 
         {/* Question Display */}
-        <Card className="mb-6">
-          <CardContent className="p-8">
+        <div className="bg-white rounded-lg shadow-md p-8 mb-6">
             <RIMMSQuestion
               question={currentQuestion}
               response={responses[currentQuestion.id]}
               onResponse={(rating) => handleResponse(currentQuestion.id, rating)}
             />
-          </CardContent>
-        </Card>
+        </div>
 
         {/* Navigation */}
-        <Card>
-          <CardContent className="p-4">
+        <div className="bg-white rounded-lg shadow-md p-4">
             <div className="flex justify-between items-center">
-              <Button
-                variant="outline"
+              <button
+                className={`px-4 py-2 rounded-lg border transition-colors ${
+                  currentQuestionIndex === 0 
+                    ? 'border-gray-300 text-gray-400 bg-gray-50 cursor-not-allowed'
+                    : 'border-gray-300 text-gray-700 bg-white hover:bg-gray-50'
+                }`}
                 onClick={handlePreviousQuestion}
                 disabled={currentQuestionIndex === 0}
               >
                 ← Previous
-              </Button>
+              </button>
 
               <div className="text-center">
                 <p className="text-sm text-gray-600 mb-2">
@@ -212,19 +218,26 @@ export default function RIMMSSurvey() {
               </div>
 
               {currentQuestionIndex < totalQuestions - 1 ? (
-                <Button
-                  variant="default"
+                <button
+                  className={`px-4 py-2 rounded-lg transition-colors ${
+                    !responses[currentQuestion.id]
+                      ? 'bg-gray-300 text-gray-500 cursor-not-allowed'
+                      : 'bg-blue-600 text-white hover:bg-blue-700'
+                  }`}
                   onClick={handleNextQuestion}
                   disabled={!responses[currentQuestion.id]}
                 >
                   Next →
-                </Button>
+                </button>
               ) : (
-                <Button
-                  variant="default"
+                <button
+                  className={`px-4 py-2 rounded-lg transition-colors bg-green-600 hover:bg-green-700 text-white flex items-center ${
+                    answeredQuestions < totalQuestions || isSubmitting
+                      ? 'opacity-50 cursor-not-allowed'
+                      : ''
+                  }`}
                   onClick={handleSubmitSurvey}
                   disabled={answeredQuestions < totalQuestions || isSubmitting}
-                  className="bg-green-600 hover:bg-green-700"
                 >
                   {isSubmitting ? (
                     <>
@@ -233,18 +246,18 @@ export default function RIMMSSurvey() {
                     </>
                   ) : (
                     <>
-                      <CheckCircle className="w-4 h-4 mr-2" />
+                      <span className="mr-2">✓</span>
                       Submit Survey
                     </>
                   )}
-                </Button>
+                </button>
               )}
             </div>
 
             {/* Error message */}
             {submitError && (
               <div className="mt-4 p-3 bg-red-50 border border-red-200 rounded-lg flex items-center space-x-2 text-red-700">
-                <AlertCircle className="w-5 h-5" />
+                <span className="text-red-600">⚠</span>
                 <span className="text-sm">{submitError}</span>
               </div>
             )}
@@ -264,8 +277,7 @@ export default function RIMMSSurvey() {
                 />
               ))}
             </div>
-          </CardContent>
-        </Card>
+        </div>
       </div>
     </div>
   );

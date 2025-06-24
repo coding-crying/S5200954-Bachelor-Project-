@@ -1,0 +1,22 @@
+{
+  "participant_id": "719",
+  "condition_order": "BABA",
+  "start_time": "2025-06-23T22:59:23.972706",
+  "blocks_completed": [
+    {
+      "block_number": 1,
+      "condition": "flashcard",
+      "completion_time": "2025-06-23T23:01:18.775786",
+      "duration_minutes": 1
+    },
+    {
+      "block_number": 2,
+      "condition": "conversational",
+      "completion_time": "2025-06-23T23:04:15.943684",
+      "duration_minutes": 1
+    }
+  ],
+  "rimms_scores": {},
+  "vocabulary_sets": {},
+  "session_complete": false
+}

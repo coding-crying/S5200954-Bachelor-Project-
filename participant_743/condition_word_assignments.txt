@@ -1,0 +1,31 @@
+Participant 743 - Condition Word Assignments
+Total words: 24
+Split: 12 words per condition
+
+Conversational Condition Words (12):
+- abstruse
+- acumen
+- admonish
+- austere
+- cajole
+- circumspect
+- complacent
+- cursory
+- ennui
+- garrulous
+- perfunctory
+- quandary
+
+Flashcard Condition Words (12):
+- benevolent
+- cacophony
+- candor
+- capitulate
+- copious
+- deleterious
+- despot
+- disparage
+- eschew
+- hackneyed
+- intractable
+- vociferous
