@@ -46,16 +46,20 @@ This study compares the effectiveness of an AI-powered conversational vocabulary
 4. **Assessment** (3 min): RIMMS surveys automatically triggered after 2nd exposure blocks
 
 ### Session 2: 24-Hour Online Test (10 minutes)
-**Automated Generation**: Participant-specific Google Forms with 40 questions
+**Automated Generation**: Participant-specific Google Forms with 40 questions (all optional)
 
-**Part A - Contextual (20 items)**: Fill-in-blank with word bank visible
-- Example: "The politician's _____ speech convinced nobody." 
+**Part A - Multiple Choice (20 items)**: Contextual usage with 4 vocabulary options
+- Same part-of-speech distractors from vocabulary list
+- Shuffled answer options (correct answer not always first)
+- Example: "The politician's _____ speech convinced nobody." [hackneyed, intractable, deleterious, conciliatory]
 
-**Part B - Definitional (20 items)**: Define each word
+**Part B - Definitional (20 items)**: Optional open-ended definitions
 - Tests explicit knowledge of same vocabulary
+- Paragraph text input for detailed responses
 
 **Scoring**: 40 total points (1 per question), analyzed by condition and knowledge type
 **Generation**: Post-test automatically created with properly escaped JavaScript for Google Apps Script
+**Format**: Multiple choice reduces completion burden and increases response rates
 
 ## Data Collection
 
