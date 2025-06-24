@@ -1,0 +1,37 @@
+Participant 779 - Word Selection Log
+Total words available: 33
+Words selected for removal: 4
+Words remaining for experiment: 24
+Test word 'happy' selected: YES
+
+Words removed (already known):
+- capricious
+- conciliatory
+- ephemeral
+- happy (TEST WORD)
+
+Words included in experiment (final 24):
+- acumen
+- austere
+- benevolent
+- bolster
+- cacophony
+- cajole
+- candor
+- capitulate
+- circumspect
+- complacent
+- conundrum
+- copious
+- cursory
+- deleterious
+- despot
+- disparage
+- eschew
+- garrulous
+- hackneyed
+- intractable
+- obfuscate
+- perfunctory
+- precocious
+- quandary

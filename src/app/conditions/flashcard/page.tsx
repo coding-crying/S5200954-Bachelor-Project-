@@ -110,7 +110,7 @@ const FLASHCARD_WORDS: FlashcardWord[] = [
 
 export default function SimpleFlashcard() {
   const [currentIndex, setCurrentIndex] = useState(0);
-  const [timeRemaining, setTimeRemaining] = useState(360); // 6 minutes
+  const [timeRemaining, setTimeRemaining] = useState(300); // 5 minutes
   const [sessionActive, setSessionActive] = useState(true);
   const [showDefinition, setShowDefinition] = useState(false);
   const [showExamples, setShowExamples] = useState(false);

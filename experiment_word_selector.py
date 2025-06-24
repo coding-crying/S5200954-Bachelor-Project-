@@ -289,15 +289,15 @@ Words you click will turn RED and be removed from your learning session."""
         if self.test_word in remaining_words:
             remaining_words.remove(self.test_word)
         
-        # Randomly trim to exactly 24 words if more than 24
+        # Randomly trim to exactly 20 words if more than 20
         import random
-        if len(remaining_words) > 24:
-            remaining_words = random.sample(remaining_words, 24)
+        if len(remaining_words) > 20:
+            remaining_words = random.sample(remaining_words, 20)
         
         # Confirm selection
         message = f"""You have selected {len(self.selected_words)} words for removal.
         
-Final words for experiment: {len(remaining_words)} (trimmed to 24 max)
+Final words for experiment: {len(remaining_words)} (trimmed to 20 max)
 
 Selected words will be removed from your vocabulary learning session.
 
@@ -349,7 +349,7 @@ Continue with experiment?"""
                             file.write(f"- {word}\n")
                     file.write("\n")
                 
-                file.write("Words included in experiment (final 24):\n")
+                file.write("Words included in experiment (final 20):\n")
                 for word in sorted(remaining_words):
                     file.write(f"- {word}\n")
             

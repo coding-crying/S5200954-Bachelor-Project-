@@ -2,7 +2,7 @@
 
 ## Overview
 
-This study compares the effectiveness of an AI-powered conversational vocabulary tutor using GPT-4o-mini-realtime against traditional digital flashcards for vocabulary learning. The research employs a within-subjects ABAB design with 24-hour delayed testing.
+This study compares the effectiveness of an AI-powered conversational vocabulary tutor using GPT-4o-mini-realtime against traditional digital flashcards for vocabulary learning. The research employs a within-subjects ABAB design with 24-hour delayed testing using an automated experimental controller system.
 
 ## Research Questions
 
@@ -18,60 +18,66 @@ This study compares the effectiveness of an AI-powered conversational vocabulary
 - **Inclusion**: Intermediate+ English proficiency, unfamiliar with C2-level vocabulary
 
 ### Design Type
-- **Within-subjects ABAB design** with counterbalancing
-- **Independent Variables**: Learning method (Conversational vs Flashcard), Word set (12 per condition)
-- **Dependent Variables**: Contextual knowledge, Explicit knowledge, Engagement (Short RIMMS per condition)
+- **Within-subjects ABAB design** with automated counterbalancing (ABAB/BABA)
+- **Independent Variables**: Learning method (Conversational vs Flashcard), Word set (10 per condition)
+- **Dependent Variables**: Contextual knowledge, Explicit knowledge, Engagement (RIMMS per condition)
 
 ## Materials & Technology
 
 ### Vocabulary
-- **Source**: 34 curated C2-level words + "happy" attention check
-- **Personalization**: GUI tool for familiar word exclusion → 24 final words
-- **Allocation**: Random assignment to conditions (12 each)
+- **Source**: 29 curated C2-level words + "happy" attention check
+- **Personalization**: GUI tool for familiar word exclusion → 20 final words
+- **Allocation**: Random assignment to conditions (10 each)
+- **Condition-Specific Files**: Separate CSV files maintain vocabulary tracking per condition
 
 ### Systems
-- **Conversational Tutor**: GPT-4o-mini-realtime, WebRTC voice, real-time vocabulary analysis
-- **Flashcard Condition**: Digital cards with user-guided study
-- **Assessment**: Automated Google Forms generation from participant vocabulary
+- **Experimental Controller**: Python script manages entire pipeline with automated timing and condition switching
+- **Conversational Tutor**: GPT-4o-mini-realtime, WebRTC voice, real-time vocabulary analysis via GPT-4.1-mini
+- **Flashcard Condition**: Digital cards with 5-minute timer, participant-specific vocabulary loading
+- **Assessment**: Automated Google Forms generation with JavaScript syntax validation
+- **Development Server**: Automatic npm server startup ensures web interface availability
 
 ## Procedure
 
-### Session 1: Laboratory (40 minutes)
-1. **Pretest** (2 min): Vocabulary selection via GUI, attention check validation
-2. **Setup** (1 min): ABAB counterbalancing, word allocation (6 per block)
-3. **Learning Blocks** (32 min): A1-B1-A2-B2 (7 min each + 1 min breaks with micro-questionnaires)
-4. **Assessment** (5 min): Short RIMMS for both conditions (12 items each), preference ratings
+### Session 1: Laboratory (30 minutes)
+1. **Pretest** (5 min): Automated vocabulary selection via GUI with fullscreen interface
+2. **Automated Setup**: Experimental controller handles ABAB/BABA counterbalancing, random word allocation
+3. **Learning Blocks** (22 min): Four 5-minute blocks with 30-second breaks between conditions
+4. **Assessment** (3 min): RIMMS surveys automatically triggered after 2nd exposure blocks
 
-### Session 2: 24-Hour Online Test (15 minutes)
-**Automated Generation**: Participant-specific Google Forms with 48 questions
+### Session 2: 24-Hour Online Test (10 minutes)
+**Automated Generation**: Participant-specific Google Forms with 40 questions
 
-**Part A - Contextual (24 items)**: Fill-in-blank with word bank visible
+**Part A - Contextual (20 items)**: Fill-in-blank with word bank visible
 - Example: "The politician's _____ speech convinced nobody." 
 
-**Part B - Definitional (24 items)**: Define each word
+**Part B - Definitional (20 items)**: Define each word
 - Tests explicit knowledge of same vocabulary
 
-**Scoring**: 48 total points (1 per question), analyzed by condition and knowledge type
+**Scoring**: 40 total points (1 per question), analyzed by condition and knowledge type
+**Generation**: Post-test automatically created with properly escaped JavaScript for Google Apps Script
 
 ## Data Collection
 
 ### Primary Measures
 - **Learning Outcomes**: 24h delayed test scores (contextual + definitional)
-- **Engagement**: Short RIMMS difference scores between conditions
+- **Engagement**: RIMMS difference scores between conditions
 
 ### Automated Systems
-- **Usage Quality**: GPT-4.1-mini analysis of conversational vocabulary usage
-- **Real-time tracking**: Vocabulary usage, interaction patterns, timing
-- **Test generation**: Participant-specific Google Forms from vocabulary selections
-- **Data organization**: Structured participant folders with all session data
+- **Usage Quality**: GPT-4.1-mini analysis of conversational vocabulary usage with participant/condition routing
+- **Real-time tracking**: Vocabulary usage, interaction patterns, timing via condition-specific CSV files
+- **Test generation**: Participant-specific Google Forms with syntax validation
+- **Data organization**: Structured participant folders with complete session data
+- **Pipeline Control**: Experimental controller manages timing, conditions, server startup, and post-test generation
 
 ## Controls & Analysis
 
 ### Experimental Controls
-- **ABAB Counterbalancing**: Group 1 (CONV-CARD-CONV-CARD) vs Group 2 (CARD-CONV-CARD-CONV)
-- **Randomization**: Word assignment to blocks, assessment question order
-- **Attention Validation**: "Happy" word pretest check, completion monitoring
-- **Technical Standardization**: Controlled lab environment, consistent equipment
+- **ABAB Counterbalancing**: Automated ABAB/BABA assignment (CONV-CARD-CONV-CARD vs CARD-CONV-CARD-CONV)
+- **Randomization**: Automated word assignment to conditions, assessment question order
+- **Attention Validation**: "Happy" word pretest check, automated completion monitoring
+- **Technical Standardization**: Automated server management, controlled timing, condition-specific data isolation
+- **Data Integrity**: Separate vocabulary files prevent cross-condition contamination
 
 ### Statistical Analysis
 **Primary**: Repeated measures ANOVA (method × knowledge type), Paired t-tests for direct comparisons

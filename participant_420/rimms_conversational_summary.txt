@@ -1,0 +1,35 @@
+RIMMS Survey Results Summary
+========================================
+
+Participant ID: 420
+Condition: Conversational
+Completion Time: 6/24/2025, 2:24:47 PM
+
+OVERALL MOTIVATION SCORE: 3.08/5.0 (Moderate)
+
+DIMENSION SCORES:
+Attention: 4.00/5.0 (Good)
+Relevance: 3.67/5.0 (Good)
+Confidence: 2.00/5.0 (Low)
+Satisfaction: 2.67/5.0 (Moderate)
+
+DETAILED RESPONSES:
+Question A1: 5/5 (Strongly Agree)
+Question A2: 3/5 (Neutral)
+Question A3: 4/5 (Agree)
+Question R1: 2/5 (Disagree)
+Question R2: 4/5 (Agree)
+Question R3: 5/5 (Strongly Agree)
+Question C1: 2/5 (Disagree)
+Question C2: 3/5 (Neutral)
+Question C3: 1/5 (Strongly Disagree)
+Question S1: 3/5 (Neutral)
+Question S2: 4/5 (Agree)
+Question S3: 1/5 (Strongly Disagree)
+
+SURVEY STATISTICS:
+Total Questions: 12
+Average Response: 3.08
+Response Range: 1 - 5
+
+Generated: 6/24/2025, 2:24:48 PM

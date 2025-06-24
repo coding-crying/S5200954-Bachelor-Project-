@@ -86,16 +86,25 @@ class ExperimentalSession:
                 reader = csv.DictReader(f)
                 all_words = list(reader)
             
-            if len(all_words) != 24:
-                print(f"⚠️  Expected 24 words, found {len(all_words)}. Cannot split properly.")
+            if len(all_words) < 20:
+                print(f"⚠️  Expected at least 20 words, found {len(all_words)}. Cannot split properly.")
                 return
             
-            # Randomly split into two groups of 12 words each
-            shuffled_words = all_words.copy()
+            # If more than 20 words, randomly select 20 for the experiment
+            if len(all_words) > 20:
+                print(f"📊 Found {len(all_words)} words, randomly selecting 20 for experiment")
+                shuffled_all = all_words.copy()
+                random.shuffle(shuffled_all)
+                selected_words = shuffled_all[:20]
+            else:
+                selected_words = all_words
+            
+            # Randomly split into two groups of 10 words each
+            shuffled_words = selected_words.copy()
             random.shuffle(shuffled_words)
             
-            conversational_words = shuffled_words[:12]
-            flashcard_words = shuffled_words[12:]
+            conversational_words = shuffled_words[:10]
+            flashcard_words = shuffled_words[10:]
             
             # Create condition-specific CSV files
             fieldnames = all_words[0].keys()
@@ -118,19 +127,19 @@ class ExperimentalSession:
             assignment_log = self.data_dir / 'condition_word_assignments.txt'
             with open(assignment_log, 'w') as f:
                 f.write(f"Participant {self.participant_id} - Condition Word Assignments\n")
-                f.write(f"Total words: {len(all_words)}\n")
-                f.write(f"Split: 12 words per condition\n\n")
+                f.write(f"Total words: 20\n")
+                f.write(f"Split: 10 words per condition\n\n")
                 
-                f.write("Conversational Condition Words (12):\n")
+                f.write("Conversational Condition Words (10):\n")
                 for word in sorted([w['word'] for w in conversational_words]):
                     f.write(f"- {word}\n")
                 f.write("\n")
                 
-                f.write("Flashcard Condition Words (12):\n")
+                f.write("Flashcard Condition Words (10):\n")
                 for word in sorted([w['word'] for w in flashcard_words]):
                     f.write(f"- {word}\n")
             
-            print(f"✅ Split vocabulary: 12 words each for conversational and flashcard conditions")
+            print(f"✅ Split vocabulary: 10 words each for conversational and flashcard conditions")
             
         except Exception as e:
             print(f"❌ Failed to create condition vocabularies: {str(e)}")
@@ -151,10 +160,10 @@ class ExperimentalSession:
             blocks.append({
                 'block_number': i + 1,
                 'condition': condition_type,
-                'duration_minutes': 1,
+                'duration_minutes': 5,
                 'is_first_exposure': is_first_exposure,
                 'requires_rimms': not is_first_exposure,  # RIMMS after 2nd exposure to each condition
-                'vocabulary_count': 12  # Each condition uses all 12 words
+                'vocabulary_count': 10  # Each condition uses all 10 words
             })
         
         return blocks
@@ -227,7 +236,7 @@ class ExperimentalController:
             exposure = "1st" if block['is_first_exposure'] else "2nd"
             rimms = " + RIMMS" if block['requires_rimms'] else ""
             
-            print(f"Block {block_num}: {condition} ({exposure} exposure) - 1 min{rimms}")
+            print(f"Block {block_num}: {condition} ({exposure} exposure) - 5 min{rimms}")
         
         print("-" * 40)
     
@@ -300,9 +309,9 @@ class ExperimentalController:
         
         print(f"\n🚀 Starting {condition.title()} Learning Block...")
         print(f"⏱️  Duration: {block['duration_minutes']} minutes")
-        print("🔄 Starting in 30 seconds...")
+        print("🔄 Starting now...")
         
-        time.sleep(30)
+        # No additional wait - the break already happened
         
         # Start timer
         self.block_complete = False
@@ -416,10 +425,10 @@ class ExperimentalController:
         if block['requires_rimms']:
             self._administer_rimms(block['condition'])
         
-        # Short break between blocks
+        # Break between blocks
         if block_number < len(self.current_session.blocks):
-            print("⏸️  Taking 1-minute break before next block...")
-            time.sleep(60)
+            print("⏸️  Taking 30-second break before next block...")
+            time.sleep(30)
         
         # Save session data
         self._save_session_data()
@@ -506,14 +515,14 @@ class ExperimentalController:
         if not participant_vocab_path.exists():
             return True
             
-        # Count words in vocabulary file (should be exactly 24 + header = 25 lines)
+        # Count words in vocabulary file (should be exactly 20 + header = 21 lines)
         try:
             with open(participant_vocab_path, 'r') as f:
                 lines = f.readlines()
                 word_count = len(lines) - 1  # Subtract header
                 
-            if word_count != 24:
-                print(f"⚠️  Participant {participant_id} has {word_count} words, expected 24")
+            if word_count != 20:
+                print(f"⚠️  Participant {participant_id} has {word_count} words, expected 20")
                 return True
                 
             return False
@@ -542,11 +551,11 @@ class ExperimentalController:
                         lines = f.readlines()
                         word_count = len(lines) - 1  # Subtract header
                     
-                    if word_count == 24:
-                        print(f"✅ Pretest complete: 24 words selected for participant {participant_id}")
+                    if word_count == 20:
+                        print(f"✅ Pretest complete: 20 words selected for participant {participant_id}")
                         return True
                     else:
-                        print(f"⚠️  Expected 24 words, but got {word_count}")
+                        print(f"⚠️  Expected 20 words, but got {word_count}")
                         return False
                 else:
                     print(f"❌ Vocabulary file not created for participant {participant_id}")
@@ -618,8 +627,8 @@ class ExperimentalController:
         try:
             print("🔄 Generating personalized posttest...")
             subprocess.run([
-                'python', 'post_test_generator.py',
-                '--participant-id', self.current_session.participant_id
+                'python3', 'post_test_generator.py',
+                self.current_session.participant_id
             ], check=True)
             print("✅ Posttest generated successfully!")
             

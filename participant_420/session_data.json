@@ -1,0 +1,48 @@
+{
+  "participant_id": "420",
+  "condition_order": "BABA",
+  "start_time": "2025-06-24T14:12:57.407318",
+  "blocks_completed": [
+    {
+      "block_number": 1,
+      "condition": "flashcard",
+      "completion_time": "2025-06-24T14:14:11.578293",
+      "duration_minutes": 1
+    },
+    {
+      "block_number": 2,
+      "condition": "conversational",
+      "completion_time": "2025-06-24T14:16:36.436402",
+      "duration_minutes": 1
+    },
+    {
+      "block_number": 3,
+      "condition": "flashcard",
+      "completion_time": "2025-06-24T14:19:52.160642",
+      "duration_minutes": 1
+    },
+    {
+      "block_number": 4,
+      "condition": "conversational",
+      "completion_time": "2025-06-24T14:23:00.457728",
+      "duration_minutes": 1
+    }
+  ],
+  "rimms_scores": {
+    "flashcard": {
+      "completed": true,
+      "completion_time": "2025-06-24T14:21:01.648101"
+    },
+    "conversational": {
+      "completed": true,
+      "completion_time": "2025-06-24T14:30:57.336081"
+    }
+  },
+  "vocabulary_sets": {},
+  "session_complete": true,
+  "completion_time": "2025-06-24T14:30:57.337030",
+  "posttest": {
+    "scheduled_time": "2025-06-25T14:30:57.337187",
+    "generated": true
+  }
+}

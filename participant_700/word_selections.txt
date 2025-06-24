@@ -1,33 +1,36 @@
-Participant 001 - Word Selection Log
+Participant 700 - Word Selection Log
 Total words available: 29
-Words selected for removal: 4
-Words remaining for experiment: 20
+Words selected for removal: 3
+Words remaining for experiment: 24
 Test word 'happy' selected: YES
 
 Words removed (already known):
-- copious
+- cajole
+- cursory
 - happy (TEST WORD)
-- intractable
-- precocious
 
-Words included in experiment (final 20):
+Words included in experiment (final 24):
+- abrogate
 - abstruse
+- acumen
 - admonish
 - austere
 - bolster
 - cacophony
-- cajole
 - candor
 - capitulate
 - capricious
 - circumspect
 - conciliatory
 - conundrum
-- cursory
-- deleterious
+- copious
+- disparage
 - ephemeral
 - garrulous
 - hackneyed
+- intractable
+- obfuscate
 - perfunctory
+- precocious
 - quandary
 - vociferous

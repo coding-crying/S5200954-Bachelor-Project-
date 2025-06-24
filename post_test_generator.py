@@ -202,11 +202,15 @@ function createVocabularyTest() {{
         for i, question in enumerate(test_data["test_sections"]["contextual_questions"], 1):
             word = question["word"]
             question_text = question["question"]
+            # Escape single quotes in the text for JavaScript
+            escaped_question = question_text.replace("'", "\\'")
+            escaped_word_bank = word_bank_text.replace("'", "\\'")
+            
             script += f"""
   // Question {i}: {word}
   form.addTextItem()
     .setTitle('Question {i}')
-    .setHelpText('{question_text}\\n\\n{word_bank_text}')
+    .setHelpText('{escaped_question}\\n\\n{escaped_word_bank}')
     .setRequired(true);
 """
         
