@@ -1,0 +1,355 @@
+{
+  "participant_id": "002",
+  "total_words": 20,
+  "test_sections": {
+    "contextual_questions": [
+      {
+        "word": "disparage",
+        "question": "Rather than offer constructive criticism, he chose to _____ his opponent's achievements.",
+        "options": [
+          "disparage",
+          "obfuscate",
+          "bolster",
+          "eschew"
+        ],
+        "correct": "disparage",
+        "type": "multiple_choice"
+      },
+      {
+        "word": "austere",
+        "question": "The monastery's _____ living conditions reflected the monks' commitment to simplicity.",
+        "options": [
+          "austere",
+          "garrulous",
+          "precocious",
+          "copious"
+        ],
+        "correct": "austere",
+        "type": "multiple_choice"
+      },
+      {
+        "word": "perfunctory",
+        "question": "Her _____ apology lacked sincerity and failed to address the real issues.",
+        "options": [
+          "perfunctory",
+          "precocious",
+          "circumspect",
+          "capricious"
+        ],
+        "correct": "perfunctory",
+        "type": "multiple_choice"
+      },
+      {
+        "word": "ephemeral",
+        "question": "The _____ beauty of cherry blossoms makes their brief blooming season even more precious.",
+        "options": [
+          "ephemeral",
+          "copious",
+          "cursory",
+          "vociferous"
+        ],
+        "correct": "ephemeral",
+        "type": "multiple_choice"
+      },
+      {
+        "word": "hackneyed",
+        "question": "The movie's _____ plot failed to engage audiences looking for original storytelling.",
+        "options": [
+          "hackneyed",
+          "intractable",
+          "deleterious",
+          "conciliatory"
+        ],
+        "correct": "hackneyed",
+        "type": "multiple_choice"
+      },
+      {
+        "word": "obfuscate",
+        "question": "The politician tried to _____ the facts to avoid taking responsibility for the scandal.",
+        "options": [
+          "obfuscate",
+          "disparage",
+          "capitulate",
+          "abrogate"
+        ],
+        "correct": "obfuscate",
+        "type": "multiple_choice"
+      },
+      {
+        "word": "capricious",
+        "question": "The _____ weather made it impossible to plan outdoor activities with confidence.",
+        "options": [
+          "capricious",
+          "circumspect",
+          "intractable",
+          "abstruse"
+        ],
+        "correct": "capricious",
+        "type": "multiple_choice"
+      },
+      {
+        "word": "circumspect",
+        "question": "Given the sensitive nature of the negotiations, the diplomat remained _____ in his statements.",
+        "options": [
+          "circumspect",
+          "capricious",
+          "intractable",
+          "deleterious"
+        ],
+        "correct": "circumspect",
+        "type": "multiple_choice"
+      },
+      {
+        "word": "cajole",
+        "question": "She tried to _____ her reluctant brother into joining the family vacation.",
+        "options": [
+          "cajole",
+          "admonish",
+          "disparage",
+          "abrogate"
+        ],
+        "correct": "cajole",
+        "type": "multiple_choice"
+      },
+      {
+        "word": "cursory",
+        "question": "A _____ glance at the report revealed several obvious errors.",
+        "options": [
+          "cursory",
+          "copious",
+          "ephemeral",
+          "vociferous"
+        ],
+        "correct": "cursory",
+        "type": "multiple_choice"
+      },
+      {
+        "word": "candor",
+        "question": "His refreshing _____ during the interview impressed the hiring committee.",
+        "options": [
+          "candor",
+          "acumen",
+          "cacophony",
+          "conundrum"
+        ],
+        "correct": "candor",
+        "type": "multiple_choice"
+      },
+      {
+        "word": "abstruse",
+        "question": "The professor's _____ explanation of quantum mechanics left most students confused.",
+        "options": [
+          "abstruse",
+          "perfunctory",
+          "deleterious",
+          "ephemeral"
+        ],
+        "correct": "abstruse",
+        "type": "multiple_choice"
+      },
+      {
+        "word": "deleterious",
+        "question": "The _____ effects of pollution on marine life became increasingly evident.",
+        "options": [
+          "deleterious",
+          "conciliatory",
+          "abstruse",
+          "hackneyed"
+        ],
+        "correct": "deleterious",
+        "type": "multiple_choice"
+      },
+      {
+        "word": "admonish",
+        "question": "The teacher had to _____ the students for their disruptive behavior during the assembly.",
+        "options": [
+          "admonish",
+          "cajole",
+          "capitulate",
+          "bolster"
+        ],
+        "correct": "admonish",
+        "type": "multiple_choice"
+      },
+      {
+        "word": "intractable",
+        "question": "The _____ dispute had resisted all attempts at resolution for over a decade.",
+        "options": [
+          "intractable",
+          "abstruse",
+          "hackneyed",
+          "conciliatory"
+        ],
+        "correct": "intractable",
+        "type": "multiple_choice"
+      },
+      {
+        "word": "bolster",
+        "question": "The positive reviews helped _____ confidence in the company's new product line.",
+        "options": [
+          "bolster",
+          "obfuscate",
+          "eschew",
+          "admonish"
+        ],
+        "correct": "bolster",
+        "type": "multiple_choice"
+      },
+      {
+        "word": "vociferous",
+        "question": "The _____ protests outside the courthouse could be heard from several blocks away.",
+        "options": [
+          "vociferous",
+          "copious",
+          "cursory",
+          "ephemeral"
+        ],
+        "correct": "vociferous",
+        "type": "multiple_choice"
+      },
+      {
+        "word": "garrulous",
+        "question": "The _____ passenger talked non-stop throughout the entire flight.",
+        "options": [
+          "garrulous",
+          "austere",
+          "precocious",
+          "copious"
+        ],
+        "correct": "garrulous",
+        "type": "multiple_choice"
+      },
+      {
+        "word": "eschew",
+        "question": "Health-conscious consumers increasingly _____ processed foods in favor of natural alternatives.",
+        "options": [
+          "eschew",
+          "bolster",
+          "disparage",
+          "obfuscate"
+        ],
+        "correct": "eschew",
+        "type": "multiple_choice"
+      },
+      {
+        "word": "capitulate",
+        "question": "After weeks of resistance, the city was forced to _____ to the enemy's demands.",
+        "options": [
+          "capitulate",
+          "abrogate",
+          "admonish",
+          "cajole"
+        ],
+        "correct": "capitulate",
+        "type": "multiple_choice"
+      }
+    ],
+    "definition_questions": [
+      {
+        "word": "garrulous",
+        "question": "Define: garrulous",
+        "type": "short_answer"
+      },
+      {
+        "word": "disparage",
+        "question": "Define: disparage",
+        "type": "short_answer"
+      },
+      {
+        "word": "intractable",
+        "question": "Define: intractable",
+        "type": "short_answer"
+      },
+      {
+        "word": "cajole",
+        "question": "Define: cajole",
+        "type": "short_answer"
+      },
+      {
+        "word": "capitulate",
+        "question": "Define: capitulate",
+        "type": "short_answer"
+      },
+      {
+        "word": "hackneyed",
+        "question": "Define: hackneyed",
+        "type": "short_answer"
+      },
+      {
+        "word": "deleterious",
+        "question": "Define: deleterious",
+        "type": "short_answer"
+      },
+      {
+        "word": "austere",
+        "question": "Define: austere",
+        "type": "short_answer"
+      },
+      {
+        "word": "abstruse",
+        "question": "Define: abstruse",
+        "type": "short_answer"
+      },
+      {
+        "word": "capricious",
+        "question": "Define: capricious",
+        "type": "short_answer"
+      },
+      {
+        "word": "candor",
+        "question": "Define: candor",
+        "type": "short_answer"
+      },
+      {
+        "word": "vociferous",
+        "question": "Define: vociferous",
+        "type": "short_answer"
+      },
+      {
+        "word": "eschew",
+        "question": "Define: eschew",
+        "type": "short_answer"
+      },
+      {
+        "word": "obfuscate",
+        "question": "Define: obfuscate",
+        "type": "short_answer"
+      },
+      {
+        "word": "bolster",
+        "question": "Define: bolster",
+        "type": "short_answer"
+      },
+      {
+        "word": "cursory",
+        "question": "Define: cursory",
+        "type": "short_answer"
+      },
+      {
+        "word": "perfunctory",
+        "question": "Define: perfunctory",
+        "type": "short_answer"
+      },
+      {
+        "word": "ephemeral",
+        "question": "Define: ephemeral",
+        "type": "short_answer"
+      },
+      {
+        "word": "admonish",
+        "question": "Define: admonish",
+        "type": "short_answer"
+      },
+      {
+        "word": "circumspect",
+        "question": "Define: circumspect",
+        "type": "short_answer"
+      }
+    ]
+  },
+  "google_forms_script": "// Google Forms Script for Participant 002\n// 24-Hour Delayed Vocabulary Test - 20 words\n\nfunction createVocabularyTest() {\n  // Create new form\n  var form = FormApp.create('Vocabulary Test - Participant 002 - 24h Delayed');\n  \n  // Set form description\n  form.setDescription(\n    'This is your 24-hour delayed vocabulary test. You learned 20 words yesterday. ' +\n    'The test has two parts: multiple choice and definitions. ' +\n    'All questions are optional. This should take about 10 minutes.'\n  );\n  \n  // Add participant ID field\n  form.addTextItem()\n    .setTitle('Participant ID')\n    .setRequired(true)\n    .setHelpText('Enter your participant number: 002');\n\n  // Section 1: Multiple Choice\n  form.addSectionHeaderItem()\n    .setTitle('Part A: Multiple Choice')\n    .setHelpText('Choose the best word to complete each sentence.');\n\n\n  // Question 1: disparage\n  form.addMultipleChoiceItem()\n    .setTitle('Question 1')\n    .setHelpText('Rather than offer constructive criticism, he chose to _____ his opponent\\'s achievements.')\n    .setChoiceValues(['disparage', 'obfuscate', 'bolster', 'eschew'])\n    .setRequired(false);\n\n  // Question 2: austere\n  form.addMultipleChoiceItem()\n    .setTitle('Question 2')\n    .setHelpText('The monastery\\'s _____ living conditions reflected the monks\\' commitment to simplicity.')\n    .setChoiceValues(['austere', 'garrulous', 'precocious', 'copious'])\n    .setRequired(false);\n\n  // Question 3: perfunctory\n  form.addMultipleChoiceItem()\n    .setTitle('Question 3')\n    .setHelpText('Her _____ apology lacked sincerity and failed to address the real issues.')\n    .setChoiceValues(['perfunctory', 'precocious', 'circumspect', 'capricious'])\n    .setRequired(false);\n\n  // Question 4: ephemeral\n  form.addMultipleChoiceItem()\n    .setTitle('Question 4')\n    .setHelpText('The _____ beauty of cherry blossoms makes their brief blooming season even more precious.')\n    .setChoiceValues(['ephemeral', 'copious', 'cursory', 'vociferous'])\n    .setRequired(false);\n\n  // Question 5: hackneyed\n  form.addMultipleChoiceItem()\n    .setTitle('Question 5')\n    .setHelpText('The movie\\'s _____ plot failed to engage audiences looking for original storytelling.')\n    .setChoiceValues(['hackneyed', 'intractable', 'deleterious', 'conciliatory'])\n    .setRequired(false);\n\n  // Question 6: obfuscate\n  form.addMultipleChoiceItem()\n    .setTitle('Question 6')\n    .setHelpText('The politician tried to _____ the facts to avoid taking responsibility for the scandal.')\n    .setChoiceValues(['obfuscate', 'disparage', 'capitulate', 'abrogate'])\n    .setRequired(false);\n\n  // Question 7: capricious\n  form.addMultipleChoiceItem()\n    .setTitle('Question 7')\n    .setHelpText('The _____ weather made it impossible to plan outdoor activities with confidence.')\n    .setChoiceValues(['capricious', 'circumspect', 'intractable', 'abstruse'])\n    .setRequired(false);\n\n  // Question 8: circumspect\n  form.addMultipleChoiceItem()\n    .setTitle('Question 8')\n    .setHelpText('Given the sensitive nature of the negotiations, the diplomat remained _____ in his statements.')\n    .setChoiceValues(['circumspect', 'capricious', 'intractable', 'deleterious'])\n    .setRequired(false);\n\n  // Question 9: cajole\n  form.addMultipleChoiceItem()\n    .setTitle('Question 9')\n    .setHelpText('She tried to _____ her reluctant brother into joining the family vacation.')\n    .setChoiceValues(['cajole', 'admonish', 'disparage', 'abrogate'])\n    .setRequired(false);\n\n  // Question 10: cursory\n  form.addMultipleChoiceItem()\n    .setTitle('Question 10')\n    .setHelpText('A _____ glance at the report revealed several obvious errors.')\n    .setChoiceValues(['cursory', 'copious', 'ephemeral', 'vociferous'])\n    .setRequired(false);\n\n  // Question 11: candor\n  form.addMultipleChoiceItem()\n    .setTitle('Question 11')\n    .setHelpText('His refreshing _____ during the interview impressed the hiring committee.')\n    .setChoiceValues(['candor', 'acumen', 'cacophony', 'conundrum'])\n    .setRequired(false);\n\n  // Question 12: abstruse\n  form.addMultipleChoiceItem()\n    .setTitle('Question 12')\n    .setHelpText('The professor\\'s _____ explanation of quantum mechanics left most students confused.')\n    .setChoiceValues(['abstruse', 'perfunctory', 'deleterious', 'ephemeral'])\n    .setRequired(false);\n\n  // Question 13: deleterious\n  form.addMultipleChoiceItem()\n    .setTitle('Question 13')\n    .setHelpText('The _____ effects of pollution on marine life became increasingly evident.')\n    .setChoiceValues(['deleterious', 'conciliatory', 'abstruse', 'hackneyed'])\n    .setRequired(false);\n\n  // Question 14: admonish\n  form.addMultipleChoiceItem()\n    .setTitle('Question 14')\n    .setHelpText('The teacher had to _____ the students for their disruptive behavior during the assembly.')\n    .setChoiceValues(['admonish', 'cajole', 'capitulate', 'bolster'])\n    .setRequired(false);\n\n  // Question 15: intractable\n  form.addMultipleChoiceItem()\n    .setTitle('Question 15')\n    .setHelpText('The _____ dispute had resisted all attempts at resolution for over a decade.')\n    .setChoiceValues(['intractable', 'abstruse', 'hackneyed', 'conciliatory'])\n    .setRequired(false);\n\n  // Question 16: bolster\n  form.addMultipleChoiceItem()\n    .setTitle('Question 16')\n    .setHelpText('The positive reviews helped _____ confidence in the company\\'s new product line.')\n    .setChoiceValues(['bolster', 'obfuscate', 'eschew', 'admonish'])\n    .setRequired(false);\n\n  // Question 17: vociferous\n  form.addMultipleChoiceItem()\n    .setTitle('Question 17')\n    .setHelpText('The _____ protests outside the courthouse could be heard from several blocks away.')\n    .setChoiceValues(['vociferous', 'copious', 'cursory', 'ephemeral'])\n    .setRequired(false);\n\n  // Question 18: garrulous\n  form.addMultipleChoiceItem()\n    .setTitle('Question 18')\n    .setHelpText('The _____ passenger talked non-stop throughout the entire flight.')\n    .setChoiceValues(['garrulous', 'austere', 'precocious', 'copious'])\n    .setRequired(false);\n\n  // Question 19: eschew\n  form.addMultipleChoiceItem()\n    .setTitle('Question 19')\n    .setHelpText('Health-conscious consumers increasingly _____ processed foods in favor of natural alternatives.')\n    .setChoiceValues(['eschew', 'bolster', 'disparage', 'obfuscate'])\n    .setRequired(false);\n\n  // Question 20: capitulate\n  form.addMultipleChoiceItem()\n    .setTitle('Question 20')\n    .setHelpText('After weeks of resistance, the city was forced to _____ to the enemy\\'s demands.')\n    .setChoiceValues(['capitulate', 'abrogate', 'admonish', 'cajole'])\n    .setRequired(false);\n\n  // Section 2: Definitions\n  form.addSectionHeaderItem()\n    .setTitle('Part B: Definitions (Optional)')\n    .setHelpText('Provide clear definitions for each vocabulary word. All questions in this section are optional.');\n\n\n  // Definition 1: garrulous\n  form.addParagraphTextItem()\n    .setTitle('Define: garrulous')\n    .setHelpText('Provide a clear and accurate definition.')\n    .setRequired(false);\n\n  // Definition 2: disparage\n  form.addParagraphTextItem()\n    .setTitle('Define: disparage')\n    .setHelpText('Provide a clear and accurate definition.')\n    .setRequired(false);\n\n  // Definition 3: intractable\n  form.addParagraphTextItem()\n    .setTitle('Define: intractable')\n    .setHelpText('Provide a clear and accurate definition.')\n    .setRequired(false);\n\n  // Definition 4: cajole\n  form.addParagraphTextItem()\n    .setTitle('Define: cajole')\n    .setHelpText('Provide a clear and accurate definition.')\n    .setRequired(false);\n\n  // Definition 5: capitulate\n  form.addParagraphTextItem()\n    .setTitle('Define: capitulate')\n    .setHelpText('Provide a clear and accurate definition.')\n    .setRequired(false);\n\n  // Definition 6: hackneyed\n  form.addParagraphTextItem()\n    .setTitle('Define: hackneyed')\n    .setHelpText('Provide a clear and accurate definition.')\n    .setRequired(false);\n\n  // Definition 7: deleterious\n  form.addParagraphTextItem()\n    .setTitle('Define: deleterious')\n    .setHelpText('Provide a clear and accurate definition.')\n    .setRequired(false);\n\n  // Definition 8: austere\n  form.addParagraphTextItem()\n    .setTitle('Define: austere')\n    .setHelpText('Provide a clear and accurate definition.')\n    .setRequired(false);\n\n  // Definition 9: abstruse\n  form.addParagraphTextItem()\n    .setTitle('Define: abstruse')\n    .setHelpText('Provide a clear and accurate definition.')\n    .setRequired(false);\n\n  // Definition 10: capricious\n  form.addParagraphTextItem()\n    .setTitle('Define: capricious')\n    .setHelpText('Provide a clear and accurate definition.')\n    .setRequired(false);\n\n  // Definition 11: candor\n  form.addParagraphTextItem()\n    .setTitle('Define: candor')\n    .setHelpText('Provide a clear and accurate definition.')\n    .setRequired(false);\n\n  // Definition 12: vociferous\n  form.addParagraphTextItem()\n    .setTitle('Define: vociferous')\n    .setHelpText('Provide a clear and accurate definition.')\n    .setRequired(false);\n\n  // Definition 13: eschew\n  form.addParagraphTextItem()\n    .setTitle('Define: eschew')\n    .setHelpText('Provide a clear and accurate definition.')\n    .setRequired(false);\n\n  // Definition 14: obfuscate\n  form.addParagraphTextItem()\n    .setTitle('Define: obfuscate')\n    .setHelpText('Provide a clear and accurate definition.')\n    .setRequired(false);\n\n  // Definition 15: bolster\n  form.addParagraphTextItem()\n    .setTitle('Define: bolster')\n    .setHelpText('Provide a clear and accurate definition.')\n    .setRequired(false);\n\n  // Definition 16: cursory\n  form.addParagraphTextItem()\n    .setTitle('Define: cursory')\n    .setHelpText('Provide a clear and accurate definition.')\n    .setRequired(false);\n\n  // Definition 17: perfunctory\n  form.addParagraphTextItem()\n    .setTitle('Define: perfunctory')\n    .setHelpText('Provide a clear and accurate definition.')\n    .setRequired(false);\n\n  // Definition 18: ephemeral\n  form.addParagraphTextItem()\n    .setTitle('Define: ephemeral')\n    .setHelpText('Provide a clear and accurate definition.')\n    .setRequired(false);\n\n  // Definition 19: admonish\n  form.addParagraphTextItem()\n    .setTitle('Define: admonish')\n    .setHelpText('Provide a clear and accurate definition.')\n    .setRequired(false);\n\n  // Definition 20: circumspect\n  form.addParagraphTextItem()\n    .setTitle('Define: circumspect')\n    .setHelpText('Provide a clear and accurate definition.')\n    .setRequired(false);\n\n  // Responses will be automatically collected in form responses\n  // To link to a spreadsheet, manually do so in the form editor\n  \n  // Get form URL\n  var formUrl = form.getPublishedUrl();\n  console.log('Form created for Participant 002');\n  console.log('Form URL: ' + formUrl);\n  \n  return formUrl;\n}\n\n// To use: Click the \"Run\" button above or manually call createVocabularyTest()\n",
+  "instructions": {
+    "contextual": "Choose the best word to complete each sentence.",
+    "definition": "Provide a clear and accurate definition for each word (optional)."
+  }
+}

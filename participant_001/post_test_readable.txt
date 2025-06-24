@@ -6,67 +6,67 @@ Total Words: 20
 PART A: FILL IN THE BLANK
 Instructions: Fill in the blank with the correct vocabulary word from your learning session.
 
-WORD BANK: capitulate | ephemeral | deleterious | quandary | hackneyed | abstruse | perfunctory | garrulous | bolster | circumspect | austere | admonish | capricious | cursory | conundrum | vociferous | candor | cajole | conciliatory | cacophony
+WORD BANK: austere | bolster | hackneyed | ephemeral | deleterious | candor | cacophony | abstruse | conundrum | capricious | garrulous | cursory | capitulate | conciliatory | admonish | circumspect | vociferous | cajole | quandary | perfunctory
 
-1. After weeks of resistance, the city was forced to _____ to the enemy's demands.
-   Answer: _______ (correct: capitulate)
-
-2. The _____ beauty of cherry blossoms makes their brief blooming season even more precious.
-   Answer: _______ (correct: ephemeral)
-
-3. The _____ effects of pollution on marine life became increasingly evident.
-   Answer: _______ (correct: deleterious)
-
-4. Faced with two equally unappealing options, she found herself in a difficult _____.
-   Answer: _______ (correct: quandary)
-
-5. The movie's _____ plot failed to engage audiences looking for original storytelling.
-   Answer: _______ (correct: hackneyed)
-
-6. The professor's _____ explanation of quantum mechanics left most students confused.
-   Answer: _______ (correct: abstruse)
-
-7. Her _____ apology lacked sincerity and failed to address the real issues.
-   Answer: _______ (correct: perfunctory)
-
-8. The _____ passenger talked non-stop throughout the entire flight.
-   Answer: _______ (correct: garrulous)
-
-9. The positive reviews helped _____ confidence in the company's new product line.
-   Answer: _______ (correct: bolster)
-
-10. Given the sensitive nature of the negotiations, the diplomat remained _____ in his statements.
-   Answer: _______ (correct: circumspect)
-
-11. The monastery's _____ living conditions reflected the monks' commitment to simplicity.
+1. The monastery's _____ living conditions reflected the monks' commitment to simplicity.
    Answer: _______ (correct: austere)
 
-12. The teacher had to _____ the students for their disruptive behavior during the assembly.
-   Answer: _______ (correct: admonish)
+2. The positive reviews helped _____ confidence in the company's new product line.
+   Answer: _______ (correct: bolster)
 
-13. The _____ weather made it impossible to plan outdoor activities with confidence.
-   Answer: _______ (correct: capricious)
+3. The movie's _____ plot failed to engage audiences looking for original storytelling.
+   Answer: _______ (correct: hackneyed)
 
-14. A _____ glance at the report revealed several obvious errors.
-   Answer: _______ (correct: cursory)
+4. The _____ beauty of cherry blossoms makes their brief blooming season even more precious.
+   Answer: _______ (correct: ephemeral)
 
-15. The detective faced a perplexing _____ with no obvious solution in sight.
+5. The _____ effects of pollution on marine life became increasingly evident.
+   Answer: _______ (correct: deleterious)
+
+6. His refreshing _____ during the interview impressed the hiring committee.
+   Answer: _______ (correct: candor)
+
+7. The _____ of car horns and construction noise made conversation impossible.
+   Answer: _______ (correct: cacophony)
+
+8. The professor's _____ explanation of quantum mechanics left most students confused.
+   Answer: _______ (correct: abstruse)
+
+9. The detective faced a perplexing _____ with no obvious solution in sight.
    Answer: _______ (correct: conundrum)
 
-16. The _____ protests outside the courthouse could be heard from several blocks away.
-   Answer: _______ (correct: vociferous)
+10. The _____ weather made it impossible to plan outdoor activities with confidence.
+   Answer: _______ (correct: capricious)
 
-17. His refreshing _____ during the interview impressed the hiring committee.
-   Answer: _______ (correct: candor)
+11. The _____ passenger talked non-stop throughout the entire flight.
+   Answer: _______ (correct: garrulous)
+
+12. A _____ glance at the report revealed several obvious errors.
+   Answer: _______ (correct: cursory)
+
+13. After weeks of resistance, the city was forced to _____ to the enemy's demands.
+   Answer: _______ (correct: capitulate)
+
+14. After the heated argument, he adopted a _____ tone to restore peace.
+   Answer: _______ (correct: conciliatory)
+
+15. The teacher had to _____ the students for their disruptive behavior during the assembly.
+   Answer: _______ (correct: admonish)
+
+16. Given the sensitive nature of the negotiations, the diplomat remained _____ in his statements.
+   Answer: _______ (correct: circumspect)
+
+17. The _____ protests outside the courthouse could be heard from several blocks away.
+   Answer: _______ (correct: vociferous)
 
 18. She tried to _____ her reluctant brother into joining the family vacation.
    Answer: _______ (correct: cajole)
 
-19. After the heated argument, he adopted a _____ tone to restore peace.
-   Answer: _______ (correct: conciliatory)
+19. Faced with two equally unappealing options, she found herself in a difficult _____.
+   Answer: _______ (correct: quandary)
 
-20. The _____ of car horns and construction noise made conversation impossible.
-   Answer: _______ (correct: cacophony)
+20. Her _____ apology lacked sincerity and failed to address the real issues.
+   Answer: _______ (correct: perfunctory)
 
 
 ==================================================
@@ -74,61 +74,61 @@ WORD BANK: capitulate | ephemeral | deleterious | quandary | hackneyed | abstrus
 PART B: DEFINITIONS
 Instructions: Provide a clear and accurate definition for each word.
 
-1. Define: austere
+1. Define: circumspect
    Answer: 
 
-2. Define: hackneyed
+2. Define: ephemeral
    Answer: 
 
-3. Define: deleterious
+3. Define: abstruse
    Answer: 
 
 4. Define: conciliatory
    Answer: 
 
-5. Define: cajole
+5. Define: capricious
    Answer: 
 
-6. Define: circumspect
+6. Define: admonish
    Answer: 
 
-7. Define: capricious
+7. Define: garrulous
    Answer: 
 
-8. Define: vociferous
+8. Define: conundrum
    Answer: 
 
-9. Define: candor
+9. Define: deleterious
    Answer: 
 
-10. Define: perfunctory
+10. Define: vociferous
    Answer: 
 
-11. Define: cacophony
+11. Define: austere
    Answer: 
 
-12. Define: abstruse
+12. Define: cajole
    Answer: 
 
-13. Define: admonish
+13. Define: hackneyed
    Answer: 
 
-14. Define: conundrum
+14. Define: perfunctory
    Answer: 
 
-15. Define: garrulous
+15. Define: quandary
    Answer: 
 
-16. Define: bolster
+16. Define: capitulate
    Answer: 
 
-17. Define: ephemeral
+17. Define: candor
    Answer: 
 
-18. Define: quandary
+18. Define: cacophony
    Answer: 
 
-19. Define: capitulate
+19. Define: bolster
    Answer: 
 
 20. Define: cursory

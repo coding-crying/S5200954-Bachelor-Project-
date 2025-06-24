@@ -44,41 +44,148 @@ class PostTestGenerator:
             }
         }
         
-        # Create contextual fill-in-the-blank questions
+        # Create multiple choice questions with same part of speech distractors from vocabulary list
         contextual_questions = {
-            "obfuscate": "The politician tried to _____ the facts to avoid taking responsibility for the scandal.",
-            "disparage": "Rather than offer constructive criticism, he chose to _____ his opponent's achievements.",
-            "perfunctory": "Her _____ apology lacked sincerity and failed to address the real issues.",
-            "precocious": "The _____ child was reading university-level texts at age ten.",
-            "quandary": "Faced with two equally unappealing options, she found herself in a difficult _____.",
-            "circumspect": "Given the sensitive nature of the negotiations, the diplomat remained _____ in his statements.",
-            "capitulate": "After weeks of resistance, the city was forced to _____ to the enemy's demands.",
-            "vociferous": "The _____ protests outside the courthouse could be heard from several blocks away.",
-            "intractable": "The _____ dispute had resisted all attempts at resolution for over a decade.",
-            "abrogate": "The new government decided to _____ the controversial treaty signed by its predecessor.",
-            "abstruse": "The professor's _____ explanation of quantum mechanics left most students confused.",
-            "acumen": "Her exceptional business _____ helped transform the struggling company into a market leader.",
-            "admonish": "The teacher had to _____ the students for their disruptive behavior during the assembly.",
-            "austere": "The monastery's _____ living conditions reflected the monks' commitment to simplicity.",
-            "benevolent": "The _____ dictator was beloved by his people for his generous social programs.",
-            "bolster": "The positive reviews helped _____ confidence in the company's new product line.",
-            "cacophony": "The _____ of car horns and construction noise made conversation impossible.",
-            "cajole": "She tried to _____ her reluctant brother into joining the family vacation.",
-            "candor": "His refreshing _____ during the interview impressed the hiring committee.",
-            "capricious": "The _____ weather made it impossible to plan outdoor activities with confidence.",
-            "complacent": "Success made the team _____, leading to their unexpected defeat in the championship.",
-            "conciliatory": "After the heated argument, he adopted a _____ tone to restore peace.",
-            "conundrum": "The detective faced a perplexing _____ with no obvious solution in sight.",
-            "copious": "The researcher took _____ notes during the lengthy interview session.",
-            "cursory": "A _____ glance at the report revealed several obvious errors.",
-            "deleterious": "The _____ effects of pollution on marine life became increasingly evident.",
-            "despot": "The cruel _____ ruled through fear and intimidation for decades.",
-            "ennui": "A sense of _____ settled over the office workers as another mundane Monday began.",
-            "ephemeral": "The _____ beauty of cherry blossoms makes their brief blooming season even more precious.",
-            "eschew": "Health-conscious consumers increasingly _____ processed foods in favor of natural alternatives.",
-            "garrulous": "The _____ passenger talked non-stop throughout the entire flight.",
-            "hackneyed": "The movie's _____ plot failed to engage audiences looking for original storytelling.",
-            "happy": "The children were _____ to receive unexpected gifts on their birthday."
+            "obfuscate": {
+                "question": "The politician tried to _____ the facts to avoid taking responsibility for the scandal.",
+                "options": ["obfuscate", "disparage", "capitulate", "abrogate"],
+                "correct": "obfuscate"
+            },
+            "disparage": {
+                "question": "Rather than offer constructive criticism, he chose to _____ his opponent's achievements.", 
+                "options": ["disparage", "obfuscate", "bolster", "eschew"],
+                "correct": "disparage"
+            },
+            "perfunctory": {
+                "question": "Her _____ apology lacked sincerity and failed to address the real issues.",
+                "options": ["perfunctory", "precocious", "circumspect", "capricious"],
+                "correct": "perfunctory"
+            },
+            "precocious": {
+                "question": "The _____ child was reading university-level texts at age ten.",
+                "options": ["precocious", "austere", "garrulous", "vociferous"],
+                "correct": "precocious"
+            },
+            "quandary": {
+                "question": "Faced with two equally unappealing options, she found herself in a difficult _____.",
+                "options": ["quandary", "conundrum", "acumen", "cacophony"],
+                "correct": "quandary"
+            },
+            "circumspect": {
+                "question": "Given the sensitive nature of the negotiations, the diplomat remained _____ in his statements.",
+                "options": ["circumspect", "capricious", "intractable", "deleterious"],
+                "correct": "circumspect"
+            },
+            "capitulate": {
+                "question": "After weeks of resistance, the city was forced to _____ to the enemy's demands.",
+                "options": ["capitulate", "abrogate", "admonish", "cajole"],
+                "correct": "capitulate"
+            },
+            "vociferous": {
+                "question": "The _____ protests outside the courthouse could be heard from several blocks away.",
+                "options": ["vociferous", "copious", "cursory", "ephemeral"],
+                "correct": "vociferous"
+            },
+            "intractable": {
+                "question": "The _____ dispute had resisted all attempts at resolution for over a decade.",
+                "options": ["intractable", "abstruse", "hackneyed", "conciliatory"],
+                "correct": "intractable"
+            },
+            "abrogate": {
+                "question": "The new government decided to _____ the controversial treaty signed by its predecessor.",
+                "options": ["abrogate", "bolster", "eschew", "disparage"],
+                "correct": "abrogate"
+            },
+            "abstruse": {
+                "question": "The professor's _____ explanation of quantum mechanics left most students confused.",
+                "options": ["abstruse", "perfunctory", "deleterious", "ephemeral"],
+                "correct": "abstruse"
+            },
+            "acumen": {
+                "question": "Her exceptional business _____ helped transform the struggling company into a market leader.",
+                "options": ["acumen", "candor", "cacophony", "conundrum"],
+                "correct": "acumen"
+            },
+            "admonish": {
+                "question": "The teacher had to _____ the students for their disruptive behavior during the assembly.",
+                "options": ["admonish", "cajole", "capitulate", "bolster"],
+                "correct": "admonish"
+            },
+            "austere": {
+                "question": "The monastery's _____ living conditions reflected the monks' commitment to simplicity.",
+                "options": ["austere", "garrulous", "precocious", "copious"],
+                "correct": "austere"
+            },
+            "bolster": {
+                "question": "The positive reviews helped _____ confidence in the company's new product line.",
+                "options": ["bolster", "obfuscate", "eschew", "admonish"],
+                "correct": "bolster"
+            },
+            "cacophony": {
+                "question": "The _____ of car horns and construction noise made conversation impossible.",
+                "options": ["cacophony", "acumen", "candor", "quandary"],
+                "correct": "cacophony"
+            },
+            "cajole": {
+                "question": "She tried to _____ her reluctant brother into joining the family vacation.",
+                "options": ["cajole", "admonish", "disparage", "abrogate"],
+                "correct": "cajole"
+            },
+            "candor": {
+                "question": "His refreshing _____ during the interview impressed the hiring committee.",
+                "options": ["candor", "acumen", "cacophony", "conundrum"],
+                "correct": "candor"
+            },
+            "capricious": {
+                "question": "The _____ weather made it impossible to plan outdoor activities with confidence.",
+                "options": ["capricious", "circumspect", "intractable", "abstruse"],
+                "correct": "capricious"
+            },
+            "conciliatory": {
+                "question": "After the heated argument, he adopted a _____ tone to restore peace.",
+                "options": ["conciliatory", "perfunctory", "deleterious", "hackneyed"],
+                "correct": "conciliatory"
+            },
+            "conundrum": {
+                "question": "The detective faced a perplexing _____ with no obvious solution in sight.",
+                "options": ["conundrum", "quandary", "candor", "acumen"],
+                "correct": "conundrum"
+            },
+            "copious": {
+                "question": "The researcher took _____ notes during the lengthy interview session.",
+                "options": ["copious", "cursory", "vociferous", "ephemeral"],
+                "correct": "copious"
+            },
+            "cursory": {
+                "question": "A _____ glance at the report revealed several obvious errors.",
+                "options": ["cursory", "copious", "ephemeral", "vociferous"],
+                "correct": "cursory"
+            },
+            "deleterious": {
+                "question": "The _____ effects of pollution on marine life became increasingly evident.",
+                "options": ["deleterious", "conciliatory", "abstruse", "hackneyed"],
+                "correct": "deleterious"
+            },
+            "ephemeral": {
+                "question": "The _____ beauty of cherry blossoms makes their brief blooming season even more precious.",
+                "options": ["ephemeral", "copious", "cursory", "vociferous"],
+                "correct": "ephemeral"
+            },
+            "eschew": {
+                "question": "Health-conscious consumers increasingly _____ processed foods in favor of natural alternatives.",
+                "options": ["eschew", "bolster", "disparage", "obfuscate"],
+                "correct": "eschew"
+            },
+            "garrulous": {
+                "question": "The _____ passenger talked non-stop throughout the entire flight.",
+                "options": ["garrulous", "austere", "precocious", "copious"],
+                "correct": "garrulous"
+            },
+            "hackneyed": {
+                "question": "The movie's _____ plot failed to engage audiences looking for original storytelling.",
+                "options": ["hackneyed", "intractable", "deleterious", "conciliatory"],
+                "correct": "hackneyed"
+            }
         }
         
         # Create definition questions (straightforward)
@@ -120,8 +227,8 @@ class PostTestGenerator:
             },
             "google_forms_script": "",
             "instructions": {
-                "contextual": "Fill in the blank with the correct vocabulary word from your learning session.",
-                "definition": "Provide a clear and accurate definition for each word."
+                "contextual": "Choose the best word to complete each sentence.",
+                "definition": "Provide a clear and accurate definition for each word (optional)."
             }
         }
         
@@ -132,10 +239,16 @@ class PostTestGenerator:
         # Generate contextual questions
         for word in randomized_words:
             if word in self.question_bank["contextual_questions"]:
+                # Shuffle the options so correct answer isn't always first
+                options = self.question_bank["contextual_questions"][word]["options"].copy()
+                random.shuffle(options)
+                
                 test_data["test_sections"]["contextual_questions"].append({
                     "word": word,
-                    "question": self.question_bank["contextual_questions"][word],
-                    "type": "fill_in_blank"
+                    "question": self.question_bank["contextual_questions"][word]["question"],
+                    "options": options,
+                    "correct": self.question_bank["contextual_questions"][word]["correct"],
+                    "type": "multiple_choice"
                 })
         
         # Generate definition questions
@@ -176,50 +289,46 @@ function createVocabularyTest() {{
   // Set form description
   form.setDescription(
     'This is your 24-hour delayed vocabulary test. You learned {total_words} words yesterday. ' +
-    'The test has two parts: fill-in-the-blank and definitions. ' +
-    'Please complete both sections honestly. This should take about 15 minutes.'
+    'The test has two parts: multiple choice and definitions. ' +
+    'All questions are optional. This should take about 10 minutes.'
   );
   
-  // Add participant ID (hidden)
+  // Add participant ID field
   form.addTextItem()
     .setTitle('Participant ID')
     .setRequired(true)
-    .setHelpText('Your participant number')
-    .setDefaultAnswer('{participant_id}');
+    .setHelpText('Enter your participant number: {participant_id}');
 
-  // Section 1: Contextual Fill-in-the-Blank
+  // Section 1: Multiple Choice
   form.addSectionHeaderItem()
-    .setTitle('Part A: Fill in the Blank')
-    .setHelpText('Complete each sentence with the correct vocabulary word from your learning session.');
+    .setTitle('Part A: Multiple Choice')
+    .setHelpText('Choose the best word to complete each sentence.');
 
 """
         
-        # Create word bank for contextual questions
-        contextual_words = [q["word"] for q in test_data["test_sections"]["contextual_questions"]]
-        word_bank_text = "Word Bank: " + " | ".join(contextual_words)
-        
-        # Add contextual questions
+        # Add contextual questions (multiple choice)
         for i, question in enumerate(test_data["test_sections"]["contextual_questions"], 1):
             word = question["word"]
             question_text = question["question"]
+            options = question["options"]
             # Escape single quotes in the text for JavaScript
             escaped_question = question_text.replace("'", "\\'")
-            escaped_word_bank = word_bank_text.replace("'", "\\'")
             
             script += f"""
   // Question {i}: {word}
-  form.addTextItem()
+  form.addMultipleChoiceItem()
     .setTitle('Question {i}')
-    .setHelpText('{escaped_question}\\n\\n{escaped_word_bank}')
-    .setRequired(true);
+    .setHelpText('{escaped_question}')
+    .setChoiceValues(['{options[0]}', '{options[1]}', '{options[2]}', '{options[3]}'])
+    .setRequired(false);
 """
         
         # Add definition section
         script += f"""
   // Section 2: Definitions
   form.addSectionHeaderItem()
-    .setTitle('Part B: Definitions')
-    .setHelpText('Provide clear definitions for each vocabulary word.');
+    .setTitle('Part B: Definitions (Optional)')
+    .setHelpText('Provide clear definitions for each vocabulary word. All questions in this section are optional.');
 
 """
         
@@ -231,12 +340,12 @@ function createVocabularyTest() {{
   form.addParagraphTextItem()
     .setTitle('Define: {word}')
     .setHelpText('Provide a clear and accurate definition.')
-    .setRequired(true);
+    .setRequired(false);
 """
         
         script += f"""
-  // Set up response handling
-  form.setDestination(FormApp.DestinationType.SPREADSHEET);
+  // Responses will be automatically collected in form responses
+  // To link to a spreadsheet, manually do so in the form editor
   
   // Get form URL
   var formUrl = form.getPublishedUrl();
@@ -246,8 +355,7 @@ function createVocabularyTest() {{
   return formUrl;
 }}
 
-// Run this function to create the form
-createVocabularyTest();
+// To use: Click the "Run" button above or manually call createVocabularyTest()
 """
         
         return script
@@ -263,17 +371,15 @@ createVocabularyTest();
             file.write(f"Total Words: {test_data['total_words']}\n")
             file.write("=" * 50 + "\n\n")
             
-            file.write("PART A: FILL IN THE BLANK\n")
-            file.write("Instructions: " + test_data["instructions"]["contextual"] + "\n\n")
-            
-            # Add word bank to readable version
-            contextual_words = [q["word"] for q in test_data["test_sections"]["contextual_questions"]]
-            word_bank = " | ".join(contextual_words)
-            file.write(f"WORD BANK: {word_bank}\n\n")
+            file.write("PART A: MULTIPLE CHOICE\n")
+            file.write("Instructions: Choose the best word to complete each sentence.\n\n")
             
             for i, question in enumerate(test_data["test_sections"]["contextual_questions"], 1):
                 file.write(f"{i}. {question['question']}\n")
-                file.write(f"   Answer: _______ (correct: {question['word']})\n\n")
+                for j, option in enumerate(question['options']):
+                    letter = chr(ord('A') + j)
+                    file.write(f"   {letter}) {option}\n")
+                file.write(f"   Answer: _______ (correct: {question['correct']})\n\n")
             
             file.write("\n" + "=" * 50 + "\n\n")
             file.write("PART B: DEFINITIONS\n")
