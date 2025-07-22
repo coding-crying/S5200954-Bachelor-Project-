@@ -1,0 +1,3 @@
+participant_id,condition,mc_score,mc_total,mc_percentage,rimms_attention,rimms_relevance,rimms_confidence,rimms_satisfaction,rimms_overall
+009,conversational,0,0,0,2.0,3.3333333333333335,2.3333333333333335,2.3333333333333335,2.5000000000000004
+009,flashcard,0,0,0,4.666666666666667,4.333333333333333,4.333333333333333,4.666666666666667,4.5

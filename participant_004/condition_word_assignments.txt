@@ -1,0 +1,27 @@
+Participant 004 - Condition Word Assignments
+Total words: 20
+Split: 10 words per condition
+
+Conversational Condition Words (10):
+- cacophony
+- candor
+- capricious
+- circumspect
+- conciliatory
+- disparage
+- ephemeral
+- garrulous
+- perfunctory
+- quandary
+
+Flashcard Condition Words (10):
+- abrogate
+- acumen
+- admonish
+- bolster
+- cajole
+- capitulate
+- cursory
+- deleterious
+- obfuscate
+- precocious

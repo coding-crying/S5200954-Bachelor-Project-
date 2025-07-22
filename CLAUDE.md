@@ -48,7 +48,7 @@ python agents/vocab_instructor/test_effectiveness.py  # Test effectiveness analy
 The primary agent system located in `/src/app/agentConfigs/vocabularyInstructor/index.ts`:
 
 ### Core Agents
-- **`wordIntroducer`**: Introduces 3-5 new vocabulary words from CSV database using rapid-fire teaching style
+- **`wordIntroducer`**: Introduces 1-2 new vocabulary words at a time from CSV database, fetching up to 4 words for paced learning
 - **`reviewAgent`**: Reviews high-priority words using spaced repetition algorithm in engaging roleplay scenarios
 
 ### Agent Tools

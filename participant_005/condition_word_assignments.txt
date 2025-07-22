@@ -1,0 +1,27 @@
+Participant 005 - Condition Word Assignments
+Total words: 20
+Split: 10 words per condition
+
+Conversational Condition Words (10):
+- admonish
+- austere
+- capitulate
+- capricious
+- circumspect
+- copious
+- disparage
+- eschew
+- intractable
+- quandary
+
+Flashcard Condition Words (10):
+- abrogate
+- abstruse
+- conundrum
+- cursory
+- deleterious
+- ephemeral
+- hackneyed
+- obfuscate
+- perfunctory
+- precocious

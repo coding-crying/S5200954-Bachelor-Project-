@@ -331,12 +331,25 @@ class ExperimentalController:
         self.timer_thread.join()
         
     def _run_block_timer(self, duration_seconds: int, block_number: int):
-        """Run the block timer with progress updates"""
+        """Run the block timer with progress updates and manual advancement"""
+        import select
+        import sys
+        
         start_time = time.time()
+        print(f"\n⏱️  Timer started for Block {block_number} ({duration_seconds//60} minutes)")
+        print("⚡ Press ENTER at any time to advance to the next phase manually")
         
         while not self.block_complete:
             elapsed = time.time() - start_time
             remaining = max(0, duration_seconds - elapsed)
+            
+            # Check for manual advancement (Enter key)
+            if sys.stdin in select.select([sys.stdin], [], [], 0.1)[0]:
+                input()  # Consume the enter key
+                print(f"\n⚡ Manual advancement triggered!")
+                print("🛑 Moving to next phase...")
+                self.block_complete = True
+                break
             
             if remaining <= 0:
                 self.block_complete = True
@@ -348,7 +361,7 @@ class ExperimentalController:
             if int(elapsed) % 60 == 0 and elapsed > 0:
                 minutes_elapsed = int(elapsed // 60)
                 minutes_remaining = int(remaining // 60)
-                print(f"⏱️  {minutes_elapsed} min elapsed, {minutes_remaining} min remaining")
+                print(f"⏱️  {minutes_elapsed} min elapsed, {minutes_remaining} min remaining (Press ENTER to advance)")
             
             time.sleep(1)
     
@@ -427,8 +440,22 @@ class ExperimentalController:
         
         # Break between blocks
         if block_number < len(self.current_session.blocks):
-            print("⏸️  Taking 30-second break before next block...")
-            time.sleep(30)
+            print("⏸️  30-second break scheduled before next block...")
+            print("⚡ Press ENTER to skip break and advance immediately, or wait 30 seconds")
+            
+            import select
+            import sys
+            
+            # Check for manual skip during 30-second break
+            start_break = time.time()
+            while time.time() - start_break < 30:
+                if sys.stdin in select.select([sys.stdin], [], [], 0.1)[0]:
+                    input()  # Consume the enter key
+                    print("⚡ Break skipped! Advancing to next block...")
+                    break
+                time.sleep(0.1)
+            else:
+                print("⏱️  Break complete! Advancing to next block...")
         
         # Save session data
         self._save_session_data()

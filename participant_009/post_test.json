@@ -1,0 +1,18 @@
+{
+  "participant_id": "009",
+  "total_words": 20,
+  "test_sections": {
+    "contextual_questions": [
+      {
+        "word": "capricious",
+        "question": "The _____ weather made it impossible to plan outdoor activities with confidence.",
+        "options": ["capricious", "abstruse", "intractable", "circumspect"],
+        "correct": "capricious",
+        "type": "multiple_choice"
+      }
+    ],
+    "definition_questions": [
+      {"word": "capricious", "question": "Define: capricious", "type": "short_answer"}
+    ]
+  }
+}

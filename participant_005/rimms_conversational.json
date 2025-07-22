@@ -1,0 +1,25 @@
+{
+  "participantId": "005",
+  "condition": "conversational",
+  "responses": {
+    "A1": 5,
+    "A2": 5,
+    "A3": 5,
+    "R1": 4,
+    "R2": 5,
+    "R3": 4,
+    "C1": 4,
+    "C2": 5,
+    "C3": 5,
+    "S1": 5,
+    "S2": 4,
+    "S3": 5
+  },
+  "timestamp": "2025-06-24T23:07:29.406Z",
+  "scores": {
+    "attention": 5,
+    "relevance": 4.333333333333333,
+    "confidence": 4.666666666666667,
+    "satisfaction": 4.666666666666667
+  }
+}

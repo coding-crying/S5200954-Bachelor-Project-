@@ -1,0 +1,35 @@
+RIMMS Survey Results Summary
+========================================
+
+Participant ID: 005
+Condition: Flashcard
+Completion Time: 6/25/2025, 1:08:42 AM
+
+OVERALL MOTIVATION SCORE: 3.33/5.0 (Moderate)
+
+DIMENSION SCORES:
+Attention: 2.33/5.0 (Low)
+Relevance: 4.67/5.0 (Excellent)
+Confidence: 3.33/5.0 (Moderate)
+Satisfaction: 3.00/5.0 (Moderate)
+
+DETAILED RESPONSES:
+Question A1: 2/5 (Disagree)
+Question A2: 2/5 (Disagree)
+Question A3: 3/5 (Neutral)
+Question R1: 5/5 (Strongly Agree)
+Question R2: 5/5 (Strongly Agree)
+Question R3: 4/5 (Agree)
+Question C1: 4/5 (Agree)
+Question C2: 2/5 (Disagree)
+Question C3: 4/5 (Agree)
+Question S1: 3/5 (Neutral)
+Question S2: 3/5 (Neutral)
+Question S3: 3/5 (Neutral)
+
+SURVEY STATISTICS:
+Total Questions: 12
+Average Response: 3.33
+Response Range: 2 - 5
+
+Generated: 6/25/2025, 1:08:42 AM

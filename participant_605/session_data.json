@@ -1,0 +1,33 @@
+{
+  "participant_id": "605",
+  "condition_order": "ABAB",
+  "start_time": "2025-06-25T14:16:56.105821",
+  "blocks_completed": [
+    {
+      "block_number": 1,
+      "condition": "conversational",
+      "completion_time": "2025-06-25T14:18:00.154134",
+      "duration_minutes": 5
+    },
+    {
+      "block_number": 2,
+      "condition": "flashcard",
+      "completion_time": "2025-06-25T14:22:01.363423",
+      "duration_minutes": 5
+    },
+    {
+      "block_number": 3,
+      "condition": "conversational",
+      "completion_time": "2025-06-25T14:24:03.753730",
+      "duration_minutes": 5
+    }
+  ],
+  "rimms_scores": {
+    "conversational": {
+      "completed": true,
+      "completion_time": "2025-06-27T14:52:16.156032"
+    }
+  },
+  "vocabulary_sets": {},
+  "session_complete": false
+}

@@ -32,7 +32,7 @@ This study compares the effectiveness of an AI-powered conversational vocabulary
 
 ### Systems
 - **Experimental Controller**: Python script manages entire pipeline with automated timing and condition switching
-- **Conversational Tutor**: GPT-4o-mini-realtime, WebRTC voice, real-time vocabulary analysis via GPT-4.1-mini
+- **Conversational Tutor**: GPT-4o-mini-realtime, WebRTC voice, real-time vocabulary analysis via GPT-4.1-mini, paced word introduction (1-2 words at a time)
 - **Flashcard Condition**: Digital cards with 5-minute timer, participant-specific vocabulary loading
 - **Assessment**: Automated Google Forms generation with JavaScript syntax validation
 - **Development Server**: Automatic npm server startup ensures web interface availability

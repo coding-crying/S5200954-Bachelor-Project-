@@ -1,0 +1,25 @@
+{
+  "participantId": "008",
+  "condition": "flashcard",
+  "responses": {
+    "A1": 3,
+    "A2": 3,
+    "A3": 3,
+    "R1": 4,
+    "R2": 4,
+    "R3": 4,
+    "C1": 3,
+    "C2": 3,
+    "C3": 4,
+    "S1": 3,
+    "S2": 3,
+    "S3": 3
+  },
+  "timestamp": "2025-06-26T12:42:18.445Z",
+  "scores": {
+    "attention": 3.0,
+    "relevance": 4.0,
+    "confidence": 3.3333333333333335,
+    "satisfaction": 3.0
+  }
+}

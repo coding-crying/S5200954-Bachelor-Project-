@@ -1,0 +1,18 @@
+{
+  "participant_id": "010",
+  "total_words": 20,
+  "test_sections": {
+    "contextual_questions": [
+      {
+        "word": "bolster",
+        "question": "The new evidence will _____ our argument in the upcoming trial.",
+        "options": ["obfuscate", "bolster", "disparage", "eschew"],
+        "correct": "bolster",
+        "type": "multiple_choice"
+      }
+    ],
+    "definition_questions": [
+      {"word": "bolster", "question": "Define: bolster", "type": "short_answer"}
+    ]
+  }
+}
