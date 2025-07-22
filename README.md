@@ -22,11 +22,11 @@ This system was designed to conduct within-subjects experiments comparing conver
   - Overall motivation (approaching significance, p = 0.092)
 
 ### Generated Research Outputs
-- `COMPLETE_EXPERIMENTAL_RESULTS.md` - Comprehensive 12-page research report
-- `experiment_results_master.csv` - Complete dataset with all participants
-- Visualization suite (5 publication-ready graphs)
+- `docs/COMPLETE_EXPERIMENTAL_RESULTS.md` - Comprehensive 12-page research report
+- `results/experiment_results_master.csv` - Complete dataset with all participants
+- `results/*.png` - Visualization suite (5 publication-ready graphs)
 - Individual participant analysis files
-- Statistical analysis scripts
+- `results/comprehensive_results_analysis.py` - Statistical analysis scripts
 
 ![Screenshot of the Conversational Tutor](/public/screenshot.png)
 
@@ -42,18 +42,27 @@ This system was designed to conduct within-subjects experiments comparing conver
 ### Running Experiments
 - **Start experiment**: `python experimental_controller.py --participant-id 001 --start-experiment`
 - **Resume session**: `python experimental_controller.py --participant-id 001 --resume-block 3`
-- **Analyze results**: `python comprehensive_results_analysis.py`
-- **Generate visualizations**: `python create_visualizations.py`
+- **Analyze results**: `cd results && python comprehensive_results_analysis.py`
+- **Generate visualizations**: `cd results && python create_visualizations.py`
+
+### Accessing Participant Data
+Participant data is password-protected for privacy:
+```bash
+cd participants
+python access_participants.py 001  # Access specific participant
+python access_participants.py      # List all participants
+```
+*Password required: Contact repository maintainer for access*
 
 ### Testing Components
 ```bash
 # Test vocabulary system
-python test_vocab.py
-python test_srs.py
+cd tests && python test_vocab.py
+cd tests && python test_srs.py
 
 # Test conversation processing
-node test_conversation_pipeline.js
-node test_batch_processing.js
+cd tests && node test_conversation_pipeline.js
+cd tests && node test_batch_processing.js
 
 # Reset vocabulary for testing
 node reset_vocabulary_for_testing.js
@@ -134,15 +143,28 @@ Assistant messages are checked for safety and compliance using a guardrail funct
 
 ### File Structure
 ```
-├── participant_XXX/               # Individual participant data
-│   ├── vocabulary_conversational.csv
-│   ├── vocabulary_flashcard.csv
-│   ├── rimms_conversational.json
-│   ├── rimms_flashcard.json
-│   └── participant_XXX_results.csv
-├── experiment_results_master.csv  # Complete dataset
-├── COMPLETE_EXPERIMENTAL_RESULTS.md  # Full research report
-└── *.png                         # Visualization outputs
+├── docs/                          # Documentation and reports
+│   ├── COMPLETE_EXPERIMENTAL_RESULTS.md
+│   ├── EXPERIMENTAL_DESIGN.md
+│   └── *.md files
+├── results/                       # Analysis outputs and scripts
+│   ├── experiment_results_master.csv
+│   ├── comprehensive_results_analysis.py
+│   ├── create_visualizations.py
+│   └── *.png visualization files
+├── tests/                         # Test files
+│   ├── test_vocab.py
+│   ├── test_srs.py
+│   └── test_*.js files
+├── participants/                  # Password-protected participant data
+│   ├── access_participants.py    # Password-protected access script
+│   └── participant_XXX/          # Individual participant data
+│       ├── vocabulary_conversational.csv
+│       ├── vocabulary_flashcard.csv
+│       ├── rimms_conversational.json
+│       ├── rimms_flashcard.json
+│       └── participant_XXX_results.csv
+└── src/                          # Application source code
 ```
 
 ## Core Contributors

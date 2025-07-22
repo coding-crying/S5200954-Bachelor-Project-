@@ -22,12 +22,12 @@ class ExperimentAnalyzer:
         
     def _load_answer_key(self) -> Dict:
         """Load the post-test answer key"""
-        with open('post_test_questions.json', 'r') as f:
+        with open('../post_test_questions.json', 'r') as f:
             return json.load(f)
     
     def _load_condition_assignments(self, participant_id: str) -> Dict[str, List[str]]:
         """Load word assignments for each condition"""
-        assignment_file = Path(f"participant_{participant_id}/condition_word_assignments.txt")
+        assignment_file = Path(f"../participants/participant_{participant_id}/condition_word_assignments.txt")
         
         assignments = {'conversational': [], 'flashcard': []}
         current_condition = None
@@ -47,7 +47,7 @@ class ExperimentAnalyzer:
     
     def _load_post_test_responses(self, participant_id: str) -> pd.DataFrame:
         """Load post-test responses from CSV"""
-        csv_file = Path(f"participant_{participant_id}/Vocabulary Test - Participant {participant_id} - 24h Delayed.csv")
+        csv_file = Path(f"../participants/participant_{participant_id}/Vocabulary Test - Participant {participant_id} - 24h Delayed.csv")
         
         df = pd.read_csv(csv_file)
         return df
@@ -57,7 +57,7 @@ class ExperimentAnalyzer:
         rimms_scores = {}
         
         for condition in ['conversational', 'flashcard']:
-            rimms_file = Path(f"participant_{participant_id}/rimms_{condition}.json")
+            rimms_file = Path(f"../participants/participant_{participant_id}/rimms_{condition}.json")
             
             with open(rimms_file, 'r') as f:
                 data = json.load(f)
@@ -78,7 +78,7 @@ class ExperimentAnalyzer:
             participant_id = f"00{participant_id}"
         elif len(participant_id) == 2:
             participant_id = f"0{participant_id}"
-        post_test_file = Path(f"participant_{participant_id}/post_test.json")
+        post_test_file = Path(f"../participants/participant_{participant_id}/post_test.json")
         with open(post_test_file, 'r') as f:
             post_test_data = json.load(f)
         
@@ -211,7 +211,7 @@ class ExperimentAnalyzer:
         
         # Save individual CSV
         df = pd.DataFrame(rows)
-        df.to_csv(f"participant_{participant_id}/participant_{participant_id}_results.csv", index=False)
+        df.to_csv(f"../participants/participant_{participant_id}/participant_{participant_id}_results.csv", index=False)
         print(f"✅ Created participant_{participant_id}_results.csv")
     
     def create_master_csv(self, all_results: Dict):
