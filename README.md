@@ -36,9 +36,7 @@ This system was designed to conduct within-subjects experiments comparing conver
 1. Add your `OPENAI_API_KEY` to `.env` file
 2. Install dependencies: `npm install`
 3. Run experimental controller: `python experimental_controller.py --participant-id 001 --start-experiment`
-4. Participants control learning through verbal commands:
-   - "I want new words" - triggers IntroducerAgent handoff
-   - "I want to review words" - triggers ReviewAgent handoff
+4. **Participant Instructions**: See `instruction.md` for the complete 1-minute briefing script
 
 ### Testing Components
 ```bash
