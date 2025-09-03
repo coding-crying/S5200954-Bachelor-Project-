@@ -160,7 +160,7 @@ class ExperimentalSession:
             blocks.append({
                 'block_number': i + 1,
                 'condition': condition_type,
-                'duration_minutes': 5,
+                'duration_minutes': 6,
                 'is_first_exposure': is_first_exposure,
                 'requires_rimms': not is_first_exposure,  # RIMMS after 2nd exposure to each condition
                 'vocabulary_count': 10  # Each condition uses all 10 words
@@ -236,7 +236,7 @@ class ExperimentalController:
             exposure = "1st" if block['is_first_exposure'] else "2nd"
             rimms = " + RIMMS" if block['requires_rimms'] else ""
             
-            print(f"Block {block_num}: {condition} ({exposure} exposure) - 5 min{rimms}")
+            print(f"Block {block_num}: {condition} ({exposure} exposure) - 6 min{rimms}")
         
         print("-" * 40)
     

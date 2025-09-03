@@ -1,0 +1,27 @@
+Participant 624 - Condition Word Assignments
+Total words: 20
+Split: 10 words per condition
+
+Conversational Condition Words (10):
+- abstruse
+- acumen
+- cacophony
+- candor
+- conciliatory
+- conundrum
+- disparage
+- ephemeral
+- precocious
+- quandary
+
+Flashcard Condition Words (10):
+- admonish
+- austere
+- bolster
+- cajole
+- capitulate
+- circumspect
+- cursory
+- deleterious
+- obfuscate
+- vociferous

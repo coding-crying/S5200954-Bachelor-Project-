@@ -1,4 +1,6 @@
-# Conversational AI Vocabulary Learning System
+# Conversational AI Vocabulary Learning System - Experimental Version
+
+> **Note**: This is the experimental/simplified version of the system used for controlled testing. For the full production system with Neo4j graph database and complete spaced repetition implementation, see: [realtime-agents-language-tutor](https://github.com/coding-crying/realtime-agents-language-tutor)
 
 This is a comprehensive vocabulary learning application featuring conversational AI tutors with an integrated experimental research platform. The system includes:
 
@@ -14,43 +16,23 @@ This is a comprehensive vocabulary learning application featuring conversational
 
 This system was designed to conduct within-subjects experiments comparing conversational AI tutoring with traditional flashcard learning. Key findings from our completed study:
 
-### Study Results (N=12 participants)
-- **Learning Performance**: Equivalent outcomes between conditions (Conversational AI: 60%, Flashcards: 62%)
-- **Motivation**: Conversational AI significantly outperformed flashcards in:
-  - Attention capture (Cohen's d = 0.97, large effect)
-  - Learning satisfaction (Cohen's d = 1.12, large effect)
-  - Overall motivation (approaching significance, p = 0.092)
+### Study Results (N=11 participants)
+- **Learning Performance**: No significant difference in learning outcomes (Conversational AI: 62.7%, Flashcards: 70.9%, p = .281, r = 0.357)
+- **Motivation**: Conversational AI showed higher engagement with moderate effect sizes:
+  - Attention capture (r = 0.402, moderate effect)
+  - Learning satisfaction (r = 0.405, moderate effect)
+  - Individual differences emerged as primary factor, with performance variations ranging from -50% to +30% between conditions
 
-### Generated Research Outputs
-- `docs/COMPLETE_EXPERIMENTAL_RESULTS.md` - Comprehensive 12-page research report
-- `results/experiment_results_master.csv` - Complete dataset with all participants
-- `results/*.png` - Visualization suite (5 publication-ready graphs)
-- Individual participant analysis files
-- `results/comprehensive_results_analysis.py` - Statistical analysis scripts
+### Research Documentation
+- `docs/COMPLETE_EXPERIMENTAL_RESULTS.md` - Comprehensive research report
+- Documentation of experimental design and findings
 
 ## Quick Start
 
-### Basic Setup
-- This is a Next.js TypeScript application with Python backend components
-- Install dependencies: `npm install`
-- Add your `OPENAI_API_KEY` to `.env` file
-- Start development server: `npm run dev`
-- Open [http://localhost:3000](http://localhost:3000)
-
-### Running Experiments
-- **Start experiment**: `python experimental_controller.py --participant-id 001 --start-experiment`
-- **Resume session**: `python experimental_controller.py --participant-id 001 --resume-block 3`
-- **Analyze results**: `cd results && python comprehensive_results_analysis.py`
-- **Generate visualizations**: `cd results && python create_visualizations.py`
-
-### Accessing Participant Data
-Participant data is password-protected for privacy:
-```bash
-cd participants
-python access_participants.py 001  # Access specific participant
-python access_participants.py      # List all participants
-```
-*Password required: Contact repository maintainer for access*
+### Setup and Running Experiments
+1. Add your `OPENAI_API_KEY` to `.env` file
+2. Install dependencies: `npm install`  
+3. Run experimental controller: `python experimental_controller.py --participant-id 001 --start-experiment`
 
 ### Testing Components
 ```bash
@@ -84,7 +66,7 @@ The conversational AI tutor provides an intuitive interface for vocabulary learn
 
 ### Experimental Design
 - **Within-subjects**: ABAB/BABA counterbalanced design
-- **5-minute learning blocks** with 30-second breaks (manual progression available)
+- **6-minute learning blocks** with 30-second breaks (manual progression available)
 - **24-hour delayed testing** via automated Google Forms generation
 - **RIMMS motivation assessment** after each condition's second exposure
 
@@ -100,29 +82,26 @@ The conversational AI tutor provides an intuitive interface for vocabulary learn
 │   ├── COMPLETE_EXPERIMENTAL_RESULTS.md
 │   ├── EXPERIMENTAL_DESIGN.md
 │   └── *.md files
-├── results/                       # Analysis outputs and scripts
-│   ├── experiment_results_master.csv
-│   ├── comprehensive_results_analysis.py
-│   ├── create_visualizations.py
-│   └── *.png visualization files
 ├── tests/                         # Test files
 │   ├── test_vocab.py
-│   ├── test_srs.py
 │   └── test_*.js files
-├── participants/                  # Password-protected participant data
-│   ├── access_participants.py    # Password-protected access script
-│   └── participant_XXX/          # Individual participant data
-│       ├── vocabulary_conversational.csv
-│       ├── vocabulary_flashcard.csv
-│       ├── rimms_conversational.json
-│       ├── rimms_flashcard.json
-│       └── participant_XXX_results.csv
-└── src/                          # Application source code
+├── agents/                        # Agent system components
+├── experimental_controller.py     # Main experimental controller
+├── experiment_word_selector.py    # Vocabulary selection tool
+├── post_test_generator.py         # Post-test generation
+└── src/                          # Next.js application source code
 ```
+
+## Architecture Overview
+
+![Model Architecture](Screenshot%20from%202025-09-02%2023-43-42.png)
+*System architecture showing the two-agent handoff design with IntroducerAgent and ReviewAgent components*
 
 ## Core Contributors
 - Noah MacCallum - [noahmacca](https://x.com/noahmacca)
 - Ilan Bigio - [ibigio](https://github.com/ibigio)
 
+**Note**: This system was forked from OpenAI's Swarm framework with extensive additions including the experimental research platform, CSV-based vocabulary management, RIMMS motivation assessment integration, and comprehensive statistical analysis tools.
+
 ## Research Citation
-This system demonstrated that conversational AI tutoring achieves equivalent learning outcomes to traditional flashcards while providing significantly higher motivation and engagement, suggesting promising applications for educational technology development.
+This experimental study found no significant difference in learning outcomes between conversational AI tutoring and traditional flashcards, though conversational AI showed moderate effect sizes for increased attention and satisfaction. Individual differences emerged as the primary factor affecting learning method effectiveness, suggesting that personalized approaches may be more important than universal method superiority.
